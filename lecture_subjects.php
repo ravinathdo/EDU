@@ -90,11 +90,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <select class="form-control" name="course_id" required="" >
                             <option value="">--select--</option>
                             <?php
+                            include './model/DB.php';
+                            include './model/CourseModel.php';
                             $result_2 = getCourseList();
                             if ($result_2 != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_2)) {
                                     ?>
-                                    <option   value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
+                                    <option  <?php  if(isset($_POST['course_id'])){
+                                    if($_POST['course_id'] == $row['id']){
+                                        echo 'selected=""';
+                                    }
+                                    }  ?>  value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
                                     <?php
                                 }
                             }
@@ -103,20 +109,45 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <button type="submit" name="btnBatch" class="btn btn-primary">Add Batch</button>
+                        <label for="exampleInputEmail1"></label>
+                        <button type="submit" name="btnBatch" class="btn btn-primary">Select Course</button>
 
                     </div>
                 </form>
 
                 <?php
-                include './model/DB.php';
                 include './model/LectureModel.php';
 
                 if (isset($_POST['btnSub'])) {
                     $cid = $_POST['course_id'];
-                    $result = getMySubjectList();
+                    $resultx = getMySubjectList();
                     ?>
+                <table border="0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+                            ?>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <?php 
+                            }
+                            
+                                }
+                            ?>
+                        </tbody>
+                    </table>
 
 
 
