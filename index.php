@@ -29,8 +29,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/bootstrap.js"></script>
 <!--/web-fonts-->
-<link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
+<!--<link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
 <!--//web-fonts-->
 </head>
 <body>

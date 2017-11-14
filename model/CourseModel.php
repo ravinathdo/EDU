@@ -1,5 +1,83 @@
 <?php
 
+function getCourseStudentList($bid) {
+    // Create connection
+    $conn = getDBConnection();
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT student.* FROM student_batch
+INNER JOIN student 
+ON student_batch.student_id = student.id
+WHERE student_batch.batch_id = ".$bid;
+    
+    //echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        return $result;
+    } else {
+        return FALSE;
+    }
+
+    mysqli_close($conn);
+}
+
+function setAssignStudentOnCourse() {
+    $conn = getDBConnection();
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "insert into student_batch
+            (`student_id`,
+             `batch_id`,
+             `student_batch`)
+values ('" . $_POST['student_id'] . "',
+        '" . $_POST['batch_id'] . "',
+        '" . $_POST['student_id'] . $_POST['batch_id'] . "');";
+
+//    echo $sql;
+
+    if (mysqli_query($conn, $sql)) {
+        echo '<p class="bg-success">New record created successfully</p>';
+    } else {
+        echo '<p class="bg-danger">Error in record creation</p>';
+    }
+
+    mysqli_close($conn);
+}
+
+function getCourseSubjectDetails($cid) {
+    // Create connection
+    $conn = getDBConnection();
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT course_subject.*,SUBJECT.subject_name,lecture.lecture_name FROM course_subject
+INNER JOIN SUBJECT
+ON course_subject.subject_id = SUBJECT.id
+INNER JOIN lecture
+ON course_subject.lecture_id = lecture.id WHERE course_subject.course_id = " . $cid . "  ORDER BY course_subject.year_semester ";
+
+    // echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        return $result;
+    } else {
+        return FALSE;
+    }
+
+    mysqli_close($conn);
+}
+
 function setCourse() {
     $conn = getDBConnection();
     if (!$conn) {
@@ -50,9 +128,8 @@ function getCourseList() {
     mysqli_close($conn);
 }
 
-
 function setCourseSubject() {
-    $conn  = getDBConnection();
+    $conn = getDBConnection();
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -62,24 +139,19 @@ function setCourseSubject() {
              `year_semester`,
              `subject_id`,
              `lecture_id`)
-VALUES ('".$_POST['course_id']."',
-        '".$_POST['year_semester']."',
-        '".$_POST['subject_id']."',
-        '".$_POST['lecture_id']."');";
+VALUES ('" . $_POST['course_id'] . "',
+        '" . $_POST['year_semester'] . "',
+        '" . $_POST['subject_id'] . "',
+        '" . $_POST['lecture_id'] . "');";
 
+    //echo $sql;
     if (mysqli_query($conn, $sql)) {
         echo '<p class="bg-success">New record created successfully</p>';
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . '<p class="bg-danger">Subject already added</p>';
     }
 
     mysqli_close($conn);
 }
-
-
-function getCourseSubjectList(){
-    
-}
-
 
 ?>

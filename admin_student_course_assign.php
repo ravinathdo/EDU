@@ -30,8 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -40,10 +40,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <ul>
-                        <li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 009 455 4088</li>
-                        <li><i class="fa fa-envelope-o list-icon" aria-hidden="true"></i><a href="mailto:info@example.com">info@example.com</a></li>
-                    </ul>
+                  <?php include './_top.php';?>
                 </div>
 
             </div>
@@ -83,85 +80,146 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            
+
             <div class="col-md-4">
                 <H2>Student Course Assign</H2>
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="admin_student_course_assign.php" method="post">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Course</label>
                         <div class="col-sm-7">
-                            <select class="form-control" >
-                                <option>--select--</option>
-                                <option>INFORMATION TECHNOLOGY (FULL TIME) 2017</option>
+                            <select class="form-control" name="batch_id" >
+                                <option value="">--select--</option>
+                                <?php
+                                include './model/DB.php';
+                                include './model/BatchModel.php';
+                                $result_3 = getBatchList();
+                                if ($result_3 != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($result_3)) {
+                                        ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
+                                    <?php
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Student</label>
                         <div class="col-sm-7">
-                            <select class="form-control" >
+                            <select class="form-control" name="student_id" >
                                 <option>--select--</option>
-                                <option>STU1 - G.P.FERNANDO</option>
+                                <?php
+                                include './model/StudentModel.php';
+                                include './model/CourseModel.php';
+                                $result_4 = getStudentList();
+                                if ($result_4 != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($result_4)) {
+                                        ?>
+                                        <option><?= $row['id'] ?> - <?= $row['fname'] ?><?= $row['lname'] ?> </option>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label"></label>
                         <div class="col-sm-7">
-                            <button type="submit" class="btn btn-primary">Assign</button>
+                            <button type="submit" name="btnAss" class="btn btn-primary">Assign</button>
                         </div>
                     </div>
                 </form>
+
+                <?php
+                if (isset($_POST['btnAss'])) {
+                    setAssignStudentOnCourse();
+                }
+                ?>
+
             </div>
             <div class="col-md-8">
-                <H2>Student Course Assign</H2>
-                <form class="form-horizontal">
+                <H2>View Course Student</H2>
+                <form class="form-horizontal" method="post" action="admin_student_course_assign.php">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label">Course</label>
                         <div class="col-sm-9">
-                            <select class="form-control" >
-                                <option>--select--</option>
-                                <option>INFORMATION TECHNOLOGY (FULL TIME) 2017</option>
+                            <select class="form-control" name="batch_id" >
+                                <option value="">--select--</option>
+                                <?php
+                                $result_5 = getBatchList();
+                                // echo '<tt><pre>'.var_export($result_5, TRUE).'</pre></tt>';
+                                if ($result_5 != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($result_5)) {
+                                        ?>
+                                <option  <?php  if(isset($_POST['batch_id'])){
+                                    if($_POST['batch_id'] == $row['id']){
+                                        echo 'selected=""';
+                                    }
+                                    }  ?>    value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
+                                    <?php
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-3 control-label"></label>
                         <div class="col-sm-9">
-                            <button type="submit" class="btn btn-primary">View Student</button>
+                            <button type="submit" name="btnViewAss" class="btn btn-primary">View Student</button>
 
                         </div>
                     </div>
                 </form>
-                
-                
-                <table id="example2" class="display" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Stu NO</th>
-                                    <th>Course Name</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Stu NO</th>
-                                    <th>Course Name</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <th>STU1</th>
-                                    <th>G.P. FERNANDO</th>
-                                    <th>21-10-2017 11:55 AM</th>
-                                    <th><a href="#">remove</a></th>
-                                </tr>
 
-                            </tbody></table>
-                
+
+                <table id="example2" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Stu NO</th>
+                            <th>Student Name</th>
+                            <th>NIC</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Stu NO</th>
+                            <th>Student Name</th>
+                            <th>NIC</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+
+                        <?php
+                        if (isset($_POST['btnAss']) || isset($_POST['btnViewAss'])) {
+                            $bid = $_POST['batch_id'];
+                            $resultx = getCourseStudentList($bid);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $row['id'] ?></td>
+                                        <td><?= $row['fname'] ?> <?= $row['lname'] ?></td>
+                                        <td><?= $row['nic'] ?></td>
+                                        <td></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+
+
+
+
+
+                    </tbody></table>
+
             </div>
         </div>
 
@@ -312,8 +370,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script type="text/javascript" src="js/numscroller-1.0.js"></script>
 
         <script src="js/SmoothScroll.min.js"></script>
-        
-          <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+        <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
 
         <script>
             $(document).ready(function () {

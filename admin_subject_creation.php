@@ -30,8 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -208,12 +208,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </form>
                 <?php
                 if (isset($_POST['btnAsi'])) {
-                     setCourseSubject();
+                    setCourseSubject();
                 }
                 ?>
             </div>
             <div class="col-md-6">
-               
+
+
+                <form method="post" action="admin_course_subject.php">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Course Name</label>
+                        <select  class="form-control" name="course_id">
+                            <option>--select course--</option>
+                            <?php
+                            $result_course = getCourseList();
+                            if ($result_course != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result_course)) {
+                                    ?>
+                                    <option value="<?= $row['id']; ?>:<?= $row['course_name']; ?>"> <?= $row['course_name']; ?> (<?= $row['duration']; ?>) </option>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"></label>
+                        <input name="btnCS" type="submit" class="form-control btn-primary" value="View Subject" />
+                    </div>
+                </form>
 
             </div>
         </div>

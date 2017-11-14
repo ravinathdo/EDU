@@ -6,53 +6,38 @@
  * and open the template in the editor.
  */
 
-function getMySubjectList() {
+function setStudentRegister() {
 
-    // Create connection
-    $conn = getDBConnection($cid);
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    $sql = " SELECT course_subject.*,SUBJECT.subject_name FROM course_subject
-INNER JOIN SUBJECT 
-ON course_subject.subject_id = subject.id
-WHERE lecture_id = " . $_SESSION['ssn_user']['id'] . " AND course_subject.course_id = ".$cid;
-
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        // output data of each row
-        return $result;
-    } else {
-        return FALSE;
-    }
-
-    mysqli_close($conn);
-}
-
-function lectureCreation() {
     $conn = getDBConnection();
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "INSERT INTO lecture
-            (`lecture_name`,
-             `description`,
-             `profile_info`)
-VALUES ('" . $_POST['lecture_name'] . "',
-        '" . $_POST['description'] . "',
-        '" . $_POST['profile_info'] . "');";
+    $sql = "INSERT INTO student
+            (`fname`,
+             `lname`,
+             `email`,
+             `gender`,
+             `address`,
+             `nic`,
+             `mobile`,
+             `created_user`)
+VALUES ('" . $_POST['fname'] . "',
+        '" . $_POST['lname'] . "',
+        '" . $_POST['email'] . "',
+        '" . $_POST['gender'] . "',
+        '" . $_POST['address'] . "',
+        '" . $_POST['nic'] . "',
+        '" . $_POST['mobile'] . "',
+        '" . $_SESSION['ssn_user']['id'] . "');";
 
     if (mysqli_query($conn, $sql)) {
         $last_id = mysqli_insert_id($conn);
-        $username = 'LEC' . $last_id;
+        $username = 'STU' . $last_id;
         echo '<p class="bg-success">New record created successfully<p>';
 
         //update 
-        $sql_2 = "UPDATE lecture SET username = '$username' WHERE id = " . $last_id;
+        $sql_2 = "UPDATE student SET username = '$username' WHERE id = " . $last_id;
 
         if (mysqli_query($conn, $sql_2)) {
             //insert into usertable
@@ -95,15 +80,16 @@ VALUES ('$username',
 //    mysqli_close($conn);
 }
 
-function getLectureList() {
-    // Create connection
+
+function getStudentList(){
+      // Create connection
     $conn = getDBConnection();
 
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT * FROM lecture";
+    $sql = "SELECT * FROM student";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -115,5 +101,4 @@ function getLectureList() {
 
     mysqli_close($conn);
 }
-
 ?>
