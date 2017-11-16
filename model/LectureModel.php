@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-function getMySubjectList() {
+function getMySubjectList($cid) {
 
     // Create connection
-    $conn = getDBConnection($cid);
+    $conn = getDBConnection();
 
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -18,7 +18,8 @@ function getMySubjectList() {
     $sql = " SELECT course_subject.*,SUBJECT.subject_name FROM course_subject
 INNER JOIN SUBJECT 
 ON course_subject.subject_id = subject.id
-WHERE lecture_id = " . $_SESSION['ssn_user']['id'] . " AND course_subject.course_id = ".$cid;
+WHERE lecture_id = " . $_SESSION['ssn_user']['id'] . " AND course_subject.course_id = ".$cid .
+            " ORDER BY course_subject.year_semester ";
 
     $result = mysqli_query($conn, $sql);
 

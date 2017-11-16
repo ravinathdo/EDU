@@ -34,6 +34,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+
+
+        <link href='css/fullcalendar.min.css' rel='stylesheet' />
+        <link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
+
+
+
+
     </head>
     <body>
         <!--/banner-bottom-->
@@ -81,82 +90,51 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5"></div>
+            <div class="col-md-5">
+
+
+
+
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        include './model/DB.php';
+                        //get student attendance 
+                        $sqlAttx = "SELECT * FROM student_attendance WHERE student_id = '" . $_SESSION['ssn_student']['id'] . "'";
+                        //echo 'sqlAttx'.$sqlAttx;
+                        $result_Attx = getData($sqlAttx);
+                        
+                        if ($result_Attx != false) {
+                            while ($row1 = mysqli_fetch_array($result_Attx)) {
+                                ?>
+                                <tr>
+                                    <td><?= $row1['attend_date'] ?></td>
+                                    <td></td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        ?>
+
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
             <div class="col-md-7">
-
-                <form action="lecture_subjects.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <select class="form-control" name="course_id" required="" >
-                            <option value="">--select--</option>
-                            <?php
-                            include './model/DB.php';
-                            include './model/CourseModel.php';
-                            $result_2 = getCourseList();
-                            if ($result_2 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_2)) {
-                                    ?>
-                                    <option  <?php  if(isset($_POST['course_id'])){
-                                    if($_POST['course_id'] == $row['id']){
-                                        echo 'selected=""';
-                                    }
-                                    }  ?>  value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
-                                    <?php
-                                }
-                            }
-                            ?>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Select Course</button>
-
-                    </div>
-                </form>
-
-                <?php
-                include './model/LectureModel.php';
-
-                if (isset($_POST['btnSub'])) {
-                    $cid = $_POST['course_id'];
-                    $resultx = getMySubjectList($cid);
-                    //echo '<tt><pre>'.var_export($resultx, TRUE).'</pre></tt>';
-                    ?>
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
+                <div id='calendar'></div>
 
 
-
-                    <?php
-                } else {
-                    echo 'Please select the course';
-                }
-                ?>
 
             </div>
         </div>
@@ -315,6 +293,45 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             $(document).ready(function () {
 //                $('#example').DataTable();
             });
+        </script>
+
+
+        <script src='lib/moment.min.js'></script>
+        <script src='lib/jquery.min.js'></script>
+        <script src='js/fullcalendar.min.js'></script>
+
+        <?php
+        echo '<tt><pre>' . var_export($result_Att, TRUE) . '</pre></tt>';
+        ?>
+
+
+        <script>
+
+            $(document).ready(function () {
+                //alert('kk');
+                $('#calendar').fullCalendar({
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+<?php
+$sql = " SELECT * FROM student_attendance WHERE student_id = '" . $_SESSION['ssn_student']['id'] . "'";
+$resultAtt = getData($sql);
+if ($resultAtt != false) {
+    while ($row = mysqli_fetch_array($resultAtt)) {
+        ?>
+                                {
+                                    title: 'Attend',
+                                    start: '<?= $row['attend_date']; ?>'
+                                },
+        <?php
+    }
+}
+?>
+                    ]
+                });
+
+            });
+
         </script>
     </body>
 </html> 

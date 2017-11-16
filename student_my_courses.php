@@ -81,82 +81,89 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5"></div>
+            <div class="col-md-5">
+                <?php
+                include './model/DB.php';
+                //echo '<tt><pre>' . var_export($_SESSION['ssn_student'], TRUE) . '</pre></tt>';
+                ?>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th></th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $sql = "SELECT course.id,course.course_name,course.duration,batch_course.year FROM batch_course
+INNER JOIN course
+ON batch_course.course_id = course.id
+INNER JOIN student_batch
+ON batch_course.id = student_batch.batch_id
+WHERE student_batch.student_id = '" . $_SESSION['ssn_student']['id'] . "' ";
+                        $result = getData($sql);
+                        if ($result != FALSE) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                
+                                ?>
+                                <tr>
+                                    <td><a href="student_my_courses.php?course_id=<?= $row['id']; ?>"><?= $row['course_name']; ?></a></td>
+                                    <td><?= $row['duration']; ?></td>
+                                    <td><?= $row['year']; ?></td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+
+            </div>
             <div class="col-md-7">
 
-                <form action="lecture_subjects.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <select class="form-control" name="course_id" required="" >
-                            <option value="">--select--</option>
-                            <?php
-                            include './model/DB.php';
-                            include './model/CourseModel.php';
-                            $result_2 = getCourseList();
-                            if ($result_2 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_2)) {
+
+                <table class="table table-bordered">
+                    <thead>
+                         <tr>
+                            <th>Year Semester</th>
+                            <th>Subject Name</th>
+                            <th>Lecture Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($_GET['course_id'])) {
+
+                            $sql = " SELECT course_subject.*,SUBJECT.subject_name,lecture.lecture_name FROM course_subject
+INNER JOIN SUBJECT
+ON SUBJECT.id = course_subject.subject_id
+INNER JOIN lecture
+ON lecture.id = course_subject.lecture_id
+WHERE course_id = " . $_GET['course_id'] . " ORDER BY year_semester ";
+                            $result = getData($sql);
+
+                            if ($result != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
-                                    <option  <?php  if(isset($_POST['course_id'])){
-                                    if($_POST['course_id'] == $row['id']){
-                                        echo 'selected=""';
-                                    }
-                                    }  ?>  value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
+                                    <tr>
+                                        <td><?= $row['year_semester']?></td>
+                                        <td><?= $row['subject_name']?></td>
+                                        <td><?= $row['lecture_name']?></td>
+                                        <td></th>
+                                    </tr>
                                     <?php
                                 }
                             }
-                            ?>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Select Course</button>
-
-                    </div>
-                </form>
-
-                <?php
-                include './model/LectureModel.php';
-
-                if (isset($_POST['btnSub'])) {
-                    $cid = $_POST['course_id'];
-                    $resultx = getMySubjectList($cid);
-                    //echo '<tt><pre>'.var_export($resultx, TRUE).'</pre></tt>';
-                    ?>
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
+                        }
+                        ?>
+                    </tbody>
+                </table>
 
 
-
-                    <?php
-                } else {
-                    echo 'Please select the course';
-                }
-                ?>
 
             </div>
         </div>

@@ -81,82 +81,85 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5"></div>
-            <div class="col-md-7">
+            <div class="col-md-5">
 
-                <form action="lecture_subjects.php" method="post">
+                <form method="post" action="admin_student_attendance.php">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <select class="form-control" name="course_id" required="" >
-                            <option value="">--select--</option>
+                        <label for="exampleInputEmail1">Student ID</label>
+                        <select class="form-control" name="student_id" >
+                            <option>--select--</option>
                             <?php
                             include './model/DB.php';
-                            include './model/CourseModel.php';
-                            $result_2 = getCourseList();
-                            if ($result_2 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_2)) {
+                            include './model/StudentModel.php';
+                            $result_4 = getStudentList();
+                            if ($result_4 != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result_4)) {
                                     ?>
-                                    <option  <?php  if(isset($_POST['course_id'])){
-                                    if($_POST['course_id'] == $row['id']){
-                                        echo 'selected=""';
-                                    }
-                                    }  ?>  value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
+                                    <option><?= $row['id'] ?> - <?= $row['fname'] ?><?= $row['lname'] ?> </option>
                                     <?php
                                 }
                             }
                             ?>
-
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Date</label>
+                        <input type="date" name="attend_date" class="form-control" id="exampleInputEmail1" placeholder="YYYY-MM-DD">
+                    </div>
+                    <div class="form-group">
                         <label for="exampleInputEmail1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Select Course</button>
-
+                        <button type="submit" name="btnAtt" class="btn btn-primary">Add Attendance</button>
                     </div>
                 </form>
-
                 <?php
-                include './model/LectureModel.php';
-
-                if (isset($_POST['btnSub'])) {
-                    $cid = $_POST['course_id'];
-                    $resultx = getMySubjectList($cid);
-                    //echo '<tt><pre>'.var_export($resultx, TRUE).'</pre></tt>';
-                    ?>
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-
-
-
-                    <?php
-                } else {
-                    echo 'Please select the course';
+                if (isset($_POST['btnAtt'])) {
+                    $sql = "INSERT INTO student_attendance
+            (`student_id`,
+             `attend_date`)
+VALUES ('" . $_POST['student_id'] . "',
+        '" . $_POST['attend_date'] . "');";
+                    setData($sql);
                 }
                 ?>
+
+
+            </div>
+            <div class="col-md-7">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Student</th>
+                            <th>Date Attend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $sql2 = "SELECT student.id,student.fname,student.lname,student_attendance.attend_date FROM student_attendance 
+INNER JOIN student
+ON student.id = student_attendance.student_id
+ORDER BY student_attendance.id DESC
+";
+                        //echo $sql2;
+                        $result = getData($sql2);
+                        if ($result != FALSE) {
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $row['id'];?></td>
+                                        <td><?= $row['fname'];?> <?= $row['lname'];?></td>
+                                        <td><?= $row['attend_date'];?> </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
 
             </div>
         </div>
