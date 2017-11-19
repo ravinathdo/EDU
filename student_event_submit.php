@@ -82,143 +82,70 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         <div class="row">
             <div class="col-md-5">
-                <form method="get" action="lecture_subject_event.php">
-                    <input type="hidden" name="course_id" value="<?= $_GET['course_id']; ?>" />
-                    <input type="hidden" name="course_subject_id" value="<?= $_GET['course_subject_id']; ?>" />
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Batch </label>
-                        <select class="form-control" name="batch_id" required=""   >
-                            <option>--select--</option>
-                            <?php
-                            include './model/DB.php';
-                            include './model/BatchModel.php';
-                            $result_3 = getBatchList();
-                            if ($result_3 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_3)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> (<?php echo $row['year']; ?>)</option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Event Title</label>
-                        <input type="text" name="event_title" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Type</label>
-                        <select class="form-control" name="type_code" required=""  >
-                            <option value="ASSI">Assignment</option>
-                            <option value="EXAM">Exam</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Event Date</label>
-                        <input type="date" name="event_date" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Question Description (if any)</label>
-                        <textarea name="question" class="form-control" ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Marks</label>
-                        <input type="number" name="marks" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnAdd" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-7">
-
                 <?php
-                if (isset($_GET['btnAdd'])) {
-
-                    $sql = "INSERT INTO `batch_course_event`
-            (`batch_id`,
-             `course_id`,
-             `event_title`,
-             `type_code`,
-             `event_date`,
-             `marks`,
-             `lecture_created`,
-             `question`,
-             `course_subject_id`)
-VALUES ('" . $_GET['batch_id'] . "',
-        '" . $_GET['course_id'] . "',
-        '" . $_GET['event_title'] . "',
-        '" . $_GET['type_code'] . "',
-        '" . $_GET['event_date'] . "',
-        '" . $_GET['marks'] . "',
-        '" . $_SESSION['ssn_lecturer']['id'] . "',
-        '" . $_GET['question'] . "',
-        '" . $_GET['course_subject_id'] . "');";
-
-
-                    //
-                    setData($sql);
+                include './model/DB.php';
+                $target_dir = "uploads/";
+                
+                
+                
+                $baseName = basename($_FILES["fileToUpload"]["name"]);
+                
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+// Check if image file is a actual image or fake image
+                if (isset($_POST["submit"])) {
+                    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                    if (true) {
+                        echo "File is an image - " . $check["mime"] . ".";
+                        $uploadOk = 1;
+                    } else {
+                        echo "File is not an image.";
+                        $uploadOk = 0;
+                    }
+                }
+// Check if file already exists
+                if (file_exists($target_file)) {
+                    echo "Sorry, file already exists.";
+                    $uploadOk = 0;
+                }
+// Check file size
+//                if ($_FILES["fileToUpload"]["size"] > 500000) {
+//                    echo "Sorry, your file is too large.";
+//                    $uploadOk = 0;
+//                }
+// Allow certain file formats
+//                if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+//                    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+//                    $uploadOk = 0;
+//                }
+// Check if $uploadOk is set to 0 by an error
+                if ($uploadOk == 0) {
+                    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+                } else {
+                    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                        echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                   
+                        //insert into 
+                        $sql = " INSERT INTO `stumsdb`.`student_event`
+            (`event_id`,
+             `student_id`,
+             `doc_path`)
+VALUES ('".$_POST['event_id']."',
+        '".$_SESSION['ssn_student']['id']."',
+        '".$baseName."'); ";
+                     
+                        setData($sql);
+                        
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
                 }
                 ?>
 
-                
-                
-                <h2>List available events</h2>
-                <p>All events related to the lecturer</p>
-                <?php 
-                $sql = " SELECT batch_course_event.*,course_subject.year_semester,SUBJECT.subject_name FROM batch_course_event
-INNER JOIN course_subject
-ON batch_course_event.course_subject_id = course_subject.course_subject_id 
-INNER JOIN SUBJECT
-ON SUBJECT.id = course_subject.subject_id
-WHERE batch_course_event.lecture_created = ".$_SESSION['ssn_lecturer']['id'];
-                
-               $resultx =  getData($sql);
-                ?>
-                
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th>Closing Date</th>
-                                <th>Marks</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['event_title'];?></td>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><?= $row['event_date'];?></td>
-                                <td><?= $row['marks'];?></td>
-                                <td></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                
-                
-                
-                
-                
-                
-                
-                
             </div>
+            <div class="col-md-7">vvvvvv</div>
         </div>
 
 

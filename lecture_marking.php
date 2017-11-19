@@ -30,8 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
+<!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -81,144 +81,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5">
-                <form method="get" action="lecture_subject_event.php">
-                    <input type="hidden" name="course_id" value="<?= $_GET['course_id']; ?>" />
-                    <input type="hidden" name="course_subject_id" value="<?= $_GET['course_subject_id']; ?>" />
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Batch </label>
-                        <select class="form-control" name="batch_id" required=""   >
-                            <option>--select--</option>
-                            <?php
-                            include './model/DB.php';
-                            include './model/BatchModel.php';
-                            $result_3 = getBatchList();
-                            if ($result_3 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_3)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> (<?php echo $row['year']; ?>)</option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Event Title</label>
-                        <input type="text" name="event_title" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Type</label>
-                        <select class="form-control" name="type_code" required=""  >
-                            <option value="ASSI">Assignment</option>
-                            <option value="EXAM">Exam</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Event Date</label>
-                        <input type="date" name="event_date" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Question Description (if any)</label>
-                        <textarea name="question" class="form-control" ></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Marks</label>
-                        <input type="number" name="marks" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnAdd" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-7">
-
-                <?php
-                if (isset($_GET['btnAdd'])) {
-
-                    $sql = "INSERT INTO `batch_course_event`
-            (`batch_id`,
-             `course_id`,
-             `event_title`,
-             `type_code`,
-             `event_date`,
-             `marks`,
-             `lecture_created`,
-             `question`,
-             `course_subject_id`)
-VALUES ('" . $_GET['batch_id'] . "',
-        '" . $_GET['course_id'] . "',
-        '" . $_GET['event_title'] . "',
-        '" . $_GET['type_code'] . "',
-        '" . $_GET['event_date'] . "',
-        '" . $_GET['marks'] . "',
-        '" . $_SESSION['ssn_lecturer']['id'] . "',
-        '" . $_GET['question'] . "',
-        '" . $_GET['course_subject_id'] . "');";
-
-
-                    //
-                    setData($sql);
-                }
-                ?>
-
-                
-                
-                <h2>List available events</h2>
-                <p>All events related to the lecturer</p>
-                <?php 
-                $sql = " SELECT batch_course_event.*,course_subject.year_semester,SUBJECT.subject_name FROM batch_course_event
-INNER JOIN course_subject
-ON batch_course_event.course_subject_id = course_subject.course_subject_id 
-INNER JOIN SUBJECT
-ON SUBJECT.id = course_subject.subject_id
-WHERE batch_course_event.lecture_created = ".$_SESSION['ssn_lecturer']['id'];
-                
-               $resultx =  getData($sql);
-                ?>
-                
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th>Closing Date</th>
-                                <th>Marks</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['event_title'];?></td>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><?= $row['event_date'];?></td>
-                                <td><?= $row['marks'];?></td>
-                                <td></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
-                
-                
-                
-                
-                
-                
-                
-                
-            </div>
+            <div class="col-md-5">xxxxxx</div>
+            <div class="col-md-7">vvvvvv</div>
         </div>
 
 
@@ -368,8 +232,8 @@ WHERE batch_course_event.lecture_created = ".$_SESSION['ssn_lecturer']['id'];
         <script type="text/javascript" src="js/numscroller-1.0.js"></script>
 
         <script src="js/SmoothScroll.min.js"></script>
-
-        <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+        
+         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
 
         <script>
             $(document).ready(function () {
