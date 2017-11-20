@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -79,7 +79,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!--/banner-section-->
 
 
-
+<div class="m">
         <div class="row">
             <div class="col-md-5">
 
@@ -99,7 +99,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             if ($result_course != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_course)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>:<?= $row['course_name']; ?>"> <?= $row['course_name']; ?> (<?= $row['duration']; ?>) </option>
+                                    <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
                                     <?php
                                 }
                             }
@@ -147,9 +147,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         ?>
                                         <tr>
-                                            <td><?= $row['year_semester']; ?></td>
-                                            <td><?= $row['subject_name']; ?></td>
-                                            <td><?= $row['lecture_name']; ?></td>
+                                            <td><?php echo $row['year_semester']; ?></td>
+                                            <td><?php echo $row['subject_name']; ?></td>
+                                            <td><?php echo $row['lecture_name']; ?></td>
                                         </tr>
 
                                         <?php
@@ -168,6 +168,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
             </div>
+            </div>
         </div>
 
 
@@ -179,7 +180,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

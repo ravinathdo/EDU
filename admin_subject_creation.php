@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,22 +78,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div> 
         <!--/banner-section-->
 
-
+<div class="m">
 
         <div class="row">
-            <div class="col-md-3">
-                <h2>Subject Creation</h2>
-                <form action="admin_subject_creation.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Subject Name</label>
-                        <input type="text" name="subject_name" class="form-control" id="exampleInputEmail1" placeholder="Subject Name">
-                    </div>
-
-                    <button type="submit" name="btnSub" class="btn btn-primary">Create Subject</button>
-                </form>
-
-
-                <?php
+        
+            <div class="col-md-6">
+              <h2>Subject Creation</h2>
+               <?php
                 include './model/DB.php';
                 include './model/SubjectModel.php';
 
@@ -101,6 +92,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     setSubject();
                 }
                 ?>
+              
+                <form action="admin_subject_creation.php" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Subject Name</label>
+                        <input type="text" name="subject_name" class="form-control" required id="exampleInputEmail1" placeholder="Subject Name">
+                    </div>
+
+                    <button type="submit" name="btnSub" class="btn btn-primary">Create Subject</button>
+                </form>
+
+
+             
                 <hr>
                 <br>
                 <table id="example" class="display" cellspacing="0" width="100%">
@@ -117,8 +120,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                 <tr>
-                                    <td><?= $row['id']; ?></td>
-                                    <td><?= $row['subject_name']; ?></td>
+                                    <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['subject_name']; ?></td>
                                 </tr>
                                 <?php
                             }
@@ -129,24 +132,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
             </div>
-            <div class="col-md-3">
+            
+            
+            <div class="col-md-6">
                 <h2>Course Subject</h2>
+                
                 <?php
                 include './model/CourseModel.php';
                 include './model/LectureModel.php';
+                 
+				 
+                if (isset($_POST['btnAsi'])) {
+                    setCourseSubject();
+                }
                 ?>
-
                 <form action="admin_subject_creation.php" method="post">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Course</label>
-                        <select  class="form-control" name="course_id">
+                        <select  class="form-control"  name="course_id">
                             <option>--select course--</option>
                             <?php
                             $result_course = getCourseList();
                             if ($result_course != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_course)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>"> <?= $row['course_name']; ?> (<?= $row['duration']; ?>) </option>
+                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
                                     <?php
                                 }
                             }
@@ -178,7 +188,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             if ($result_sub != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_sub)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>"> <?= $row['subject_name']; ?> </option>
+                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['subject_name']; ?> </option>
                                     <?php
                                 }
                             }
@@ -195,7 +205,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             if ($result_lec != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_lec)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>"> <?= $row['lecture_name']; ?> </option>
+                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['lecture_name']; ?> </option>
                                     <?php
                                 }
                             }
@@ -206,12 +216,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
                     <button type="submit" name="btnAsi" class="btn btn-primary">Assign</button>
                 </form>
-                <?php
-                if (isset($_POST['btnAsi'])) {
-                    setCourseSubject();
-                }
-                ?>
+               
             </div>
+            
+            
+            
             <div class="col-md-6">
 
 
@@ -225,7 +234,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             if ($result_course != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_course)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>:<?= $row['course_name']; ?>"> <?= $row['course_name']; ?> (<?= $row['duration']; ?>) </option>
+                                    <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
                                     <?php
                                 }
                             }
@@ -240,6 +249,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </form>
 
             </div>
+            
+            </div>
+            
+            
         </div>
 
 
@@ -251,7 +264,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

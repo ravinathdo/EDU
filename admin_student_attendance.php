@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -79,7 +79,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!--/banner-section-->
 
 
-
+<div class="m">
         <div class="row">
             <div class="col-md-5">
 
@@ -95,7 +95,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             if ($result_4 != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_4)) {
                                     ?>
-                                    <option><?= $row['id'] ?> - <?= $row['fname'] ?><?= $row['lname'] ?> </option>
+                                    <option><?php echo $row['id'] ?> - <?php echo $row['fname'] ?><?php echo $row['lname'] ?> </option>
                                     <?php
                                 }
                             }
@@ -149,9 +149,9 @@ ORDER BY student_attendance.id DESC
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr>
-                                        <td><?= $row['id'];?></td>
-                                        <td><?= $row['fname'];?> <?= $row['lname'];?></td>
-                                        <td><?= $row['attend_date'];?> </td>
+                                        <td><?php echo $row['id'];?></td>
+                                        <td><?php echo $row['fname'];?> <?php echo $row['lname'];?></td>
+                                        <td><?php echo $row['attend_date'];?> </td>
                                     </tr>
                                     <?php
                                 }
@@ -161,6 +161,7 @@ ORDER BY student_attendance.id DESC
                     </tbody>
                 </table>
 
+            </div>
             </div>
         </div>
 
@@ -173,7 +174,7 @@ ORDER BY student_attendance.id DESC
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

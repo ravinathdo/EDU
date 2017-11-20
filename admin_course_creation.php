@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,22 +81,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!--/banner-section-->
 
 
-
+<div class="m">
         <div class="row">
-            <div class="col-md-5">
+        
+            <div class="col-md-6">
+              <?php
+                include './model/DB.php';
+                include './model/CourseModel.php';
+                if (isset($_POST['btnCourse'])) {
+                    setCourse();
+                }
+                ?>
                 <h2>Course Creation</h2>
                 <!--course creation-->
                 <form class="form-horizontal" action="admin_course_creation.php" method="post">
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Course Name</label>
                         <div class="col-sm-7">
-                            <input name="course_name" required=""  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
+                            <input name="course_name" required  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-5 control-label">Fee</label>
                         <div class="col-sm-7">
-                            <input type="number" required=""  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
+                            <input type="number" required  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
                         </div>
                     </div>
                     <div class="form-group">
@@ -123,19 +131,54 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     </div>
                 </form>
                 <!--/.course creation-->
+</div>
+
+              
+
+  <div class="col-md-6">
+   <?php
+                        include './model/BatchModel.php';
+                        if (isset($_POST['btnBatch'])) {
+                            courseBatchCreation();
+                        }
+                        ?>
+                <h2>Manage Batch</h2>
+                
+                   
+                        <form action="admin_course_creation.php" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" >Course</label>
+                                <select class="form-control" name="course_id" required="" >
+                                    <option value="">--select--</option>
+                                    <?php
+                                    $result_2 = getCourseList();
+                                    if ($result_2 != FALSE) {
+                                        while ($row = mysqli_fetch_assoc($result_2)) {
+                                            ?>
+                                            <option value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Batch Year</label>
+                                <input type="text" required name="year" class="form-control" id="exampleInputPassword1" placeholder="YEAR">
+                            </div>
+
+                            <button type="submit" name="btnBatch" class="btn btn-primary">Add Batch</button>
+                        </form>
+                        <br> <br> <br> <br> <br>
+                     
 
 
-                <?php
-                include './model/DB.php';
-                include './model/CourseModel.php';
-                if (isset($_POST['btnCourse'])) {
-                    setCourse();
-                }
-                ?>
+                    </div>
 
 
-
-                <hr>
+ <div class="col-md-6">
+               
                 <table id="example" class="display" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -179,52 +222,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
             </div>
-            <div class="col-md-7">
-
-                <h2>Manage Batch</h2>
-                <div class="row">
-                    <div class="col-md-5">
-                        <form action="admin_course_creation.php" method="post">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Course</label>
-                                <select class="form-control" name="course_id" required="" >
-                                    <option value="">--select--</option>
-                                    <?php
-                                    $result_2 = getCourseList();
-                                    if ($result_2 != FALSE) {
-                                        while ($row = mysqli_fetch_assoc($result_2)) {
-                                            ?>
-                                            <option value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Batch Year</label>
-                                <input type="text" required="" name="year" class="form-control" id="exampleInputPassword1" placeholder="YEAR">
-                            </div>
-
-                            <button type="submit" name="btnBatch" class="btn btn-primary">Add Batch</button>
-                        </form>
-                        <br>
-                        <?php
-                        include './model/BatchModel.php';
-                        if (isset($_POST['btnBatch'])) {
-                            courseBatchCreation();
-                        }
-                        ?>
-
-
-                    </div>
+            
+            
+           
 
 
 
 
-
-                    <div class="col-md-7">
+                    <div class="col-md-6">
 
                         <table id="example2" class="display" cellspacing="0" width="100%">
                             <thead>
@@ -262,12 +267,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </tbody></table>
 
                     </div>
+                    
+                    
+                    
                 </div>                
 
             </div>
         </div>
 
-
+</body>
 
         <!-- subscribe -->
         <div class="w3ls-section subscribe text-center">
@@ -276,7 +284,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

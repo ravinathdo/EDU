@@ -67,7 +67,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<!-- navbar-header -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="index.html">Home</a></li>
+								<li class="active"><a href="index.php">Home</a></li>
 								<li><a href="#about" class="scroll">About</a></li>
 								<li><a href="#agileits-services" class="scroll">Services</a></li>
 								<li><a href="#portfolio" class="scroll">gallery</a></li>
@@ -492,11 +492,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>	
 			<div class="col-md-6 col-sm-6 col-xs-6 contact-right-w3l">
 				<form action="#" method="post">
-					<input type="text" class="name" name="name" placeholder="First Name" required="">
-					<input type="text" class="name" name="name" placeholder="Last Name" required="">
-					<input type="email" class="name" name="name" placeholder="Email" required="">
-					<input type="text" class="name" name="name" placeholder="Subject" required="">
-					<textarea placeholder="Your Message" required=""></textarea>
+					<input type="text" class="name" name="name" placeholder="First Name" required>
+					<input type="text" class="name" name="name" placeholder="Last Name" required>
+					<input type="email" class="name" name="name" placeholder="Email" required>
+					<input type="text" class="name" name="name" placeholder="Subject" required>
+					<textarea placeholder="Your Message" required></textarea>
 					<input type="submit" value="SEND MESSAGE">
 				</form>
 			</div>
@@ -511,7 +511,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
 				<div class="subscribe-grid">
 				<form action="#" method="post">
-					<input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+					<input type="email" placeholder="Enter your email.." name="Subscribe" required>
 					<button class="btn1">subscribe</button>
 				</form>
 			</div>
