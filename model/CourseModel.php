@@ -3,7 +3,11 @@
 function getCourseStudentList($bid) {
     // Create connection
     $conn = getDBConnection();
-
+if($bid=='')
+{
+	echo '<p class="bg-danger">No set couse</p>';
+}
+else{
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -23,6 +27,7 @@ WHERE student_batch.batch_id = ".$bid;
         return FALSE;
     }
 
+}
     mysqli_close($conn);
 }
 
@@ -31,7 +36,9 @@ function setAssignStudentOnCourse() {
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-
+	
+if($_POST['student_id']!="--select--")
+{
     $sql = "insert into student_batch
             (`student_id`,
              `batch_id`,
@@ -47,6 +54,7 @@ values ('" . $_POST['student_id'] . "',
     } else {
         echo '<p class="bg-danger">Error in record creation</p>';
     }
+}
 
     mysqli_close($conn);
 }
@@ -134,6 +142,23 @@ function setCourseSubject() {
         die("Connection failed: " . mysqli_connect_error());
     }
 
+if($_POST['course_id']=="--select course--")
+{
+	    echo '<p class="bg-danger">Select Course</p>';
+}
+else if($_POST['year_semester']=="Select Course")
+{
+	 echo '<p class="bg-danger">Select Year Semester</p>';
+}
+else if($_POST['subject_id']=="--select subject--")
+{
+	 echo '<p class="bg-danger">Select Subject</p>';
+}
+else if($_POST['subject_id']=="--select lecture--")
+{
+	 echo '<p class="bg-danger">Select Lecture</p>';
+}
+else{
     $sql = "INSERT INTO `course_subject`
             (`course_id`,
              `year_semester`,
@@ -148,9 +173,9 @@ VALUES ('" . $_POST['course_id'] . "',
     if (mysqli_query($conn, $sql)) {
         echo '<p class="bg-success">New record created successfully</p>';
     } else {
-        echo "Error: " . '<p class="bg-danger">Subject already added</p>';
+        echo '<p class="bg-danger">Subject already added</p>';
     }
-
+}
     mysqli_close($conn);
 }
 

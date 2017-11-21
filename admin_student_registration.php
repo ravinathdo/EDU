@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,7 +78,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div> 
         <!--/banner-section-->
 
-
+<div class="m">
 
         <div class="row">
             <div class="col-md-5">
@@ -86,27 +86,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" action="admin_student_registration.php">
                     <div class="form-group">
                         <label for="exampleInputEmail1">First Name</label>
-                        <input type="text" name="fname" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="fname" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Last Name</label>
-                        <input type="text" name="lname" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="lname" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">email</label>
-                        <input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="email" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Gender</label>
-                        <input type="text" name="gender" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="gender" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Address</label>
-                        <input type="text" name="address" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="address" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
-                        NIC    <input type="text" name="nic" class="form-control" id="exampleInputEmail1" placeholder="First Name">
-                        Mobile<input type="text" name="mobile" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        NIC    <input type="text" name="nic" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        Mobile<input type="text" name="mobile" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"></label>
@@ -147,12 +147,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <tr>
-                                        <td><?= $row['id']; ?></td>
-                                        <td><?= $row['fname']; ?> <?= $row['lname']; ?></td>
-                                        <td><?= $row['username']; ?></td>
-                                        <td><?= $row['nic']; ?></td>
-                                        <td><?= $row['email']; ?></td>
-                                        <td style="font-size: x-small"><?= $row['created_date']; ?></td>
+                                        <td><?php echo $row['id']; ?></td>
+                                        <td><?php echo $row['fname']; ?> <?= $row['lname']; ?></td>
+                                        <td><?php echo $row['username']; ?></td>
+                                        <td><?php echo $row['nic']; ?></td>
+                                        <td><?php echo $row['email']; ?></td>
+                                        <td style="font-size: x-small"><?php echo $row['created_date']; ?></td>
                                     </tr>
                                     <?php
                                     //echo "id: " . $row["id"] . " - Name: " . $row["firstname"] . " " . $row["lastname"] . "<br>";
@@ -167,7 +167,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
 
-
+</div>
             </div>
         </div>
 
@@ -180,7 +180,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

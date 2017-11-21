@@ -76,12 +76,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="index.html">Home</a></li>
+                                <li class="active"><a href="index.php">Home</a></li>
                                 <li><a href="#about" class="scroll">About</a></li>
                                 <li><a href="#agileits-services" class="scroll">Services</a></li>
                                 <li><a href="#portfolio" class="scroll">gallery</a></li>
@@ -109,31 +109,40 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <br>
                 <h2>Sign in</h2>
                 <form class="form-horizontal"method="post" action="login.php">
+                <div class="form-group">
+                       
+                        <div class="col-sm-10">
+                           <?php 
+                if(isset($msg)){
+                    echo $msg;
+                }
+                ?>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label">Username</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="username" id="inputEmail3" placeholder="Username ">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3"  class="col-sm-2 control-label">Password</label>
+                        <label for="inputPassword3"  class="col-sm-3 control-label">Password</label>
                         <div class="col-sm-10">
                             <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
                         </div>
                     </div>
-
+                    
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary" name="btnLog">Sign in</button>
+                      
+                        <div class="col-sm-10">
+                           <button type="submit" class="btn btn-primary" name="btnLog">Sign in</button>
                         </div>
                     </div>
+
+                   
                 </form>
                 
-                <?php 
-                if(isset($msg)){
-                    echo $msg;
-                }
-                ?>
+               
 
             </div>
             <div class="col-md-4"></div>
@@ -149,7 +158,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>

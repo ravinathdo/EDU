@@ -30,8 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-<!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -81,8 +81,91 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5">xxxxxx</div>
-            <div class="col-md-7">vvvvvv</div>
+            <div class="col-md-5">
+                <?php
+                include './model/DB.php';
+                //get course event 
+                ?>
+                <form action="lecture_marking.php" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Course Name</label>
+                        <select class="form-control" name="coursename"> 
+                            <option value="">--select course--</option>
+                            <?php
+                            $sql = " 
+SELECT DISTINCT course.id,course.course_name,course.duration FROM batch_course_event
+INNER JOIN course
+ON batch_course_event.course_id = course.id ";
+                            $resultx = getData($sql);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>  <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?><?= $row['duration']; ?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                        <br>
+                        <button type="submit" name="btnAss" class="btn btn-primary">Submit</button>
+                    </div>
+
+                </form>
+
+
+
+
+            </div>
+            <div class="col-md-7">
+
+                
+                
+                
+                <?php
+               
+                ?>
+                
+                
+                <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Year Semester</th>
+                                <th>Subject</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            
+                             if (isset($_POST['btnAss'])) {
+
+                    $sql = " SELECT batch_course_event.*,course.course_name,course.duration FROM batch_course_event
+INNER JOIN course
+ON batch_course_event.course_id = course.id
+WHERE batch_course_event.course_id = ".$_POST['coursename'];
+                    $resultx = getData($sql);
+                    
+                }
+                            
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+                            
+                            <tr>
+                                <td><?= $row['year_semester'];?></td>
+                                <td><?= $row['subject_name'];?></td>
+                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
+                            </tr>
+                            <?php 
+                            }
+                            
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                
+                
+
+            </div>
         </div>
 
 
@@ -232,8 +315,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script type="text/javascript" src="js/numscroller-1.0.js"></script>
 
         <script src="js/SmoothScroll.min.js"></script>
-        
-         <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+        <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
 
         <script>
             $(document).ready(function () {

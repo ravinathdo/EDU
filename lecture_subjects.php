@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,7 +78,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         </div> 
         <!--/banner-section-->
 
-
+<div class="m">
 
         <div class="row">
             <div class="col-md-5"></div>
@@ -138,9 +138,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     ?>
                             
                             <tr>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
+                                <td><?php echo $row['year_semester'];?></td>
+                                <td><?php echo $row['subject_name'];?></td>
+                                <td><a href="lecture_subject_event.php?course_id=<?php echo $cid;?>&course_subject_id=<?php echo $row['course_subject_id'];?>">Set Event</a></td>
                             </tr>
                             <?php 
                             }
@@ -157,7 +157,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     echo 'Please select the course';
                 }
                 ?>
-
+</div>
             </div>
         </div>
 
@@ -170,7 +170,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
                 <div class="subscribe-grid">
                     <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
+                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
                         <button class="btn1">subscribe</button>
                     </form>
                 </div>
