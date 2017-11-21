@@ -82,147 +82,79 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
         <div class="row">
             <div class="col-md-5">
-                <?php
-                include './model/DB.php';
-                $sql = " SELECT batch_course_event.*,SUBJECT.subject_name FROM batch_course_event
-INNER JOIN batch_course
-ON batch_course_event.batch_id = batch_course.id
-INNER JOIN student_batch
-ON student_batch.batch_id = batch_course.id
-INNER JOIN course_subject
-ON course_subject.course_subject_id = batch_course_event.course_subject_id
-INNER JOIN SUBJECT
-ON SUBJECT.id = course_subject.subject_id
-WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
-
-                $resultx = getData($sql);
-                ?>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Event No</th>
-                            <th>Subject</th>
-                            <th>Event</th>
-                            <th>closing Date</th>
-                            <th>Max Marks</th>
-                            <th>Date Posted</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($resultx != FALSE) {
-                            while ($row = mysqli_fetch_assoc($resultx)) {
-                                ?>
-
-                                <tr>
-                                    <td><?= $row['id']; ?></td>
-                                    <td><?= $row['subject_name']; ?></td>
-                                    <td><?= $row['event_title']; ?></td>
-                                    <td><?= $row['type_code']; ?></td>
-                                    <td><?= $row['marks']; ?></td>
-                                    <td><?= $row['event_date']; ?></td>
-                                    <td><a href="student_event_view.php?event_id=<?= $row['id']; ?>&task=submit">Submit</a></td>
-                                </tr>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
 
             </div>
             <div class="col-md-7">
 
+
                 <?php
-                if (isset($_GET['event_id'])) {
-                    $eventDetail;
-                    //get event details 
-                    $sql = " SELECT * FROM batch_course_event WHERE id = " . $_GET['event_id'];
-                    $result = getData($sql);
-                    while ($row1 = mysqli_fetch_array($result)) {
-                        $eventDetail = $row1;
-                    }
+                include './model/DB.php';
+                if (isset($_GET['btnMarks'])) {
+                    //update student marks
+                    $sql = " UPDATE student_event SET marks = '" . $_GET['marks'] . "', marked_lecture = '".$_SESSION['ssn_user']['id']."' WHERE id =  " . $_GET['id'];
+                    setUpdate($sql, TRUE);
+                }
+                ?>
 
 
-                    //create the form 
+
+                <?php
+                if (isset($_GET['eid'])) {
+
+                    $eid = $_GET['eid'];
+                    //get the student post List 
+                    $sql = " SELECT student_event.id,student.username,student.fname,student.lname,student_event.doc_path,student_event.marks
+ FROM student_event
+INNER JOIN student
+ON student_event.student_id = student.id
+INNER JOIN batch_course_event
+ON batch_course_event.id = student_event.event_id
+WHERE batch_course_event.id  = " . $_GET['eid'];
                     ?>
-                    <form action="student_event_submit.php" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="event_id" value="<?= $eventDetail['event_id']; ?>" /> 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">event</label>
-                            <?= $eventDetail['event_title']; ?> [Marks: <?= $eventDetail['marks']; ?>]
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Close Date</label>
-                            <?= $eventDetail['event_date']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Question</label>
-                            <?= $eventDetail['question']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Upload Document</label>
-                            <input type="file" name="fileToUpload" id="fileToUpload">
-                        </div>
 
-                        <?php
-                        $date = new DateTime($eventDetail['event_date']);
-                        $now = new DateTime();
-
-                        $nowDate = date('Y-m-d');
-                        if ($nowDate != $eventDetail['event_date']) {
-                            if ($date < $now) {
-                                echo '<h3 style="color: red">Due Date is in the past<h3>';
-                            } else {
-                                ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php
-                            }
-                        }else{
-                            ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php 
-                        }
-                        ?>
-
-
-                    </form>
-    <?php
-} else {
-    //list already submitted
-
-    $sql = " SELECT * FROM student_event WHERE student_id =  " . $_SESSION['ssn_student']['id'] . " ORDER BY id DESC";
-    $resultAs = getData($sql);
-    ?>
-                    <h3>My Event Submits</h3>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Event No</th>
-                                <th>File</th>
-                                <th>Submit Date</th>
+                                <th>StudentID</th>
+                                <th>Student Name</th>
+                                <th>Document</th>
                                 <th>Marks</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-    <?php
-    if ($resultAs != FALSE) {
-        while ($row = mysqli_fetch_assoc($resultAs)) {
-            ?>
+                            <?php
+                            $resultx = getData($sql);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
 
                                     <tr>
-                                        <td><?= $row['id']; ?></td>
+                                        <td><?= $row['username']; ?></td>
+                                        <td><?= $row['fname']; ?> <?= $row['lname']; ?></td>
                                         <td><a href="uploads/<?= $row['doc_path']; ?>">Download</a></td>
-                                        <td><?= $row['submitdate_time']; ?></td>
-                                        <td><?= $row['marks']; ?></td>
+                                        <td>
+                                            <form action="lecture_event_answers.php" method="get">
+                                                <input type="hidden" name="eid" value="<?= $eid ?>" />
+                                                <input type="hidden" name="id" value="<?= $row['id']; ?>" />
+                                                <input type="text" name="marks" value="<?= $row['marks']; ?>"  maxlength="3" size="3"/> 
+                                                <button type="submit" name="btnMarks" class="btn btn-warning btn-sm">Mark</button>
+                                            </form>
+                                        </td>
                                     </tr>
-            <?php
-        }
-    }
-    ?>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </tbody>
                     </table>
 
-    <?php
-}
-?>
+                    <?php
+                }
+                ?>
+
+
+
 
             </div>
         </div>

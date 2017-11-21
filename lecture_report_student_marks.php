@@ -81,48 +81,92 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
+
+
                 <?php
                 include './model/DB.php';
-                $sql = " SELECT batch_course_event.*,SUBJECT.subject_name FROM batch_course_event
-INNER JOIN batch_course
-ON batch_course_event.batch_id = batch_course.id
-INNER JOIN student_batch
-ON student_batch.batch_id = batch_course.id
-INNER JOIN course_subject
-ON course_subject.course_subject_id = batch_course_event.course_subject_id
-INNER JOIN SUBJECT
-ON SUBJECT.id = course_subject.subject_id
-WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
+                $sql = " SELECT DISTINCT course.* FROM batch_course_event 
+INNER JOIN course 
+ON  batch_course_event.course_id = course.id
+ WHERE lecture_created =  " . $_SESSION['ssn_user']['id'];
+                //echo $sql;
 
                 $resultx = getData($sql);
                 ?>
+
+                <form method="post" action="lecture_report_student_marks.php">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Course Name</label>
+                        <select  class="form-control" name="course_id"> 
+                            <option>--select--</option>
+                            <?php
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+                                    <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1"></label>
+                        <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+
+
+
+
+
+
+            </div>
+            <div class="col-md-8">
+
+
+
+
+                <?php
+                if (isset($_POST['btnSub'])) {
+
+
+                    $sqlx = " SELECT * FROM batch_course_event WHERE course_id = '" . $_POST['course_id'] . "' AND lecture_created =  " . $_SESSION['ssn_user']['id'];
+                    $resultxx = getData($sqlx);
+                    if ($resultxx != FALSE) {
+                        while ($row = mysqli_fetch_assoc($resultxx)) {
+                            ?>
+
+                            <h3> <span  class="btn btn-primary btn-xs"><?= $row['event_date']; ?> </span> <?= $row['event_title']; ?> [ <?= $row['marks']; ?> ]  </h3>
+
+
+
+                            <?php
+                        }
+                    }
+                }
+                ?>
+
+
+
+
+
+
                 <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Event No</th>
-                            <th>Subject</th>
-                            <th>Event</th>
-                            <th>closing Date</th>
-                            <th>Max Marks</th>
-                            <th>Date Posted</th>
-                            <th></th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <?php
+                        $sql = " SELECT * FROM batch_course_event WHERE lecture_created = " . $_SESSION['ssn_user']['id'];
+                        $resultx = getData($sql);
                         if ($resultx != FALSE) {
                             while ($row = mysqli_fetch_assoc($resultx)) {
                                 ?>
 
                                 <tr>
-                                    <td><?= $row['id']; ?></td>
-                                    <td><?= $row['subject_name']; ?></td>
+                                    <td><? = $row['year_semester'];
+                                        ?></td>
                                     <td><?= $row['event_title']; ?></td>
-                                    <td><?= $row['type_code']; ?></td>
-                                    <td><?= $row['marks']; ?></td>
-                                    <td><?= $row['event_date']; ?></td>
-                                    <td><a href="student_event_view.php?event_id=<?= $row['id']; ?>&task=submit">Submit</a></td>
+                                    <td><a href="lecture_subject_event.php?course_id=<?= $cid; ?>&course_subject_id=<?= $row['course_subject_id']; ?>">Set Event</a></td>
                                 </tr>
                                 <?php
                             }
@@ -130,100 +174,6 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
                         ?>
                     </tbody>
                 </table>
-
-            </div>
-            <div class="col-md-7">
-
-                <?php
-                if (isset($_GET['event_id'])) {
-                    $eventDetail;
-                    //get event details 
-                    $sql = " SELECT * FROM batch_course_event WHERE id = " . $_GET['event_id'];
-                    $result = getData($sql);
-                    while ($row1 = mysqli_fetch_array($result)) {
-                        $eventDetail = $row1;
-                    }
-
-
-                    //create the form 
-                    ?>
-                    <form action="student_event_submit.php" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="event_id" value="<?= $eventDetail['event_id']; ?>" /> 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">event</label>
-                            <?= $eventDetail['event_title']; ?> [Marks: <?= $eventDetail['marks']; ?>]
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Close Date</label>
-                            <?= $eventDetail['event_date']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Question</label>
-                            <?= $eventDetail['question']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Upload Document</label>
-                            <input type="file" name="fileToUpload" id="fileToUpload">
-                        </div>
-
-                        <?php
-                        $date = new DateTime($eventDetail['event_date']);
-                        $now = new DateTime();
-
-                        $nowDate = date('Y-m-d');
-                        if ($nowDate != $eventDetail['event_date']) {
-                            if ($date < $now) {
-                                echo '<h3 style="color: red">Due Date is in the past<h3>';
-                            } else {
-                                ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php
-                            }
-                        }else{
-                            ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php 
-                        }
-                        ?>
-
-
-                    </form>
-    <?php
-} else {
-    //list already submitted
-
-    $sql = " SELECT * FROM student_event WHERE student_id =  " . $_SESSION['ssn_student']['id'] . " ORDER BY id DESC";
-    $resultAs = getData($sql);
-    ?>
-                    <h3>My Event Submits</h3>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Event No</th>
-                                <th>File</th>
-                                <th>Submit Date</th>
-                                <th>Marks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-    <?php
-    if ($resultAs != FALSE) {
-        while ($row = mysqli_fetch_assoc($resultAs)) {
-            ?>
-
-                                    <tr>
-                                        <td><?= $row['id']; ?></td>
-                                        <td><a href="uploads/<?= $row['doc_path']; ?>">Download</a></td>
-                                        <td><?= $row['submitdate_time']; ?></td>
-                                        <td><?= $row['marks']; ?></td>
-                                    </tr>
-            <?php
-        }
-    }
-    ?>
-                        </tbody>
-                    </table>
-
-    <?php
-}
-?>
-
             </div>
         </div>
 

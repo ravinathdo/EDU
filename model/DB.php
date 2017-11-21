@@ -60,4 +60,20 @@ function getData($sql) {
     mysqli_close($conn);
 }
 
+function setUpdate($sql, $MSG) {
+    $conn = getDBConnection();
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    if (mysqli_query($conn, $sql)) {
+        if ($MSG)
+            echo '<p class="bg-success">Record updated successfully<p>';
+    } else {
+        if ($MSG)
+            echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    mysqli_close($conn);
+}
+
 ?>

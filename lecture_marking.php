@@ -128,8 +128,9 @@ ON batch_course_event.course_id = course.id ";
                 <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
+                                <th>Event Title</th>
+                                <th>Date</th>
+                                <th>Marks</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -151,9 +152,10 @@ WHERE batch_course_event.course_id = ".$_POST['coursename'];
                                     ?>
                             
                             <tr>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><a href="lecture_subject_event.php?course_id=<?= $cid;?>&course_subject_id=<?= $row['course_subject_id'];?>">Set Event</a></td>
+                                <td><?= $row['event_title'];?></td>
+                                <td><?= $row['event_date'];?></td>
+                                <td><?= $row['marks'];?></td>
+                                <td><a href="lecture_event_answers.php?eid=<?= $row['course_id'];?>">View Submits</a></td>
                             </tr>
                             <?php 
                             }

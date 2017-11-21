@@ -81,150 +81,79 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-8" id="RPT">
+
                 <?php
                 include './model/DB.php';
-                $sql = " SELECT batch_course_event.*,SUBJECT.subject_name FROM batch_course_event
-INNER JOIN batch_course
-ON batch_course_event.batch_id = batch_course.id
-INNER JOIN student_batch
-ON student_batch.batch_id = batch_course.id
-INNER JOIN course_subject
-ON course_subject.course_subject_id = batch_course_event.course_subject_id
-INNER JOIN SUBJECT
-ON SUBJECT.id = course_subject.subject_id
-WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
-
-                $resultx = getData($sql);
+                include './model/Util.php';
                 ?>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Event No</th>
-                            <th>Subject</th>
-                            <th>Event</th>
-                            <th>closing Date</th>
-                            <th>Max Marks</th>
-                            <th>Date Posted</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($resultx != FALSE) {
-                            while ($row = mysqli_fetch_assoc($resultx)) {
-                                ?>
+                <br>
 
-                                <tr>
-                                    <td><?= $row['id']; ?></td>
-                                    <td><?= $row['subject_name']; ?></td>
-                                    <td><?= $row['event_title']; ?></td>
-                                    <td><?= $row['type_code']; ?></td>
-                                    <td><?= $row['marks']; ?></td>
-                                    <td><?= $row['event_date']; ?></td>
-                                    <td><a href="student_event_view.php?event_id=<?= $row['id']; ?>&task=submit">Submit</a></td>
-                                </tr>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
-
-            </div>
-            <div class="col-md-7">
+                <center>
+                    <h3>Lecture Course Subject - List</h3>
+                    <h4>Lecture : <?= $_SESSION['ssn_user']['username'] ?> </h4>
+                    <h5><?php
+                        getTimeNow();
+                        ?> </h5>
+                </center>
+                <hr>
 
                 <?php
-                if (isset($_GET['event_id'])) {
-                    $eventDetail;
-                    //get event details 
-                    $sql = " SELECT * FROM batch_course_event WHERE id = " . $_GET['event_id'];
-                    $result = getData($sql);
-                    while ($row1 = mysqli_fetch_array($result)) {
-                        $eventDetail = $row1;
-                    }
+                $sql = " SELECT course.* FROM course
+INNER JOIN course_subject 
+ON course.id = course_subject.course_id
+WHERE course_subject.lecture_id = " . $_SESSION['ssn_user']['id'];
+
+                $resultx = getData($sql);
+                if ($resultx != FALSE) {
+                    while ($row = mysqli_fetch_assoc($resultx)) {
+                        ?>
+                        <h3><?= $row['id']; ?> : <?= $row['course_name']; ?> - <?= $row['duration']; ?> </h3>
 
 
-                    //create the form 
-                    ?>
-                    <form action="student_event_submit.php" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="event_id" value="<?= $eventDetail['event_id']; ?>" /> 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">event</label>
-                            <?= $eventDetail['event_title']; ?> [Marks: <?= $eventDetail['marks']; ?>]
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Close Date</label>
-                            <?= $eventDetail['event_date']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Question</label>
-                            <?= $eventDetail['question']; ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Upload Document</label>
-                            <input type="file" name="fileToUpload" id="fileToUpload">
-                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Year Semester</th>
+                                    <th>Subject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sqly = " SELECT course_subject.*,SUBJECT.subject_name FROM course_subject 
+INNER JOIN SUBJECT
+ON course_subject.subject_id = SUBJECT.id
+WHERE course_subject.course_id = " . $row['id'];
+
+                                $resulty = getData($sqly);
+                                if ($resulty != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($resulty)) {
+                                        ?>
+
+                                        <tr>
+                                            <td><?= $row['year_semester']; ?></td>
+                                            <td><?= $row['subject_name']; ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+
 
                         <?php
-                        $date = new DateTime($eventDetail['event_date']);
-                        $now = new DateTime();
-
-                        $nowDate = date('Y-m-d');
-                        if ($nowDate != $eventDetail['event_date']) {
-                            if ($date < $now) {
-                                echo '<h3 style="color: red">Due Date is in the past<h3>';
-                            } else {
-                                ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php
-                            }
-                        }else{
-                            ?>    <input type="submit"  value="Submit"class="btn-primary" name="submit"> <?php 
-                        }
-                        ?>
+                    }
+                }
+                ?>
 
 
-                    </form>
-    <?php
-} else {
-    //list already submitted
+                <button onclick="printDiv('RPT')"> Print </button>
 
-    $sql = " SELECT * FROM student_event WHERE student_id =  " . $_SESSION['ssn_student']['id'] . " ORDER BY id DESC";
-    $resultAs = getData($sql);
-    ?>
-                    <h3>My Event Submits</h3>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Event No</th>
-                                <th>File</th>
-                                <th>Submit Date</th>
-                                <th>Marks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-    <?php
-    if ($resultAs != FALSE) {
-        while ($row = mysqli_fetch_assoc($resultAs)) {
-            ?>
-
-                                    <tr>
-                                        <td><?= $row['id']; ?></td>
-                                        <td><a href="uploads/<?= $row['doc_path']; ?>">Download</a></td>
-                                        <td><?= $row['submitdate_time']; ?></td>
-                                        <td><?= $row['marks']; ?></td>
-                                    </tr>
-            <?php
-        }
-    }
-    ?>
-                        </tbody>
-                    </table>
-
-    <?php
-}
-?>
 
             </div>
+            <div class="col-md-2"></div>
         </div>
 
 
@@ -287,43 +216,43 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#horizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion           
-                    width: 'auto', //auto or any width like 600px
-                    fit: true   // 100% fit in a container
-                });
-            });
+                    $(document).ready(function () {
+                        $('#horizontalTab').easyResponsiveTabs({
+                            type: 'default', //Types: default, vertical, accordion           
+                            width: 'auto', //auto or any width like 600px
+                            fit: true   // 100% fit in a container
+                        });
+                    });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-            $(document).ready(function () {
-                $("#owl-demo").owlCarousel({
-                    autoPlay: true, //Set AutoPlay to 3 seconds
-                    items: 3,
-                    itemsDesktop: [640, 2],
-                    itemsDesktopSmall: [414, 1],
-                    navigation: true,
-                    // THIS IS THE NEW PART
-                    afterAction: function (el) {
-                        //remove class active
-                        this
-                                .$owlItems
-                                .removeClass('active')
-                        //add class active
-                        this
-                                .$owlItems //owl internal $ object containing items
-                                .eq(this.currentItem + 1)
-                                .addClass('active')
-                    }
-                    // END NEW PART
+                    $(document).ready(function () {
+                        $("#owl-demo").owlCarousel({
+                            autoPlay: true, //Set AutoPlay to 3 seconds
+                            items: 3,
+                            itemsDesktop: [640, 2],
+                            itemsDesktopSmall: [414, 1],
+                            navigation: true,
+                            // THIS IS THE NEW PART
+                            afterAction: function (el) {
+                                //remove class active
+                                this
+                                        .$owlItems
+                                        .removeClass('active')
+                                //add class active
+                                this
+                                        .$owlItems //owl internal $ object containing items
+                                        .eq(this.currentItem + 1)
+                                        .addClass('active')
+                            }
+                            // END NEW PART
 
-                });
+                        });
 
-            });
+                    });
         </script>
 
         <!-- here starts scrolling icon -->
@@ -381,6 +310,17 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
             $(document).ready(function () {
 //                $('#example').DataTable();
             });
+        </script>
+
+
+        <script type="text/javascript">
+            function printDiv(divId) {
+                var printContents = document.getElementById(divId).innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
+                window.print();
+                document.body.innerHTML = originalContents;
+            }
         </script>
     </body>
 </html> 
