@@ -166,7 +166,7 @@ ON  batch_course_event.course_id = course.id
                                     <td><? = $row['year_semester'];
                                         ?></td>
                                     <td><?= $row['event_title']; ?></td>
-                                    <td><a href="lecture_subject_event.php?course_id=<?= $cid; ?>&course_subject_id=<?= $row['course_subject_id']; ?>">Set Event</a></td>
+                                    <td></td>
                                 </tr>
                                 <?php
                             }
