@@ -61,6 +61,7 @@ function getData($sql) {
 }
 
 function setUpdate($sql, $MSG) {
+    $flag = TRUE;
     $conn = getDBConnection();
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -70,10 +71,37 @@ function setUpdate($sql, $MSG) {
             echo '<p class="bg-success">Record updated successfully<p>';
     } else {
         if ($MSG)
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Invalid Input";
+        $flag = FALSE;
     }
 
     mysqli_close($conn);
+    return $flag;
+}
+
+
+function sendSMS($toMobile, $msg) {
+
+    $sql = " INSERT INTO `ozekimessageout`
+            (`sender`,
+             `receiver`,
+             `msg`,
+             `status`)
+VALUES ('0772703069',
+        '$toMobile',
+        '$msg',
+        'send'); ";
+    setData($sql, FALSE);
+}
+
+function sendSMStoAll($msg) {
+    $sql = " SELECT * FROM student";
+    $resultx = getData($sql);
+    if ($resultx != FALSE) {
+        while ($row = mysqli_fetch_assoc($resultx)) {
+            sendSMS($row['mobile'], $msg);
+        }
+    }
 }
 
 ?>

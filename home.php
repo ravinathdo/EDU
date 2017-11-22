@@ -58,7 +58,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -120,6 +120,39 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             //lecturer 
             ?>
 
+        
+         <div class="agileits-services w3ls-section" id="agileits-services" >
+            <div class="container">
+                <h3 class="w3ls-title">services </h3>
+                <div class="agileits-services-row">
+                    <div class="col-md-3 col-sm-6 agileits-services-grids">
+                        <span class="glyphicon glyphicon-stats effect-1" aria-hidden="true"></span>
+                        <h4>Results</h4>
+                        <p>Itaque earum rerum hic tenetur a sapiente delectus 
+                            reiciendis maiores alias consequatur aut</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 agileits-services-grids">
+                        <span class="glyphicon glyphicon-user effect-1" aria-hidden="true"></span>
+                        <h4>Students</h4>
+                        <p>Itaque earum rerum hic tenetur a sapiente delectus 
+                            reiciendis maiores alias consequatur aut</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 agileits-services-grids">
+                        <span class="glyphicon glyphicon-list-alt effect-1" aria-hidden="true"></span>
+                        <h4>Attendance</h4>
+                        <p>Itaque earum rerum hic tenetur a sapiente delectus 
+                            reiciendis maiores alias consequatur aut</p>
+                    </div>
+                    <div class="col-md-3 col-sm-6 agileits-services-grids">
+                        <span class="glyphicon glyphicon-check effect-1" aria-hidden="true"></span>
+                        <h4>Events</h4>
+                        <p>Itaque earum rerum hic tenetur a sapiente delectus 
+                            reiciendis maiores alias consequatur aut</p>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
             <?php
         } else {
             //admin
@@ -195,7 +228,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

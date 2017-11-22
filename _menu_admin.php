@@ -1,5 +1,5 @@
 <li class="active"><a href="home.php">Home</a></li>
-<li><a href="admin_post.php" >post</a></li>
+<!--<li><a href="admin_post.php" >post</a></li>-->
 <li><a href="admin_course_creation.php" >Course</a></li>
 <li><a href="admin_lecture_creation.php" >Lecture</a></li>
 <li><a href="admin_subject_creation.php" >Subject</a></li>

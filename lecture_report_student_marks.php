@@ -196,7 +196,7 @@ ON  batch_course_event.course_id = course.id
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

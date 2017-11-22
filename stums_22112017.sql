@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v8.55 
-MySQL - 5.5.5-10.1.21-MariaDB : Database - stumsdb
+MySQL - 5.5.5-10.2.7-MariaDB : Database - stumsdb
 *********************************************************************
 */
 
@@ -44,16 +44,16 @@ CREATE TABLE `batch_course_event` (
   `type_code` varchar(5) DEFAULT NULL,
   `event_date` varchar(50) DEFAULT NULL,
   `marks` int(5) DEFAULT NULL,
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `lecture_created` int(5) DEFAULT NULL,
   `course_subject_id` int(5) DEFAULT NULL,
-  `question` text,
+  `question` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `batch_course_event` */
 
-insert  into `batch_course_event`(`id`,`batch_id`,`course_id`,`event_title`,`type_code`,`event_date`,`marks`,`date_created`,`lecture_created`,`course_subject_id`,`question`) values (1,2,1,'Assognment','ASSI','2017-11-16',100,'2017-11-16 05:22:12',1,2,'On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.'),(2,1,1,'sss','ASSI','2017-11-16',34,'2017-11-16 06:03:53',1,2,NULL);
+insert  into `batch_course_event`(`id`,`batch_id`,`course_id`,`event_title`,`type_code`,`event_date`,`marks`,`date_created`,`lecture_created`,`course_subject_id`,`question`) values (1,2,1,'Assognment','ASSI','2017-11-20',100,'2017-11-16 05:22:12',2,2,'On the Insert tab, the galleries include items that are designed to coordinate with the overall look of your document. You can use these galleries to insert tables, headers, footers, lists, cover pages, and other document building blocks. When you create pictures, charts, or diagrams, they also coordinate with your current document look.'),(2,1,1,'sss','ASSI','2017-11-16',34,'2017-11-16 06:03:53',1,2,NULL);
 
 /*Table structure for table `course` */
 
@@ -110,6 +110,48 @@ CREATE TABLE `lecture` (
 
 insert  into `lecture`(`id`,`username`,`lecture_name`,`description`,`profile_info`) values (1,'LEC1','Mr. Chandika','HOD',NULL),(2,'LEC2','Ravinath','HID','Degress UK '),(3,'LEC3','Gyana','Perea','Msc in IT '),(4,'LEC4','','',' ');
 
+/*Table structure for table `ozekimessagein` */
+
+DROP TABLE IF EXISTS `ozekimessagein`;
+
+CREATE TABLE `ozekimessagein` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` varchar(30) DEFAULT NULL,
+  `receiver` varchar(30) DEFAULT NULL,
+  `msg` text DEFAULT NULL,
+  `senttime` varchar(100) DEFAULT NULL,
+  `receivedtime` varchar(100) DEFAULT NULL,
+  `operator` varchar(100) DEFAULT NULL,
+  `msgtype` varchar(160) DEFAULT NULL,
+  `reference` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ozekimessagein` */
+
+/*Table structure for table `ozekimessageout` */
+
+DROP TABLE IF EXISTS `ozekimessageout`;
+
+CREATE TABLE `ozekimessageout` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` varchar(30) DEFAULT NULL,
+  `receiver` varchar(30) DEFAULT NULL,
+  `msg` text DEFAULT NULL,
+  `senttime` varchar(100) DEFAULT NULL,
+  `receivedtime` varchar(100) DEFAULT NULL,
+  `reference` varchar(100) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `msgtype` varchar(160) DEFAULT NULL,
+  `operator` varchar(100) DEFAULT NULL,
+  `errormsg` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ozekimessageout` */
+
 /*Table structure for table `student` */
 
 DROP TABLE IF EXISTS `student`;
@@ -124,14 +166,15 @@ CREATE TABLE `student` (
   `address` varchar(100) DEFAULT NULL,
   `nic` varchar(20) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_user` int(5) DEFAULT NULL,
+  `parent_mobile` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `student` */
 
-insert  into `student`(`id`,`fname`,`lname`,`username`,`email`,`gender`,`address`,`nic`,`mobile`,`created_date`,`created_user`) values (1,'Gayan','Promod','STU1','pramod@gmail.com',NULL,NULL,NULL,NULL,'2017-10-29 08:31:49',3),(2,'xxx','yyy','STU2','aaa@gmail.com','Male','Raddoluwa','0716766677','0998887788','2017-11-14 21:35:14',3),(3,'xxx','yyy','STU3','aaa@gmail.com','Male','Raddoluwa','0716766677','0998887788','2017-11-14 21:50:47',3),(4,'vvvvv','bbbb','STU4','sadasdas','sss','sdsds','222','3333','2017-11-14 21:53:32',3);
+insert  into `student`(`id`,`fname`,`lname`,`username`,`email`,`gender`,`address`,`nic`,`mobile`,`created_date`,`created_user`,`parent_mobile`) values (1,'Gayan','Promod','STU1','pramod@gmail.com',NULL,NULL,NULL,'0752554411','2017-10-29 08:31:49',3,NULL),(2,'xxx','yyy','STU2','aaa@gmail.com','Male','Raddoluwa','0716766677','0998887788','2017-11-14 21:35:14',3,NULL),(3,'xxx','yyy','STU3','aaa@gmail.com','Male','Raddoluwa','0716766677','0998887788','2017-11-14 21:50:47',3,NULL),(4,'vvvvv','bbbb','STU4','sadasdas','sss','sdsds','222','0715887742','2017-11-14 21:53:32',3,NULL);
 
 /*Table structure for table `student_attendance` */
 
@@ -141,7 +184,7 @@ CREATE TABLE `student_attendance` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `student_id` int(5) DEFAULT NULL,
   `attend_date` varchar(20) DEFAULT NULL,
-  `usercreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usercreated` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -158,7 +201,7 @@ CREATE TABLE `student_batch` (
   `student_id` int(5) DEFAULT NULL,
   `batch_id` int(5) DEFAULT NULL,
   `student_batch` int(5) DEFAULT NULL,
-  `datecreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `datecreated` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
@@ -177,13 +220,13 @@ CREATE TABLE `student_event` (
   `doc_path` varchar(50) DEFAULT NULL,
   `marks` int(5) DEFAULT NULL,
   `marked_lecture` int(5) DEFAULT NULL,
-  `submitdate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `submitdate_time` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `student_event` */
 
-insert  into `student_event`(`id`,`event_id`,`student_id`,`doc_path`,`marks`,`marked_lecture`,`submitdate_time`) values (2,0,1,'2.doc',NULL,NULL,'2017-11-17 20:49:09');
+insert  into `student_event`(`id`,`event_id`,`student_id`,`doc_path`,`marks`,`marked_lecture`,`submitdate_time`) values (2,1,1,'2.doc',25,2,'2017-11-17 20:49:09');
 
 /*Table structure for table `student_marks` */
 
@@ -209,7 +252,7 @@ CREATE TABLE `student_payment` (
   `student_course_id` int(5) DEFAULT NULL,
   `batch_id` int(5) DEFAULT NULL,
   `payment_amount` decimal(10,5) DEFAULT NULL,
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -250,11 +293,11 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
-  `password` text,
+  `password` text DEFAULT NULL,
   `status` varchar(10) DEFAULT 'ACT',
-  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `role_code` varchar(10) DEFAULT NULL,
-  `firstlog` int(2) DEFAULT '0',
+  `firstlog` int(2) DEFAULT 0,
   `created_by` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;

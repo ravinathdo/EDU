@@ -39,8 +39,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			     <div class="w3_agilits_inner_bottom">
 			            <div class="wthree_agile_login">
 						     <ul>
-								<li><i class="fa fa-phone" aria-hidden="true"></i> (+94) 011 455 4088</li>
-								<li><i class="fa fa-envelope-o list-icon" aria-hidden="true"></i><a href="mailto:info@example.com">info@example.com</a></li>
+								<li><i class="fa fa-phone" aria-hidden="true"></i>011 455 4088</li>
+								<li><i class="fa fa-envelope-o list-icon" aria-hidden="true"></i><a href="mailto:info@example.com">edu.com</a></li>
 								<li><i class="fa fa-user list-icon" aria-hidden="true"></i><a href="login.php">Login</a></li>
 							</ul>
 						</div>
@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+						<h1><a  href="index.php"> <span class="letter">E</span>du</a></h1>
 					</div>
 					<!-- navbar-header -->
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -70,9 +70,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<li class="active"><a href="index.php">Home</a></li>
 								<li><a href="#about" class="scroll">About</a></li>
 								<li><a href="#agileits-services" class="scroll">Services</a></li>
-								<li><a href="#portfolio" class="scroll">gallery</a></li>
+								<!--<li><a href="#portfolio" class="scroll">gallery</a></li>-->
 								<li><a href="#team" class="scroll">Team</a></li>
-								<li><a href="#testimonials" class="scroll" >Testimonials</a></li>
+								<!--<li><a href="#testimonials" class="scroll" >Testimonials</a></li>-->
 								<li><a href="#contact" class="scroll">contact</a></li>
 							</ul>
 						</div>
@@ -168,25 +168,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="agileits-services-row">
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-stats effect-1" aria-hidden="true"></span>
-					<h4>Analytics</h4>
+					<h4>Student Management</h4>
 					<p>Itaque earum rerum hic tenetur a sapiente delectus 
 						reiciendis maiores alias consequatur aut</p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-user effect-1" aria-hidden="true"></span>
-					<h4>Custom Plans</h4>
+					<h4>Attendance Management</h4>
 					<p>Itaque earum rerum hic tenetur a sapiente delectus 
 						reiciendis maiores alias consequatur aut</p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-list-alt effect-1" aria-hidden="true"></span>
-					<h4>Monitoring</h4>
+					<h4>Event Management</h4>
 					<p>Itaque earum rerum hic tenetur a sapiente delectus 
 						reiciendis maiores alias consequatur aut</p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-check effect-1" aria-hidden="true"></span>
-					<h4>Skip Tracing</h4>
+					<h4>Subject Management</h4>
 					<p>Itaque earum rerum hic tenetur a sapiente delectus 
 						reiciendis maiores alias consequatur aut</p>
 				</div>
@@ -195,7 +195,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 	</div>
 	<!--//agileits-services-->
-<!--portfolio-->
+<!--portfolio
 	<div id="portfolio" class="portfolio w3ls-section">
 		<div class="container">
 			<h3 class="w3ls-title">gallery</h3>
@@ -390,56 +390,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</div>
 		</div>	
 	</div>
-	<!--//portfolio-->
+	//portfolio-->
   <!--//main-header-->
 	<script type="text/javascript" src="js/jquery.zoomslider.min.js"></script>
-	<!-- testimonial -->
-	<div class="wthree-testi w3ls-section" id="testimonials">
-		<!-- container -->
-		<div class="container">
-			<h3 class="w3ls-title">Testimonials</h3> 
-			<div class="w3_wthree-testi_grids text-center">
-				<section class="slider">
-					<div class="flexslider">
-						<ul class="slides">
-							<li>	
-								<div class="wthree-testi_grid">
-									<div class="testimonial-left">
-										<i class="fa fa-user" aria-hidden="true"></i> 
-									</div>
-									<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil 
-										impedit quo minus id quod possimus, omnis voluptas.</p>
-									<h5>John Frank</h5>
-								</div>
-							</li>
-							<li>	
-								<div class="wthree-testi_grid">
-									<div class="testimonial-left">
-										<i class="fa fa-user" aria-hidden="true"></i> 
-									</div>
-									<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil 
-										impedit quo minus id quod possimus, omnis voluptas.</p>
-									<h5>Michael Doe</h5>
-								</div>
-							</li>
-							<li>	
-								<div class="wthree-testi_grid">
-									<div class="testimonial-left">
-										<i class="fa fa-user" aria-hidden="true"></i> 
-									</div>
-									<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil 
-										impedit quo minus id quod possimus, omnis voluptas.</p>
-									<h5>Thomas Carl</h5>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</section>
-				
-			</div>
-		</div>
-	</div>
-<!-- //testimonial --> 
+	
 <!-- team -->
 	<div class="testimonials w3ls-section" id="team">
 		<div class="container">
@@ -482,9 +436,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<h3 class="w3ls-title">contact</h3>
 			<p>Lorem ipsum dolor sit amet consec tetuer adi piscing eLorem ipsum dolor sit amet consec tetuer adi piscing.</p>
 			<div class="w3layouts-list">
-					<div class="col-md-4 li"><span class="fa fa-map-marker" aria-hidden="true"></span><h6>Southwales,Australia.</h6></div>
-					<div class="col-md-4 li"><span class="fa fa-phone" aria-hidden="true"></span><h6>012 345 678</h6></div>
-					<div class="col-md-4 li"><span class="fa fa-location-arrow" aria-hidden="true"></span><a href="mailto:techedu@info.com">TechEdu@info.com</a></div>
+					<div class="col-md-4 li"><span class="fa fa-map-marker" aria-hidden="true"></span><h6>Colombo,Sri Lanka.</h6></div>
+					<div class="col-md-4 li"><span class="fa fa-phone" aria-hidden="true"></span><h6>011 345 678</h6></div>
+					<div class="col-md-4 li"><span class="fa fa-location-arrow" aria-hidden="true"></span><a href="mailto:techedu@info.com">info@edu.com</a></div>
 					<div class="clearfix"></div>
 			</div>
 			<div class="col-md-6 col-sm-6  col-xs-6 agileits_w3layouts-map">
@@ -521,7 +475,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- footer -->
 	<div class="agileits_w3layouts-footer">
 		<div class="col-md-6 col-sm-8 agileinfo-copyright">
-			<p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+			<p>© 2017 Edu. All rights reserved | Design by Pramod</p>
 		</div>
 		<div class="col-md-6 col-sm-4 agileinfo-icons">
 			<ul>
@@ -540,7 +494,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-				  Tech Edu
+				  Edu
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
 				</div>
 					<div class="modal-body">

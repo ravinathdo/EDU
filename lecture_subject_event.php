@@ -92,6 +92,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <?php
                             include './model/DB.php';
                             include './model/BatchModel.php';
+                            include './model/MESSAGE_LIST.php';
                             $result_3 = getBatchList();
                             if ($result_3 != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_3)) {
@@ -160,6 +161,10 @@ VALUES ('" . $_GET['batch_id'] . "',
 
                     //
                     setData($sql);
+                    
+                    // sms to all 
+                    $msg = $_EVENT_CREATION_SMS;
+                    sendSMStoAll($msg);
                 }
                 ?>
 
@@ -240,7 +245,7 @@ WHERE batch_course_event.lecture_created = ".$_SESSION['ssn_lecturer']['id'];
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

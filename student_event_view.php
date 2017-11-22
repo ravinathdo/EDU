@@ -246,7 +246,7 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

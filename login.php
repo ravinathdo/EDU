@@ -30,8 +30,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-<!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
     </head>
     <body>
@@ -53,10 +53,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
                     <ul>
-                        <li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 009 455 4088</li>
-                        <li><i class="fa fa-envelope-o list-icon" aria-hidden="true"></i><a href="mailto:info@example.com">info@example.com</a></li>
+                        <li><i class="fa fa-phone" aria-hidden="true"></i>011 455 4088</li>
+                        <li><i class="fa fa-envelope-o list-icon" aria-hidden="true"></i><a href="mailto:info@example.com">edu.com</a></li>
                         <li><i class="fa fa-user list-icon" aria-hidden="true"></i><a href="login.php">Login</a></li>
-
                     </ul>
                 </div>
 
@@ -76,7 +75,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -109,14 +108,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <br>
                 <h2>Sign in</h2>
                 <form class="form-horizontal"method="post" action="login.php">
-                <div class="form-group">
-                       
+                    <div class="form-group">
+
                         <div class="col-sm-10">
-                           <?php 
-                if(isset($msg)){
-                    echo $msg;
-                }
-                ?>
+                            <?php
+                            if (isset($msg)) {
+                                echo $msg;
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -131,18 +130,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
-                      
+
                         <div class="col-sm-10">
-                           <button type="submit" class="btn btn-primary" name="btnLog">Sign in</button>
+                            <button type="submit" class="btn btn-primary" name="btnLog">Sign in</button>
                         </div>
                     </div>
 
-                   
+
                 </form>
-                
-               
+
+
 
             </div>
             <div class="col-md-4"></div>
@@ -168,7 +167,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

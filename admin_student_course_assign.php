@@ -59,7 +59,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -87,7 +87,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Course</label>
                         <div class="col-sm-7">
-                            <select class="form-control" name="batch_id" >
+                            <select class="form-control" name="batch_id" required="" >
                                 <option value="">--select--</option>
                                 <?php
                                 include './model/DB.php';
@@ -107,7 +107,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Student</label>
                         <div class="col-sm-7">
-                            <select class="form-control" name="student_id" >
+                            <select class="form-control" name="student_id" required="">
                                 <option>--select--</option>
                                 <?php
                                 include './model/StudentModel.php';
@@ -242,7 +242,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

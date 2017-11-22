@@ -60,7 +60,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -86,27 +86,32 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <form method="post" action="admin_student_registration.php">
                     <div class="form-group">
                         <label for="exampleInputEmail1">First Name</label>
-                        <input type="text" name="fname" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="fname" required class="form-control" id="exampleInputEmail1">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Last Name</label>
-                        <input type="text" name="lname" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="lname" required class="form-control" id="exampleInputEmail1" >
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">email</label>
-                        <input type="text" name="email" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="email" name="email" required class="form-control" id="exampleInputEmail1">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Gender</label>
-                        <input type="text" name="gender" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <select class="form-control" name="gender" required="">
+                            <option>--select--</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Address</label>
-                        <input type="text" name="address" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        <input type="text" name="address" required class="form-control" id="exampleInputEmail1">
                     </div>
                     <div class="form-group">
-                        NIC    <input type="text" name="nic" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
-                        Mobile<input type="text" name="mobile" required class="form-control" id="exampleInputEmail1" placeholder="First Name">
+                        NIC    <input type="text" name="nic" required class="form-control" id="exampleInputEmail1">
+                        Mobile<input type="number"  name="mobile" required class="form-control" id="exampleInputEmail1" >
+                        Parent Mobile<input type="number" name="parent_mobile" required class="form-control" id="exampleInputEmail1" >
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1"></label>
@@ -190,7 +195,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

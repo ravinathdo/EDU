@@ -61,7 +61,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -94,7 +94,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                         <input type="text"   name="description" class="form-control" id="exampleInputPassword1" >
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Profile Info</label>
+                        <label for="exampleInputPassword1">Profile Info (Degree)</label>
                         <textarea  name="profile_info" class="form-control" placeholder="degree"> </textarea>
                     </div>
                     <button type="submit" name="btnLec" class="btn btn-primary">Create Lecture</button>
@@ -147,7 +147,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <td><?php echo $row['username']; ?></td>
                                     <td><?php echo $row['description']; ?></td>
                                     <td><?php echo $row['profile_info']; ?></td>
-                                    <td><a href="lecture_subject_info">View Subjects</a></td>
+                                    <td>
+<!--                                        <a href="lecture_subject_info">View Subjects</a>-->
+                                    </td>
                                 </tr>
                             <?php }
                         } ?>
@@ -191,7 +193,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>

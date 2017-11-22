@@ -81,79 +81,144 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8" id="RPT">
+            <div class="col-md-1"></div>
+            <div class="col-md-4">
 
-                <?php
-                include './model/DB.php';
-                include './model/Util.php';
-                ?>
-                <br>
+                <form method="post" action="student_payments.php">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Course</label>
+                        <select class="form-control" name="course_id" required="" >
+                            <option> --select-- </option>
+                            <?php
+                            include './model/DB.php';
+                            $sql = " SELECT student_batch.*,course.* FROM student_batch
+INNER JOIN batch_course
+ON student_batch.batch_id = batch_course.id
+INNER JOIN course
+ON course.id = batch_course.course_id
+WHERE student_batch.student_id = " . $_SESSION['ssn_user']['id'];
 
-                <center>
-                    <h3>Lecture Course Subject - List</h3>
-                    <h4>Lecture : <?= $_SESSION['ssn_user']['username'] ?> </h4>
-                    <h5><?php
-                        getTimeNow();
-                        ?> </h5>
-                </center>
-                <hr>
-
-                <?php
-                $sql = " SELECT course.* FROM course
-INNER JOIN course_subject 
-ON course.id = course_subject.course_id
-WHERE course_subject.lecture_id = " . $_SESSION['ssn_user']['id'];
-
-                $resultx = getData($sql);
-                if ($resultx != FALSE) {
-                    while ($row = mysqli_fetch_assoc($resultx)) {
-                        ?>
-                        <h3><?= $row['id']; ?> : <?= $row['course_name']; ?> - <?= $row['duration']; ?> </h3>
-
-
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Year Semester</th>
-                                    <th>Subject</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $sqly = " SELECT course_subject.*,SUBJECT.subject_name FROM course_subject 
-INNER JOIN SUBJECT
-ON course_subject.subject_id = SUBJECT.id
-WHERE course_subject.course_id = " . $row['id'];
-
-                                $resulty = getData($sqly);
-                                if ($resulty != FALSE) {
-                                    while ($row = mysqli_fetch_assoc($resulty)) {
-                                        ?>
-
-                                        <tr>
-                                            <td><?= $row['year_semester']; ?></td>
-                                            <td><?= $row['subject_name']; ?></td>
-                                        </tr>
-                                        <?php
-                                    }
+                            $resultx = getData($sql);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+                                    <option value="<?= $row['id']; ?>"><?= $row['course_sig']; ?> [ <?= $row['fee']; ?> ] </option>
+                                    <?php
                                 }
-                                ?>
-                            </tbody>
-                        </table>
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Name On The Card</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Card Number</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">CCV</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Amount</label>
+                        <input type="number" name="payment_amount" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1"></label>
+                        <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="btnView" class="btn btn-primary">View</button>
+                    </div>
+                </form>
 
 
-                        <?php
-                    }
+
+            </div>
+            <div class="col-md-7">
+
+                <?php
+                if (isset($_POST['btnSub'])) {
+                    $sqlx = " INSERT INTO `student_payment`
+            (`course_id`,
+             `payment_amount`, 
+             `student_id`, 
+             )
+VALUES ('" . $_POST['course_id'] . "',
+        '" . $_SESSION['ssn_user']['id'] . "',
+        '" . $_POST['payment_amount'] . "'); ";
+
+                    setData($sqlx);
+                    ?>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Year Semester</th>
+                                <th>Subject</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sqlGet = " SELECT * FROM student_payment WHERE course_id =  " . $_POST['course_id'];
+                            $resultx = getData($sqlGet);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+
+                                    <tr>
+                                        <td><?= $row['payment_amount']; ?></td>
+                                        <td><?= $row['created_date']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+
+                    <?php
                 }
                 ?>
 
 
-                <button onclick="printDiv('RPT')"> Print </button>
+
+                <?php
+                if (isset($_POST['btnView'])) {
+                    ?>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Date Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sqlVi = " SELECT * FROM student_payment WHERE course_id = '" . $_POST['course_id'] . "' AND student_id =   " . $_SESSION['ssn_user']['id'];
+                            //echo $sqlVi;
+                            $resultx = getData($sqlVi);
+                            if ($resultx != FALSE) {
+                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    ?>
+
+                                    <tr>
+                                        <td><?= $row['payment_amount']; ?></td>
+                                        <td><?= $row['created_date']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                }
+                ?>
 
 
             </div>
-            <div class="col-md-2"></div>
         </div>
 
 
@@ -216,43 +281,43 @@ WHERE course_subject.course_id = " . $row['id'];
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-                    $(document).ready(function () {
-                        $('#horizontalTab').easyResponsiveTabs({
-                            type: 'default', //Types: default, vertical, accordion           
-                            width: 'auto', //auto or any width like 600px
-                            fit: true   // 100% fit in a container
-                        });
-                    });
+            $(document).ready(function () {
+                $('#horizontalTab').easyResponsiveTabs({
+                    type: 'default', //Types: default, vertical, accordion           
+                    width: 'auto', //auto or any width like 600px
+                    fit: true   // 100% fit in a container
+                });
+            });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-                    $(document).ready(function () {
-                        $("#owl-demo").owlCarousel({
-                            autoPlay: true, //Set AutoPlay to 3 seconds
-                            items: 3,
-                            itemsDesktop: [640, 2],
-                            itemsDesktopSmall: [414, 1],
-                            navigation: true,
-                            // THIS IS THE NEW PART
-                            afterAction: function (el) {
-                                //remove class active
-                                this
-                                        .$owlItems
-                                        .removeClass('active')
-                                //add class active
-                                this
-                                        .$owlItems //owl internal $ object containing items
-                                        .eq(this.currentItem + 1)
-                                        .addClass('active')
-                            }
-                            // END NEW PART
+            $(document).ready(function () {
+                $("#owl-demo").owlCarousel({
+                    autoPlay: true, //Set AutoPlay to 3 seconds
+                    items: 3,
+                    itemsDesktop: [640, 2],
+                    itemsDesktopSmall: [414, 1],
+                    navigation: true,
+                    // THIS IS THE NEW PART
+                    afterAction: function (el) {
+                        //remove class active
+                        this
+                                .$owlItems
+                                .removeClass('active')
+                        //add class active
+                        this
+                                .$owlItems //owl internal $ object containing items
+                                .eq(this.currentItem + 1)
+                                .addClass('active')
+                    }
+                    // END NEW PART
 
-                        });
+                });
 
-                    });
+            });
         </script>
 
         <!-- here starts scrolling icon -->
@@ -310,17 +375,6 @@ WHERE course_subject.course_id = " . $row['id'];
             $(document).ready(function () {
 //                $('#example').DataTable();
             });
-        </script>
-
-
-        <script type="text/javascript">
-            function printDiv(divId) {
-                var printContents = document.getElementById(divId).innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
-                window.print();
-                document.body.innerHTML = originalContents;
-            }
         </script>
     </body>
 </html> 

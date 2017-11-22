@@ -21,6 +21,7 @@ function setStudentRegister() {
              `address`,
              `nic`,
              `mobile`,
+             `parent_mobile`,
              `created_user`)
 VALUES ('" . $_POST['fname'] . "',
         '" . $_POST['lname'] . "',
@@ -29,6 +30,7 @@ VALUES ('" . $_POST['fname'] . "',
         '" . $_POST['address'] . "',
         '" . $_POST['nic'] . "',
         '" . $_POST['mobile'] . "',
+        '" . $_POST['parent_mobile'] . "',
         '" . $_SESSION['ssn_user']['id'] . "');";
 
     if (mysqli_query($conn, $sql)) {
@@ -36,6 +38,10 @@ VALUES ('" . $_POST['fname'] . "',
         $username = 'STU' . $last_id;
         echo '<p class="bg-success">New record created successfully<p>';
 
+                        include './model/MESSAGE_LIST.php';
+
+        $msg = $_STUDENT_CREATION.$username;
+        sendSMS($_POST['mobile'], $msg);
         //update 
         $sql_2 = "UPDATE student SET username = '$username' WHERE id = " . $last_id;
 

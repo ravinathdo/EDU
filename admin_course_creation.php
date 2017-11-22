@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.php"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -98,13 +98,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="form-group">
                         <label for="inputEmail3" class="col-sm-5 control-label">Course Name</label>
                         <div class="col-sm-7">
-                            <input name="course_name" required  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
+                            <input name="course_name" required=""  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-5 control-label">Fee</label>
                         <div class="col-sm-7">
-                            <input type="number" required  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
+                            <input type="number"  required=""  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
                         </div>
                     </div>
                     <div class="form-group">
@@ -165,7 +165,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Batch Year</label>
-                                <input type="text" required name="year" class="form-control" id="exampleInputPassword1" placeholder="YEAR">
+                                <input type="number" required="" name="year" class="form-control" id="exampleInputPassword1" placeholder="YEAR">
                             </div>
 
                             <button type="submit" name="btnBatch" class="btn btn-primary">Add Batch</button>
@@ -294,7 +294,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
-                <p>© 2017 TechEdu. All rights reserved | Design by <a href="//w3layouts.com/">W3layouts</a></p>
+                <p>© 2017 Edu. All rights reserved | Design by Pramod</p>
             </div>
             <div class="col-md-6 col-sm-4 agileinfo-icons">
                 <ul>
