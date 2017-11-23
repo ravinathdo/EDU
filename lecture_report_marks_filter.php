@@ -87,30 +87,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <?php
                 include './model/DB.php';
                 include './model/Util.php';
-                $sql = " SELECT DISTINCT course.* FROM batch_course_event 
-INNER JOIN course 
-ON  batch_course_event.course_id = course.id
- WHERE lecture_created =  " . $_SESSION['ssn_user']['id'];
+                $sql = " SELECT * FROM batch_course_event WHERE lecture_created =  " . $_SESSION['ssn_user']['id'];
                 //echo $sql;
 
                 $resultx = getData($sql);
                 ?>
 
-                <form method="post" action="lecture_report_student_marks.php">
+                <form method="post" action="lecture_report_marks_filter.php">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Course Name</label>
-                        <select  class="form-control" name="course_id"> 
+                        <select  class="form-control" name="event_id"> 
                             <option>--select--</option>
                             <?php
                             if ($resultx != FALSE) {
                                 while ($row = mysqli_fetch_assoc($resultx)) {
                                     ?>
-                                    <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?></option>
+                                    <option value="<?= $row['id']; ?>"><?= $row['event_title']; ?> [ <?= $row['marks']; ?> ]  <?= $row['event_date']; ?> </option>
                                     <?php
                                 }
                             }
                             ?>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1"> <= Filter Marks</label>
+                        <input type="number" name="mfilter"  class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1"></label>
@@ -125,10 +126,10 @@ ON  batch_course_event.course_id = course.id
             </div>
             <div class="col-md-8" id="RPT">
 
- <button onclick="printDiv('RPT')"> Print </button>
+                <button onclick="printDiv('RPT')"> Print </button>
 
                 <center>
-                    <h3>Lecture Assignment - List</h3>
+                    <h3>Lecture Assignment -Marks Filter List</h3>
                     <h4>Lecture : <?= $_SESSION['ssn_user']['username'] ?> </h4>
                     <h5><?php
                         getTimeNow();
@@ -138,39 +139,30 @@ ON  batch_course_event.course_id = course.id
                 <?php
                 if (isset($_POST['btnSub'])) {
 
+                    $sqlx = " 
+SELECT student_event.*,student.fname,student.lname,student.nic,student.username  FROM student_event
+INNER JOIN student
+ON student_event.student_id = student.id
+WHERE student_event.event_id = " . $_POST['event_id'] . " AND student_event.marks <= " . $_POST['mfilter'] . "
+ORDER BY student_event.marks  DESC  ";
 
-                    $sqlx = " SELECT * FROM batch_course_event WHERE course_id = '" . $_POST['course_id'] . "' AND lecture_created =  " . $_SESSION['ssn_user']['id'];
                     $resultxx = getData($sqlx);
                     if ($resultxx != FALSE) {
                         while ($row = mysqli_fetch_assoc($resultxx)) {
                             ?>
 
-                            <h3> <span  class="btn btn-primary btn-xs"><?= $row['event_date']; ?> </span> <?= $row['event_title']; ?> [ <?= $row['marks']; ?> ]  </h3>
 
 
                             <table class="table table-bordered">
                                 <tbody>
-                                    <?php
-                                    $sqlx = " SELECT student_event.marks,student.fname,student.lname,student.nic,student.username  FROM student_event
-INNER JOIN student
-ON student_event.student_id = student.id
-WHERE student_event.event_id = " . $row['id'] . "
-ORDER BY student_event.marks  DESC  ";
-                                    $resultxxx = getData($sqlx);
-                                    if ($resultxxx != FALSE) {
-                                        while ($rowx = mysqli_fetch_assoc($resultxxx)) {
-                                            ?>
+                                    <tr>
+                                        <td><?= $row['username']; ?></td>
+                                        <td><?= $row['fname']; ?></td>
+                                        <td><?= $row['lname']; ?></td>
+                                        <td><?= $row['marks']; ?></td>
+                                        <td><?= $row['submitdate_time']; ?></td>
+                                    </tr>
 
-                                            <tr>
-                                                <td><?= $rowx['username']; ?></td>
-                                                <td><?= $rowx['fname']; ?></td>
-                                                <td><?= $rowx['lname']; ?></td>
-                                                <td><?= $rowx['marks']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
                                 </tbody>
                             </table>
 
@@ -250,43 +242,43 @@ ORDER BY student_event.marks  DESC  ";
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#horizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion           
-                    width: 'auto', //auto or any width like 600px
-                    fit: true   // 100% fit in a container
-                });
-            });
+                    $(document).ready(function () {
+                        $('#horizontalTab').easyResponsiveTabs({
+                            type: 'default', //Types: default, vertical, accordion           
+                            width: 'auto', //auto or any width like 600px
+                            fit: true   // 100% fit in a container
+                        });
+                    });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-            $(document).ready(function () {
-                $("#owl-demo").owlCarousel({
-                    autoPlay: true, //Set AutoPlay to 3 seconds
-                    items: 3,
-                    itemsDesktop: [640, 2],
-                    itemsDesktopSmall: [414, 1],
-                    navigation: true,
-                    // THIS IS THE NEW PART
-                    afterAction: function (el) {
-                        //remove class active
-                        this
-                                .$owlItems
-                                .removeClass('active')
-                        //add class active
-                        this
-                                .$owlItems //owl internal $ object containing items
-                                .eq(this.currentItem + 1)
-                                .addClass('active')
-                    }
-                    // END NEW PART
+                    $(document).ready(function () {
+                        $("#owl-demo").owlCarousel({
+                            autoPlay: true, //Set AutoPlay to 3 seconds
+                            items: 3,
+                            itemsDesktop: [640, 2],
+                            itemsDesktopSmall: [414, 1],
+                            navigation: true,
+                            // THIS IS THE NEW PART
+                            afterAction: function (el) {
+                                //remove class active
+                                this
+                                        .$owlItems
+                                        .removeClass('active')
+                                //add class active
+                                this
+                                        .$owlItems //owl internal $ object containing items
+                                        .eq(this.currentItem + 1)
+                                        .addClass('active')
+                            }
+                            // END NEW PART
 
-                });
+                        });
 
-            });
+                    });
         </script>
 
         <!-- here starts scrolling icon -->
@@ -345,8 +337,8 @@ ORDER BY student_event.marks  DESC  ";
 //                $('#example').DataTable();
             });
         </script>
-        
-         <script type="text/javascript">
+
+        <script type="text/javascript">
             function printDiv(divId) {
                 var printContents = document.getElementById(divId).innerHTML;
                 var originalContents = document.body.innerHTML;

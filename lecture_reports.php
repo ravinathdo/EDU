@@ -86,6 +86,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <ul>
                     <li><a href="lecture_report_subject_list.php">My Subject List</a></li>
                     <li><a href="lecture_report_student_marks.php">Student Marks On Event</a></li>
+                    <li><a href="lecture_report_marks_filter.php">Filter Marks On Event</a></li>
                 </ul>
                 
                 
