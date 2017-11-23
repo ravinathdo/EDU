@@ -86,8 +86,8 @@ author : promod
 			<!--/banner-info-->
 			   <div class="baner-info">
 			       <h4>The best learning institution</h4>
-				   <h3><span>w</span>elcome to our <span>u</span>niversity</h3>
-				  <p>Itaque earum rerum hic tenetur a sapiente delectus </p>
+				   <h3><span>w</span>elcome to <span>PIBT</span> </h3>
+				  <p>University of GREENWICH </p>
 				  <a class="hvr-rectangle-out w3_play_icon1" href="#" data-toggle="modal" data-target="#myModal"> read more</a>
 			   </div>
 			<!--/banner-ingo-->		
@@ -102,25 +102,23 @@ author : promod
 					<div class="agileits-banner-grid bg-w3ls-active">
 						<span class="fa fa-university banner-icon" aria-hidden="true"></span>
 						<h4>Academics</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus 
-							reiciendis maiores alias consequatur aut.</p>
+						<p>PIBT is partnered with the University of Greenwich to offer UK internal degree programs here in Sri Lanka. The value of an academic qualification is almost.</p>
 						<a class="hvr-rectangle-out w3_play_icon1" href="#" data-toggle="modal" data-target="#myModal"> read more</a>
 					</div>
 					<div class="agileits-banner-grid">
 						<span class="fa fa-tags banner-icon" aria-hidden="true"></span>
 						<h4>Admission</h4>
-						<p>Itaque earum rerum hic tenetur a sapiente delectus 
-							reiciendis maiores alias consequatur aut.</p>
+						<p>With a rich and illustrious educational history that dates back to 1890, University of Greenwich is a UNESCO world heritage site. It was awarded the Queens</p>
 							<a class="hvr-rectangle-out w3_play_icon1" href="#" data-toggle="modal" data-target="#myModal"> read more</a>
 					</div>
 					<div class="clearfix"></div>
 			    </div>		
 			</div>	
 			<h2 class="w3ls-title">about us</h2>
-			<h5>Roin vel enim nec ipsum finibus.Duis euismod massa utab.</h5>
+			<h5>Pioneer Institute of Busniess & Technology</h5>
 			<div class="col-md-7  w3ls-about-left">
-				<p>Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus.Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus.Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus.Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus. </p>
-				<p class="about-bottom">Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus.Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum finibus.Duis euismod massa ut sem fringilla blandit. Proin vel enim nec ipsum.</p>
+				<p>PIBT is partnered with the University of Greenwich to offer UK internal degree programmes here in Sri Lanka. The value of an academic qualification is almost immeasurable in today’s vastly competitive world, </p>
+				<p class="about-bottom"> leading to the introduction of several higher educational institutions; however the PIBT has managed to stand out amidst the growth of several higher educational institutions due to a very impressive track record that they have maintained</p>
 			</div>
 			<div class="col-md-5 w3ls-row">
 				<div class="col-md-6 col-sm-6 wthree-about-left">
@@ -170,26 +168,22 @@ author : promod
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-stats effect-1" aria-hidden="true"></span>
 					<h4>Student Management</h4>
-					<p>Itaque earum rerum hic tenetur a sapiente delectus 
-						reiciendis maiores alias consequatur aut</p>
+					<p></p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-user effect-1" aria-hidden="true"></span>
 					<h4>Attendance Management</h4>
-					<p>Itaque earum rerum hic tenetur a sapiente delectus 
-						reiciendis maiores alias consequatur aut</p>
+					<p></p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-list-alt effect-1" aria-hidden="true"></span>
 					<h4>Event Management</h4>
-					<p>Itaque earum rerum hic tenetur a sapiente delectus 
-						reiciendis maiores alias consequatur aut</p>
+					<p></p>
 				</div>
 				<div class="col-md-3 col-sm-6 agileits-services-grids">
 					<span class="glyphicon glyphicon-check effect-1" aria-hidden="true"></span>
 					<h4>Subject Management</h4>
-					<p>Itaque earum rerum hic tenetur a sapiente delectus 
-						reiciendis maiores alias consequatur aut</p>
+					<p></p>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
@@ -435,7 +429,7 @@ author : promod
 	<div class="contact-bottom w3ls-section" id="contact">
 		<div class="container">
 			<h3 class="w3ls-title">contact</h3>
-			<p>Lorem ipsum dolor sit amet consec tetuer adi piscing eLorem ipsum dolor sit amet consec tetuer adi piscing.</p>
+			<p></p>
 			<div class="w3layouts-list">
 					<div class="col-md-4 li"><span class="fa fa-map-marker" aria-hidden="true"></span><h6>Colombo,Sri Lanka.</h6></div>
 					<div class="col-md-4 li"><span class="fa fa-phone" aria-hidden="true"></span><h6>011 345 678</h6></div>
@@ -443,7 +437,7 @@ author : promod
 					<div class="clearfix"></div>
 			</div>
 			<div class="col-md-6 col-sm-6  col-xs-6 agileits_w3layouts-map">
-				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13251.376806128725!2d151.2012371852675!3d-33.86790584050207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ae401e8b983f%3A0x5017d681632ccc0!2sSydney+NSW+2000%2C+Australia!5e0!3m2!1sen!2sin!4v1492686664992" style="border:0" allowfullscreen></iframe>
+				<iframe src="https://www.google.lk/maps/dir/''/pibt+sri+lanka/@6.9078066,79.788386,12z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3ae25965e7ecaaaf:0x244c3a7c82163158!2m2!1d79.8584266!2d6.9078117" style="border:0" allowfullscreen></iframe>
 			</div>	
 			<div class="col-md-6 col-sm-6 col-xs-6 contact-right-w3l">
 				<form action="#" method="post">
@@ -500,14 +494,8 @@ author : promod
 				</div>
 					<div class="modal-body">
 						<img src="images/6.jpg" alt=" " class="img-responsive" />
-						<p>Ut enim ad minima veniam, quis nostrum 
-							exercitationem ullam corporis suscipit laboriosam, 
-							nisi ut aliquid ex ea commodi consequatur? Quis autem 
-							vel eum iure reprehenderit qui in ea voluptate velit 
-							esse quam nihil molestiae consequatur, vel illum qui 
-							dolorem eum fugiat quo voluptas nulla pariatur.
-							<i>" Quis autem vel eum iure reprehenderit qui in ea voluptate velit 
-								esse quam nihil molestiae consequatur.</i></p>
+						<p>Being a selective institution, PIBT seeks to nurture the best of the best while identifying students’ potential at its inception is therefore an important step. The selection process is a carefully monitored one. However once selected, students enjoy maximum facilities. The teaching panel consists of well known figures in the IT industry, which brings vast knowledge of practical experience.
+							<i>"With a rich and illustrious educational history that dates back to 1890, University of Greenwich is a UNESCO world heritage site. .</i></p>
 					</div>
 			</div>
 		</div>
