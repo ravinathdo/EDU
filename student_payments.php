@@ -141,8 +141,8 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_user']['id'];
                 if (isset($_POST['btnSub'])) {
                     $sqlx = " INSERT INTO `student_payment`
             (`course_id`,
-             `payment_amount`, 
              `student_id`, 
+             `payment_amount` 
              )
 VALUES ('" . $_POST['course_id'] . "',
         '" . $_SESSION['ssn_user']['id'] . "',
