@@ -74,6 +74,7 @@ author : promod
 								<li><a href="#team" class="scroll">Team</a></li>
 								<!--<li><a href="#testimonials" class="scroll" >Testimonials</a></li>-->
 								<li><a href="#contact" class="scroll">contact</a></li>
+                                                                <li><a href="app-EDU.apk" download="">Android App </a></li>
 							</ul>
 						</div>
 					<div class="clearfix"> </div>	
