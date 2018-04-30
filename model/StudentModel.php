@@ -36,7 +36,7 @@ VALUES ('" . $_POST['fname'] . "',
     if (mysqli_query($conn, $sql)) {
         $last_id = mysqli_insert_id($conn);
         $username = 'STU' . $last_id;
-        echo '<p class="bg-success">New record created successfully<p>';
+        //echo '<p class="bg-success">New record created successfully<p>';
 
                         include './model/MESSAGE_LIST.php';
 
@@ -58,7 +58,12 @@ VALUES ('" . $_POST['fname'] . "',
 
     mysqli_close($conn);
 }
-
+/**
+ * 
+ * @param type $username
+ * @param type $conn
+ * @param type $user_role LECTURE | 
+ */
 function setUser($username, $conn) {
     // Check connection
     if (!$conn) {
@@ -73,7 +78,7 @@ function setUser($username, $conn) {
              `created_by`)
 VALUES ('$username',
         PASSWORD('$username'),
-        'LECTURE',
+        'STUDENT',
         '1',
         '" . $_SESSION['ssn_user']['username'] . "');";
 

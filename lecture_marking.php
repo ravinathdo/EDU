@@ -60,7 +60,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -82,90 +82,107 @@ author : promod
 
         <div class="row">
             <div class="col-md-5">
-                <?php
-                include './model/DB.php';
-                //get course event 
-                ?>
-                <form action="lecture_marking.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course Name</label>
-                        <select class="form-control" name="coursename"> 
-                            <option value="">--select course--</option>
-                            <?php
-                            $sql = " 
-SELECT DISTINCT course.id,course.course_name,course.duration FROM batch_course_event
+
+<br>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Course Event</div>
+                    <div class="panel-body">
+
+                        <?php
+                        include './model/DB.php';
+                        //get course event 
+                        ?>
+                        <form action="lecture_marking.php" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Course Name</label>
+                                <select class="form-control" name="coursename" required=""> 
+                                    <option value="">--select course--</option>
+                                    <?php
+                                    $sql = " SELECT DISTINCT course.id,course.course_name,course.duration FROM batch_course_event
 INNER JOIN course
 ON batch_course_event.course_id = course.id ";
-                            $resultx = getData($sql);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>  <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?><?= $row['duration']; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                        <br>
-                        <button type="submit" name="btnAss" class="btn btn-primary">Submit</button>
+                                    $resultx = getData($sql);
+                                    if ($resultx != FALSE) {
+                                        while ($row = mysqli_fetch_assoc($resultx)) {
+                                            ?>  <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?><?= $row['duration']; ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <br>
+                                <button type="submit" name="btnAss" class="btn btn-primary">Submit</button>
+                            </div>
+
+                        </form>
+
+
                     </div>
-
-                </form>
-
+                    <div class="panel-footer"></div>
+                </div>
 
 
 
             </div>
             <div class="col-md-7">
 
-                
-                
-                
-                <?php
-               
-                ?>
-                
-                
-                <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Event Title</th>
-                                <th>Date</th>
-                                <th>Marks</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            
-                             if (isset($_POST['btnAss'])) {
 
-                    $sql = " SELECT batch_course_event.*,course.course_name,course.duration FROM batch_course_event
+
+
+                <?php
+                ?>
+
+                <br>
+                 <div class="panel panel-success">
+        <div class="panel-heading">Student Event Post</div>
+        <div class="panel-body">
+            <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Event Title</th>
+                            <th>Date</th>
+                            <th>Marks</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (isset($_POST['btnAss'])) {
+
+                            $sql = " SELECT batch_course_event.*,course.course_name,course.duration FROM batch_course_event
 INNER JOIN course
 ON batch_course_event.course_id = course.id
-WHERE batch_course_event.course_id = ".$_POST['coursename'];
-                    $resultx = getData($sql);
-                    
-                }
+WHERE batch_course_event.course_id = " . $_POST['coursename'];
                             
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['event_title'];?></td>
-                                <td><?= $row['event_date'];?></td>
-                                <td><?= $row['marks'];?></td>
-                                <td><a href="lecture_event_answers.php?eid=<?= $row['course_id'];?>">View Submits</a></td>
-                            </tr>
-                            <?php 
-                            }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
+                            //echo $sql;
+                            $resultx = getData($sql);
+                        }
+
+                        if ($resultx != FALSE) {
+                            while ($row = mysqli_fetch_assoc($resultx)) {
+                                ?>
+
+                                <tr>
+                                    <td><?= $row['event_title']; ?></td>
+                                    <td><?= $row['event_date']; ?></td>
+                                    <td><?= $row['marks']; ?></td>
+                                    <td><a href="lecture_event_answers.php?eid=<?= $row['id']; ?>">View Submits</a></td>
+                                </tr>
+        <?php
+    }
+}
+?>
+                    </tbody>
+                </table>
+            
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+
                 
-                
+
+
 
             </div>
         </div>
@@ -173,18 +190,7 @@ WHERE batch_course_event.course_id = ".$_POST['coursename'];
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+      
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

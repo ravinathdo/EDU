@@ -1,7 +1,11 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php
+session_start();
+include './model/LectureModel.php';
+include './model/DB.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -37,10 +41,8 @@ author : promod
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>	
-
+<?php include './_top.php'; ?>	
                 </div>
-
             </div>
         </div>
         <!--//banner-bottom-->
@@ -57,12 +59,12 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">E</span>DU<span></span></a></h1>
+                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <?php include './_menu.php'; ?>
+<?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -78,185 +80,46 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-2"></div>
+            <div class="col-md-4">
+
+            </div>
             <div class="col-md-4">
 
                 <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Payment</div>
-                    <div class="panel-body">
-                        <form method="post" action="student_payments.php">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Course</label>
-                                <select class="form-control" name="course_id" required="" >
-                                    <option value=""> --select-- </option>
-                                    <?php
-                                    include './model/DB.php';
-                                    $sql = " SELECT student_batch.*,course.* FROM student_batch
-INNER JOIN batch_course
-ON student_batch.batch_id = batch_course.id
-INNER JOIN course
-ON course.id = batch_course.course_id
-WHERE student_batch.student_id = " . $_SESSION['ssn_user']['id'];
+                <br>
 
-                                    $resultx = getData($sql);
-                                    if ($resultx != FALSE) {
-                                        while ($row = mysqli_fetch_assoc($resultx)) {
-                                            ?>
-                                            <option value="<?= $row['id']; ?>"><?= $row['course_sig']; ?> [ <?= $row['fee']; ?> ] </option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Name On The Card</label>
-                                <input type="text" required="" class="form-control" id="exampleInputPassword1" >
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Card Number</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" >
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">CCV</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" >
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Amount</label>
-                                <input type="number" required="" name="payment_amount" class="form-control" id="exampleInputPassword1" >
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1"></label>
-                                <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
-                                <button type="submit" name="btnView" class="btn btn-primary">View</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="panel-footer"></div>
-                </div>
+                <table class="table table-bordered">
+
+                    <?php
+                    //course_id=1&year_semester=Year1-semester1&subject_id=4
+                    $sqlGET = "SELECT * FROM lecture_slides WHERE course_id = '" . $_GET['course_id'] . "'"
+                            . " AND year_semester = '" . $_GET['year_semester'] . "' AND subject_id = '" . $_GET['subject_id'] . "'";
+
+                    $result = getData($sqlGET);
+                    if ($result != FALSE) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <tr>
+                                <td><?= $row['slide_title'] ?></td>
+                                <td><a download="" href="uploads/<?= $row['slide_doc'] ?>"><i class="fa fa-download"></i> download</a></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
 
 
-
-
+                </table>
 
             </div>
-            <div class="col-md-6">
-<br>
-
-                <div class="panel panel-warning">
-                    <div class="panel-heading">Payment History</div>
-                    <div class="panel-body">
-
-                         <?php
-                if (isset($_POST['btnSub'])) {
-                    $sqlx = " INSERT INTO `student_payment`
-            (`course_id`,
-             `student_id`, 
-             `payment_amount` 
-             )
-VALUES ('" . $_POST['course_id'] . "',
-        '" . $_SESSION['ssn_user']['id'] . "',
-        '" . $_POST['payment_amount'] . "'); ";
-
-                    setData($sqlx, TRUE);
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sqlGet = " SELECT * FROM student_payment WHERE course_id =  " . $_POST['course_id'];
-                            $resultx = getData($sqlGet);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-
-                                    <tr>
-                                        <td><?= $row['payment_amount']; ?></td>
-                                        <td><?= $row['created_date']; ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
-                    <?php
-                }
-                ?>
-
-
-
-                <?php
-                if (isset($_POST['btnView'])) {
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Date Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sqlVi = " SELECT * FROM student_payment WHERE course_id = '" . $_POST['course_id'] . "' AND student_id =   " . $_SESSION['ssn_user']['id'];
-                            //echo $sqlVi;
-                            $resultx = getData($sqlVi);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-
-                                    <tr>
-                                        <td><?= $row['payment_amount']; ?></td>
-                                        <td><?= $row['created_date']; ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                    <?php
-                }
-                ?>
-
-
-                    </div>
-                    <div class="panel-footer"></div>
-                </div>
-
-
-
-               
-
+            <div class="col-md-4">
 
             </div>
         </div>
 
 
 
-        <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- //subscribe -->
+
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">

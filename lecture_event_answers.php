@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -60,7 +57,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,12 +78,14 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-2">
 
             </div>
-            <div class="col-md-7">
+            <div class="col-md-8">
 
-
+<br>
+                
+                
                 <?php
                 include './model/DB.php';
                 if (isset($_GET['btnMarks'])) {
@@ -97,6 +96,8 @@ author : promod
                 ?>
 
 
+                
+                
 
                 <?php
                 if (isset($_GET['eid'])) {
@@ -110,6 +111,9 @@ ON student_event.student_id = student.id
 INNER JOIN batch_course_event
 ON batch_course_event.id = student_event.event_id
 WHERE batch_course_event.id  = " . $_GET['eid'];
+                    
+                    
+                   // echo $sql;
                     ?>
 
                     <table class="table table-bordered">
@@ -137,7 +141,7 @@ WHERE batch_course_event.id  = " . $_GET['eid'];
                                             <form action="lecture_event_answers.php" method="get">
                                                 <input type="hidden" name="eid" value="<?= $eid ?>" />
                                                 <input type="hidden" name="id" value="<?= $row['id']; ?>" />
-                                                <input type="text" name="marks" value="<?= $row['marks']; ?>"  maxlength="3" size="3"/> 
+                                                <input type="text" name="marks" value="<?= $row['marks']; ?>"  required="" maxlength="3" size="3"/> 
                                                 <button type="submit" name="btnMarks" class="btn btn-warning btn-sm">Mark</button>
                                             </form>
                                         </td>
@@ -157,23 +161,15 @@ WHERE batch_course_event.id  = " . $_GET['eid'];
 
 
             </div>
+<div class="col-md-2">
+
+            </div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

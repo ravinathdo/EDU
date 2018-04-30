@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -42,7 +39,7 @@ author : promod
             if (doLogin()) {
                 header("Location:home.php");
             } else {
-                $msg = "<p class='bg-warning msg'>Invalid username or password</p>";
+                $msg = "<p class='bg-danger msg-error '>Invalid username or password</p>";
             }
         } else {
             
@@ -80,13 +77,7 @@ author : promod
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="index.php">Home</a></li>
-                                <li><a href="#about" class="scroll">About</a></li>
-                                <li><a href="#agileits-services" class="scroll">Services</a></li>
-                                <li><a href="#portfolio" class="scroll">gallery</a></li>
-                                <li><a href="#team" class="scroll">Team</a></li>
-                                <li><a href="#testimonials" class="scroll" >Testimonials</a></li>
-                                <li><a href="#contact" class="scroll">contact</a></li>
+                                
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -106,8 +97,15 @@ author : promod
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <br>
-                <h2>Sign in</h2>
-                <form class="form-horizontal"method="post" action="login.php">
+                <br>
+                <br>
+                
+                
+       <div class="panel panel-primary">
+        <div class="panel-heading">Sign In</div>
+        <div class="panel-body">
+            
+            <form class="form-horizontal"method="post" action="login.php">
                     <div class="form-group">
 
                         <div class="col-sm-10">
@@ -137,9 +135,16 @@ author : promod
                             <button type="submit" class="btn btn-primary" name="btnLog">Sign in</button>
                         </div>
                     </div>
-
-
                 </form>
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+                <br>
+                <br>
+                <br>
+                
+
+                
 
 
 
@@ -151,18 +156,7 @@ author : promod
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+       
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
@@ -182,27 +176,7 @@ author : promod
         </div>
         <!-- footer -->
         <!-- bootstrap-modal-pop-up -->
-        <div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        Tech Edu
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-                    </div>
-                    <div class="modal-body">
-                        <img src="images/6.jpg" alt=" " class="img-responsive" />
-                        <p>Ut enim ad minima veniam, quis nostrum 
-                            exercitationem ullam corporis suscipit laboriosam, 
-                            nisi ut aliquid ex ea commodi consequatur? Quis autem 
-                            vel eum iure reprehenderit qui in ea voluptate velit 
-                            esse quam nihil molestiae consequatur, vel illum qui 
-                            dolorem eum fugiat quo voluptas nulla pariatur.
-                            <i>" Quis autem vel eum iure reprehenderit qui in ea voluptate velit 
-                                esse quam nihil molestiae consequatur.</i></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- //bootstrap-modal-pop-up --> 
         <!--script for portfolio-->
         <script src="js/lightbox-plus-jquery.min.js"></script>

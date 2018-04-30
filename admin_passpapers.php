@@ -1,12 +1,8 @@
 <!--
 author : promod
 -->
-<?php
-session_start();
-include './model/DB.php';
-include './model/BatchModel.php';
-include './model/StudentModel.php';
-include './model/CourseModel.php';
+<?php session_start();
+ include './model/DB.php';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -43,7 +39,8 @@ include './model/CourseModel.php';
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>
+                    <?php include './_top.php'; ?>	
+
                 </div>
 
             </div>
@@ -83,181 +80,86 @@ include './model/CourseModel.php';
 
         <div class="m">
             <div class="row">
-
-                <div class="col-md-4">
-                    <?php
-                    if (isset($_POST['btnAss'])) {
-                        setAssignStudentOnCourse();
-                    }
-                    ?>
+                <div class="col-md-6">
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Student Course Assign</div>
+                        <div class="panel-heading">Passpaper Upload</div>
                         <div class="panel-body">
-                            <form class="form-horizontal" action="admin_student_course_assign.php" method="post">
-                                <span class="mando-msg">* fields are mandatory</span>
+                            <span class="mando-msg">* fields are mandatory</span>
+                            <form action="uploadPasspaper.php" method="post" enctype="multipart/form-data">
+
+                                <input type="hidden" name="course_id"  value="<?= $_GET['course_id'] ?>"/>
+                                <input type="hidden" name="year_semester"  value="<?= $_GET['year_semester'] ?>"/>
+                                <input type="hidden" name="subject_id" value="<?= $_GET['subject_id'] ?>"/>
+
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Batch<span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="batch_id" required="" >
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_3 = getAllBatchList();
-                                            if ($result_3 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_3)) {
-                                                    ?>
-                                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Description <span class="mando-msg">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" required="" name="description" class="form-control" id="inputEmail3">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Student  <span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="student_id" required="">
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_4 = getStudentList();
-                                            if ($result_4 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_4)) {
-                                                    ?>
-                                            <option value="<?php echo $row['id'] ?>"> [ <?php echo $row['nic'] ?> ] <?php echo $row['fname'] ?> <?php echo $row['lname'] ?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Upload Paper</label>
+                                    <div class="col-sm-10">
+                                        <input  type="file" name="fileToUpload" id="fileToUpload">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label"></label>
-                                    <div class="col-sm-7">
-                                        <button type="submit" name="btnAss" class="btn btn-primary">Assign</button>
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-warning">Upload Passpaper</button>
                                     </div>
                                 </div>
                             </form>
 
+
+
                         </div>
                         <div class="panel-footer"></div>
                     </div>
-
-
-
 
                 </div>
-                <div class="col-md-8">
-
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">View Course Student</div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="admin_student_course_assign.php">
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label">Course</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="batch_id" re >
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_5 = getAllBatchList();
-                                            // echo '<tt><pre>'.var_export($result_5, TRUE).'</pre></tt>';
-                                            if ($result_5 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_5)) {
-                                                    ?>
-                                                    <option  <?php
-                                            if (isset($_POST['batch_id'])) {
-                                                if ($_POST['batch_id'] == $row['id']) {
-                                                    echo 'selected=""';
-                                                }
-                                            }
-                                                    ?>    value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label"></label>
-                                    <div class="col-sm-9">
-                                        <button type="submit" name="btnViewAss" class="btn btn-primary">View Student</button>
-
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
-
-
-
-
+                <div class="col-md-6">
 
                     <div class="panel panel-warning">
-                        <div class="panel-heading">Student Details</div>
+                        <div class="panel-heading">Lecture Slides</div>
                         <div class="panel-body">
 
-                            <table id="example2" class="display" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
+                            <table class="table table-bordered">
 
-                                <tbody>
-
-                                    <?php
-                                    if (isset($_POST['btnAss']) || isset($_POST['btnViewAss'])) {
-                                        $bid = $_POST['batch_id'];
-                                        $resultx = getCourseStudentList($bid);
-                                        if ($resultx != FALSE) {
-                                            while ($row = mysqli_fetch_assoc($resultx)) {
-                                                ?>
-                                                <tr>
-                                                    <td><?php echo $row['id'] ?></td>
-                                                    <td><?php echo $row['fname'] ?> <?= $row['lname'] ?></td>
-                                                    <td><?php echo $row['nic'] ?></td>
-                                                    <td><a href="admin_student_payment.php?course_id=<?= $row['course_id'] ?>&student_id=<?= $row['id'] ?>" class="btn btn-primary btn-xs">View Payment</a></td>
-                                                </tr>
-                                                <?php
-                                            }
-                                        }
+                                <?php
+                                //course_id=1&year_semester=Year1-semester1&subject_id=4
+                                $sqlGET = "SELECT * FROM subject_passpaper WHERE course_id = '" . $_GET['course_id'] . "'"
+                                        . " AND year_semester = '" . $_GET['year_semester'] . "' AND subject_id = '" . $_GET['subject_id'] . "'";
+                                //echo $sqlGET;
+                                $result = getData($sqlGET);
+                                if ($result != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['description']?></td>
+                                            <td><a download="" href="uploads/<?= $row['passpaper_doc']?>"><i class="fa fa-download"></i> download</a></td>
+                                        </tr>
+                                        <?php
                                     }
-                                    ?>
+                                }
+                                ?>
 
 
-
-
-
-                                </tbody></table>
+                            </table>
 
                         </div>
                         <div class="panel-footer"></div>
                     </div>
 
-
                 </div>
+
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
@@ -395,8 +297,7 @@ include './model/CourseModel.php';
 
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
-                $('#example2').DataTable();
+//                $('#example').DataTable();
             });
         </script>
     </body>

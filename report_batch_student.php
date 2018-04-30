@@ -73,7 +73,6 @@ include './model/CourseModel.php';
                         <div class="clearfix"> </div>	
                     </nav>
                 </div> 
-
             </div>
             <!--//header-w3l-->
 
@@ -84,81 +83,25 @@ include './model/CourseModel.php';
         <div class="m">
             <div class="row">
 
-                <div class="col-md-4">
-                    <?php
-                    if (isset($_POST['btnAss'])) {
-                        setAssignStudentOnCourse();
-                    }
-                    ?>
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Student Course Assign</div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" action="admin_student_course_assign.php" method="post">
-                                <span class="mando-msg">* fields are mandatory</span>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Batch<span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="batch_id" required="" >
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_3 = getAllBatchList();
-                                            if ($result_3 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_3)) {
-                                                    ?>
-                                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Student  <span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="student_id" required="">
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_4 = getStudentList();
-                                            if ($result_4 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_4)) {
-                                                    ?>
-                                            <option value="<?php echo $row['id'] ?>"> [ <?php echo $row['nic'] ?> ] <?php echo $row['fname'] ?> <?php echo $row['lname'] ?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label"></label>
-                                    <div class="col-sm-7">
-                                        <button type="submit" name="btnAss" class="btn btn-primary">Assign</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
-
-
-
-
+                <div class="col-md-2">
+                    
                 </div>
                 <div class="col-md-8">
 
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">View Course Student</div>
+                    
+                    
+                    
+                    
+                    
+                        <div class="panel panel-primary">
+                        <div class="panel-heading">Message to Batch Student</div>
                         <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="admin_student_course_assign.php">
+                            <form class="form-horizontal" method="post" action="admin_batch_message.php">
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Course</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="batch_id" re >
+                                        <select class="form-control" name="course_id" required="" >
                                             <option value="">--select--</option>
                                             <?php
                                             $result_5 = getAllBatchList();
@@ -172,7 +115,7 @@ include './model/CourseModel.php';
                                                     echo 'selected=""';
                                                 }
                                             }
-                                                    ?>    value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
+                                                    ?>    value="<?php echo $row['course_id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
                                                         <?php
                                                     }
                                                 }
@@ -180,84 +123,53 @@ include './model/CourseModel.php';
                                         </select>
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label"></label>
                                     <div class="col-sm-9">
-                                        <button type="submit" name="btnViewAss" class="btn btn-primary">View Student</button>
-
+                                        <button type="submit" name="btnMSG" class="btn btn-primary">View Student</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="panel-footer"></div>
                     </div>
+                    
+                    
 
-
-
-
-
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">Student Details</div>
-                        <div class="panel-body">
-
-                            <table id="example2" class="display" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-
-                                <tbody>
-
-                                    <?php
-                                    if (isset($_POST['btnAss']) || isset($_POST['btnViewAss'])) {
-                                        $bid = $_POST['batch_id'];
-                                        $resultx = getCourseStudentList($bid);
-                                        if ($resultx != FALSE) {
-                                            while ($row = mysqli_fetch_assoc($resultx)) {
-                                                ?>
-                                                <tr>
-                                                    <td><?php echo $row['id'] ?></td>
-                                                    <td><?php echo $row['fname'] ?> <?= $row['lname'] ?></td>
-                                                    <td><?php echo $row['nic'] ?></td>
-                                                    <td><a href="admin_student_payment.php?course_id=<?= $row['course_id'] ?>&student_id=<?= $row['id'] ?>" class="btn btn-primary btn-xs">View Payment</a></td>
-                                                </tr>
-                                                <?php
-                                            }
-                                        }
-                                    }
-                                    ?>
-
-
-
-
-
-                                </tbody></table>
-
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
-
-
+                    <?php
+                    if(isset($_POST['btnMSG'])){
+                        $sql = "SELECT student.* FROM student
+INNER JOIN student_batch ON student_batch.student_id = student.id
+INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
+WHERE batch_course.course_id = '".$_POST['course_id']."'";
+                        
+                       $result = getData($sql);
+                        if ($result != FALSE) {
+                                    if (mysqli_num_rows($result) > 0) {
+                                        // output data of each row
+                        while ($row = mysqli_fetch_assoc($result)) {
+                       ?> 
+                        
+                       <?php     
+                        }
+                        }
+                        }
+                    }
+                    
+                    ?>
+                    
+                   
                 </div>
+                <div class="col-md-2"></div>
+
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
@@ -399,5 +311,30 @@ include './model/CourseModel.php';
                 $('#example2').DataTable();
             });
         </script>
+        
+        
+        <script>
+
+    function PrintElem(elem)
+    {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<h1>' + document.title  + '</h1>');
+        mywindow.document.write(document.getElementById(elem).innerHTML);
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+        return true;
+    }
+
+</script>
+
     </body>
 </html> 

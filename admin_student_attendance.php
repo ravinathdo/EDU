@@ -1,10 +1,12 @@
 <!--
- 
 author : promod
- 
- 
 -->
-<?php session_start(); ?>
+<?php
+session_start();
+
+include './model/DB.php';
+include './model/StudentModel.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -40,7 +42,7 @@ author : promod
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>	
+<?php include './_top.php'; ?>	
 
                 </div>
 
@@ -65,7 +67,7 @@ author : promod
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <?php include './_menu.php'; ?>
+<?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -79,107 +81,119 @@ author : promod
         <!--/banner-section-->
 
 
-<div class="m">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="m">
+            <div class="row">
+                <div class="col-md-5">
 
-                <form method="post" action="admin_student_attendance.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Student ID</label>
-                        <select class="form-control" name="student_id" >
-                            <option>--select--</option>
-                            <?php
-                            include './model/DB.php';
-                            include './model/StudentModel.php';
-                            $result_4 = getStudentList();
-                            if ($result_4 != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_4)) {
-                                    ?>
-                                    <option><?php echo $row['id'] ?> - <?php echo $row['fname'] ?><?php echo $row['lname'] ?> </option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Date</label>
-                        <input type="date" name="attend_date" class="form-control" id="exampleInputEmail1" placeholder="YYYY-MM-DD">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <button type="submit" name="btnAtt" class="btn btn-primary">Add Attendance</button>
-                    </div>
-                </form>
-                <?php
-                if (isset($_POST['btnAtt'])) {
-                    $sql = "INSERT INTO student_attendance
+
+                    <?php
+                    if (isset($_POST['btnAtt'])) {
+                        $sql = "INSERT INTO student_attendance
             (`student_id`,
              `attend_date`)
 VALUES ('" . $_POST['student_id'] . "',
         '" . $_POST['attend_date'] . "');";
-                    setData($sql);
-                }
-                ?>
+                        setData($sql,TRUE);
+                    }
+                    ?>
 
 
-            </div>
-            <div class="col-md-7">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Student Attendance</div>
+                        <div class="panel-body">
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Student</th>
-                            <th>Date Attend</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sql2 = "SELECT student.id,student.fname,student.lname,student_attendance.attend_date FROM student_attendance 
+                            <form method="post" action="admin_student_attendance.php">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Student ID</label>
+                                    <select class="form-control" name="student_id" required="">
+                                        <option>--select--</option>
+                                        <?php
+                                        $result_4 = getStudentList();
+                                        if ($result_4 != FALSE) {
+                                            while ($row = mysqli_fetch_assoc($result_4)) {
+                                                ?>
+                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['fname'] ?><?php echo $row['lname'] ?> </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Date</label>
+                                    <input type="date" required="" name="attend_date" class="form-control" id="exampleInputEmail1" placeholder="YYYY-MM-DD">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"></label>
+                                    <button type="submit" name="btnAtt" class="btn btn-primary">Add Attendance</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <div class="panel-footer"></div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="col-md-7">
+
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Attendance Explorer</div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Student</th>
+                                        <th>Date Attend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $sql2 = "SELECT student.id,student.fname,student.lname,student_attendance.attend_date FROM student_attendance 
 INNER JOIN student
 ON student.id = student_attendance.student_id
 ORDER BY student_attendance.id DESC
 ";
-                        //echo $sql2;
-                        $result = getData($sql2);
-                        if ($result != FALSE) {
-                            if (mysqli_num_rows($result) > 0) {
-                                // output data of each row
-                                while ($row = mysqli_fetch_assoc($result)) {
+                                    //echo $sql2;
+                                    $result = getData($sql2);
+                                    if ($result != FALSE) {
+                                        if (mysqli_num_rows($result) > 0) {
+                                            // output data of each row
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['id']; ?></td>
+                                                    <td><?php echo $row['fname']; ?> <?php echo $row['lname']; ?></td>
+                                                    <td><?php echo $row['attend_date']; ?> </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                    }
                                     ?>
-                                    <tr>
-                                        <td><?php echo $row['id'];?></td>
-                                        <td><?php echo $row['fname'];?> <?php echo $row['lname'];?></td>
-                                        <td><?php echo $row['attend_date'];?> </td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer"></div>
+                    </div>
 
-            </div>
+
+
+
+
+                </div>
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

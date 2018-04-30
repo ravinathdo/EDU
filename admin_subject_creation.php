@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -41,7 +38,6 @@ author : promod
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
                     <?php include './_top.php'; ?>	
-
                 </div>
 
             </div>
@@ -78,198 +74,218 @@ author : promod
         </div> 
         <!--/banner-section-->
 
-<div class="m">
+        <div class="m">
 
-        <div class="row">
-        
-            <div class="col-md-6">
-              <h2>Subject Creation</h2>
-               <?php
-                include './model/DB.php';
-                include './model/SubjectModel.php';
+            <div class="row">
 
-                if (isset($_POST['btnSub'])) {
-                    setSubject();
-                }
-                ?>
-              
-                <form action="admin_subject_creation.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Subject Name</label>
-                        <input type="text"  name="subject_name" class="form-control" required id="exampleInputEmail1" placeholder="Subject Name">
+                <div class="col-md-6">
+
+                    <?php
+                    include './model/DB.php';
+                    include './model/SubjectModel.php';
+
+                    if (isset($_POST['btnSub'])) {
+                        setSubject();
+                    }
+                    ?>
+                    <span class="mando-msg">* fields are mandatory</span>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">Subject Creation</div>
+                        <div class="panel-body">
+                            <form action="admin_subject_creation.php" method="post">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Subject Name <span class="mando-msg">*</span></label>
+                                    <input type="text"  name="subject_name" class="form-control" required id="exampleInputEmail1" placeholder="Subject Name">
+                                </div>
+                                <button type="submit" name="btnSub" class="btn btn-primary">Create Subject</button>
+                            </form>
+
+                        </div>
+                        <div class="panel-footer"></div>
                     </div>
 
-                    <button type="submit" name="btnSub" class="btn btn-primary">Create Subject</button>
-                </form>
 
 
-             
-                <hr>
-                <br>
-                <table id="example" class="display" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Subject</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $result = getSubjectList();
-                        if ($result != FALSE) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                </tr>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
 
-
-            </div>
-            
-            
-            <div class="col-md-6">
-                <h2>Course Subject</h2>
-                
-                <?php
-                include './model/CourseModel.php';
-                include './model/LectureModel.php';
-                 
-				 
-                if (isset($_POST['btnAsi'])) {
-                    setCourseSubject();
-                }
-                ?>
-                <form action="admin_subject_creation.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <select  class="form-control"  name="course_id" required="">
-                            <option>--select course--</option>
+                    <hr>
+                    <br>
+                    <table id="example" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php
-                            $result_course = getCourseList();
-                            if ($result_course != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_course)) {
+                            $result = getSubjectList();
+                            if ($result != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
-                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
+                                    <tr>
+                                        <td><?php echo $row['id']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                    </tr>
                                     <?php
                                 }
                             }
                             ?>
+                        </tbody>
+                    </table>
 
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Year Semester</label>
-                        <select  class="form-control" name="year_semester" required="">
-                            <option value="">--select--</option>
-                            <option value="Year1-semester1">Year1-semester1</option>
-                            <option value="Year1-semester2">Year1-semester2</option>
-                            <option value="Year2-semester1">Year2-semester1</option>
-                            <option value="Year2-semester2">Year2-semester2</option>
-                            <option value="Year3-semester1">Year3-semester1</option>
-                            <option value="Year3-semester2">Year3-semester2</option>
-                            <option value="Year4-semester1">Year4-semester1</option>
-                            <option value="Year4-semester2">Year4-semester2</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Subject</label>
 
-                        <select  class="form-control" name="subject_id" >
-                            <option>--select subject--</option>
+                </div>
+
+
+                <div class="col-md-6">
+
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Course Subject</div>
+                        <div class="panel-body">
+
                             <?php
-                            $result_sub = getSubjectList();
-                            if ($result_sub != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_sub)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['subject_name']; ?> </option>
-                                    <?php
-                                }
+                            include './model/CourseModel.php';
+                            include './model/LectureModel.php';
+
+
+                            if (isset($_POST['btnAsi'])) {
+                                setCourseSubject();
                             }
                             ?>
+                            <form action="admin_subject_creation.php" method="post">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Course</label>
+                                    <select  class="form-control"  name="course_id" required="">
+                                        <option>--select course--</option>
+                                        <?php
+                                        $result_course = getCourseList();
+                                        if ($result_course != FALSE) {
+                                            while ($row = mysqli_fetch_assoc($result_course)) {
+                                                ?>
+                                                <option value="<?php echo $row['id']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
 
-                        </select>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Year Semester</label>
+                                    <select  class="form-control" name="year_semester" required="">
+                                        <option value="">--select--</option>
+                                        <option value="Year1-semester1">Year1-semester1</option>
+                                        <option value="Year1-semester2">Year1-semester2</option>
+                                        <option value="Year2-semester1">Year2-semester1</option>
+                                        <option value="Year2-semester2">Year2-semester2</option>
+                                        <option value="Year3-semester1">Year3-semester1</option>
+                                        <option value="Year3-semester2">Year3-semester2</option>
+                                        <option value="Year4-semester1">Year4-semester1</option>
+                                        <option value="Year4-semester2">Year4-semester2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Subject</label>
+
+                                    <select  class="form-control" name="subject_id" >
+                                        <option>--select subject--</option>
+                                        <?php
+                                        $result_sub = getSubjectList();
+                                        if ($result_sub != FALSE) {
+                                            while ($row = mysqli_fetch_assoc($result_sub)) {
+                                                ?>
+                                                <option value="<?php echo $row['id']; ?>"> <?php echo $row['subject_name']; ?> </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Lecturer</label>
+                                    <select  class="form-control" name="lecture_id">
+                                        <option>--select lecture--</option>
+                                        <?php
+                                        $result_lec = getLectureList();
+                                        if ($result_lec != FALSE) {
+                                            while ($row = mysqli_fetch_assoc($result_lec)) {
+                                                ?>
+                                                <option value="<?php echo $row['id']; ?>"> <?php echo $row['lecture_name']; ?> </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+
+                                    </select>
+                                </div>
+
+                                <button type="submit" name="btnAsi" class="btn btn-primary">Assign</button>
+                            </form>
+                        </div>
+                        <div class="panel-footer"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Lecturer</label>
-                        <select  class="form-control" name="lecture_id">
-                            <option>--select lecture--</option>
-                            <?php
-                            $result_lec = getLectureList();
-                            if ($result_lec != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_lec)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>"> <?php echo $row['lecture_name']; ?> </option>
-                                    <?php
-                                }
-                            }
-                            ?>
 
-                        </select>
-                    </div>
 
-                    <button type="submit" name="btnAsi" class="btn btn-primary">Assign</button>
-                </form>
-               
+
+                </div>
+
+
+
+                <div class="col-md-6">
+
+                   
+
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">Course Subjects</div>
+                                <div class="panel-body">
+                                    <form method="post" action="admin_course_subject.php">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Course Name</label>
+                                            <select  class="form-control" name="course_id" required="">
+                                                <option value="">--select course--</option>
+                                                <?php
+                                                $result_course = getCourseList();
+                                                if ($result_course != FALSE) {
+                                                    while ($row = mysqli_fetch_assoc($result_course)) {
+                                                        ?>
+                                                        <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"></label>
+                                            <input name="btnCS" type="submit" class="form-control btn-primary" value="View Subject" />
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="panel-footer"></div>
+                            </div>
+
+
+                      
+
+
+
+
+
+
+                </div>
+
             </div>
-            
-            
-            
-            <div class="col-md-6">
 
 
-                <form method="post" action="admin_course_subject.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course Name</label>
-                        <select  class="form-control" name="course_id">
-                            <option>--select course--</option>
-                            <?php
-                            $result_course = getCourseList();
-                            if ($result_course != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_course)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
-                                    <?php
-                                }
-                            }
-                            ?>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <input name="btnCS" type="submit" class="form-control btn-primary" value="View Subject" />
-                    </div>
-                </form>
-
-            </div>
-            
-            </div>
-            
-            
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

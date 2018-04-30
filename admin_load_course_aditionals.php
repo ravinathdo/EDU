@@ -71,192 +71,131 @@ author : promod
 
             </div>
             <!--//header-w3l-->
-
         </div> 
+        
+        
         <!--/banner-section-->
-
-
-
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-4">
-
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <?php include './model/DB.php'; ?>
                 <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Payment</div>
-                    <div class="panel-body">
-                        <form method="post" action="student_payments.php">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Course</label>
-                                <select class="form-control" name="course_id" required="" >
-                                    <option value=""> --select-- </option>
-                                    <?php
-                                    include './model/DB.php';
-                                    $sql = " SELECT student_batch.*,course.* FROM student_batch
-INNER JOIN batch_course
-ON student_batch.batch_id = batch_course.id
-INNER JOIN course
-ON course.id = batch_course.course_id
-WHERE student_batch.student_id = " . $_SESSION['ssn_user']['id'];
+                <br>
+                
+                
+                <?php
+                if(isset($_POST['btnSubmit'])){
+                    
+                    //delete from course_aditional and re enter
+                    $sql_delete = "DELETE FROM course_aditional WHERE course_id=".$_POST['course_id']."";
+                    //echo $sql_delete;
+                    setDelete($sql_delete);
+                    
+                    
+        $sql = " INSERT INTO course_aditional
+            (`fee_details`,
+             `assignments`,
+             `marking_schemes`,
+             `projects`,
+             `examination`,
+             `course_id`)
+VALUES ('".$_POST['fee_details']."',
+        '".$_POST['assignments']."',
+        '".$_POST['marking_schemes']."',
+        '".$_POST['projects']."',
+        '".$_POST['examination']."',
+        '".$_POST['course_id']."'); ";
 
-                                    $resultx = getData($sql);
-                                    if ($resultx != FALSE) {
-                                        while ($row = mysqli_fetch_assoc($resultx)) {
-                                            ?>
-                                            <option value="<?= $row['id']; ?>"><?= $row['course_sig']; ?> [ <?= $row['fee']; ?> ] </option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                    setData($sql,TRUE);
+                     
+                }
+                ?>
+                
+                
+                <div class="panel panel-primary">
+                    <div class="panel-heading ">
+                        Course Additional: <?php echo $_GET['course_name'] ?>
+                        <?php
+                        $course_id = $_GET['course_id'];
+
+                        //select query 
+                        $conn = getDBConnection();
+
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        }
+                        $sql = "SELECT * FROM course_aditional WHERE course_id = " . $course_id;
+                        echo $sql;
+                        $result = mysqli_query($conn, $sql);
+
+                        $fee_details = $assignments = $marking_schemes = $projects = $examination = '';
+
+                        if (mysqli_num_rows($result) > 0) {
+                            // output data of each row
+
+
+                            if ($result != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                 $fee_details = $row['fee_details'];
+                                 $assignments = $row['assignments'];
+                                 $marking_schemes = $row['marking_schemes'];
+                                 $projects = $row['projects'];
+                                 $examination = $row['examination'];
+                                }
+                            }
+                        } else {
+                            
+                        }
+
+
+
+                        mysqli_close($conn);
+                        ?>
+
+
+                       
+
+
+
+                    </div>
+                    <div class="panel-body">
+
+                        
+                        <form action="admin_load_course_aditionals.php?course_id=<?= $course_id?>&course_name=<?php echo $_GET['course_name'] ?>" method="post">
+                            <input type="hidden" name="course_id" value="<?= $course_id?>" />
+                            <input type="hidden" name="course_name" value="<?php echo $_GET['course_name'] ?>" />
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Name On The Card</label>
-                                <input type="text" required="" class="form-control" id="exampleInputPassword1" >
+                                <label for="exampleInputEmail1">Fee details</label>
+                                <textarea  name="fee_details" class="form-control" id="exampleInputEmail1" ><?php echo $fee_details;?></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Card Number</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" >
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Assignments details</label>
+                                <textarea  name="assignments" class="form-control" id="exampleInputEmail1" ><?php echo $assignments;?></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">CCV</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" >
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Marking schemes</label>
+                                <textarea  name="marking_schemes" class="form-control" id="exampleInputEmail1" ><?php echo $marking_schemes;?></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Amount</label>
-                                <input type="number" required="" name="payment_amount" class="form-control" id="exampleInputPassword1" >
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Projects Details</label>
+                                <textarea  name="projects" class="form-control" id="exampleInputEmail1" ><?php echo $projects;?></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1"></label>
-                                <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
-                                <button type="submit" name="btnView" class="btn btn-primary">View</button>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Examination Details</label>
+                                <textarea  name="examination" class="form-control" id="exampleInputEmail1" ><?php echo $examination;?></textarea>
                             </div>
+                            <button type="submit" name="btnSubmit" class="btn btn-primary">Add Additionals</button>
                         </form>
                     </div>
-                    <div class="panel-footer"></div>
                 </div>
 
-
-
-
-
             </div>
-            <div class="col-md-6">
-<br>
-
-                <div class="panel panel-warning">
-                    <div class="panel-heading">Payment History</div>
-                    <div class="panel-body">
-
-                         <?php
-                if (isset($_POST['btnSub'])) {
-                    $sqlx = " INSERT INTO `student_payment`
-            (`course_id`,
-             `student_id`, 
-             `payment_amount` 
-             )
-VALUES ('" . $_POST['course_id'] . "',
-        '" . $_SESSION['ssn_user']['id'] . "',
-        '" . $_POST['payment_amount'] . "'); ";
-
-                    setData($sqlx, TRUE);
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sqlGet = " SELECT * FROM student_payment WHERE course_id =  " . $_POST['course_id'];
-                            $resultx = getData($sqlGet);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-
-                                    <tr>
-                                        <td><?= $row['payment_amount']; ?></td>
-                                        <td><?= $row['created_date']; ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-
-                    <?php
-                }
-                ?>
-
-
-
-                <?php
-                if (isset($_POST['btnView'])) {
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Date Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sqlVi = " SELECT * FROM student_payment WHERE course_id = '" . $_POST['course_id'] . "' AND student_id =   " . $_SESSION['ssn_user']['id'];
-                            //echo $sqlVi;
-                            $resultx = getData($sqlVi);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-
-                                    <tr>
-                                        <td><?= $row['payment_amount']; ?></td>
-                                        <td><?= $row['created_date']; ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                    <?php
-                }
-                ?>
-
-
-                    </div>
-                    <div class="panel-footer"></div>
-                </div>
-
-
-
-               
-
-
-            </div>
+            <div class="col-md-3"></div>
         </div>
 
 
 
-        <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- //subscribe -->
+
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">

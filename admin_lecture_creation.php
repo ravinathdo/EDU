@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -82,15 +79,35 @@ author : promod
 <div class="m">
 
         <div class="row">
-            <div class="col-md-5" >
-                <h2>Lecture Creation</h2>
+            <div class="col-md-4" ></div>
+            <div class="col-md-4" >
+                
+                <br>
+                <br>
+                <?php
+                include './model/DB.php';
+                include './model/LectureModel.php';
+                if (isset($_POST['btnLec'])) {
+                    lectureCreation();
+                }
+                ?>
+                
+                
+                   <div class="panel panel-primary">
+      <div class="panel-heading">Lecture Creation</div>
+      <div class="panel-body">
                 <form action="admin_lecture_creation.php" method="post">
+                    <span class="mando-msg">* fields are mandatory</span>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Lecture Name</label>
-                        <input type="text" required name="lecture_name" class="form-control" id="exampleInputEmail1" >
+                        <label for="exampleInputEmail1">Lecture Name <span class="mando-msg">*</span></label>
+                        <input type="text" required name="lecture_name" class="form-control" id="exampleInputEmail1"  >
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Description</label>
+                        <label for="exampleInputPassword1">NIC <span class="mando-msg">*</span></label>
+                        <input type="text"  required  name="nic" class="form-control" id="exampleInputPassword1" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Description </label>
                         <input type="text"   name="description" class="form-control" id="exampleInputPassword1" >
                     </div>
                     <div class="form-group">
@@ -99,25 +116,29 @@ author : promod
                     </div>
                     <button type="submit" name="btnLec" class="btn btn-primary">Create Lecture</button>
                 </form>
+      </div></div>
                 <br>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-4">
 
-                <?php
-                include './model/DB.php';
-                include './model/LectureModel.php';
-                if (isset($_POST['btnLec'])) {
-                    lectureCreation();
-                }
-                ?>
+                
 
                 <br>
-                <table id="example" class="display" cellspacing="0" width="100%">
+           
+
+            </div>
+        </div>
+</div>
+
+        <div class="row">
+            <div class="col-md-12">
+                     <table id="example" class="display" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th></th>
                             <th>Lecture Name</th>
                             <th>Username</th>
+                            <th>NIC</th>
                             <th>Description</th>
                             <th>Profile Info</th>
                             <th></th>
@@ -128,6 +149,7 @@ author : promod
                             <th></th>
                             <th>Lecture Name</th>
                             <th>Username</th>
+                            <th>NIC</th>
                             <th>Description</th>
                             <th>Profile Info</th>
                             <th></th>
@@ -145,6 +167,7 @@ author : promod
                                     <td><?php echo $row['id']; ?></td>
                                     <td><?php echo $row['lecture_name']; ?></td>
                                     <td><?php echo $row['username']; ?></td>
+                                    <td><?php echo $row['nic']; ?></td>
                                     <td><?php echo $row['description']; ?></td>
                                     <td><?php echo $row['profile_info']; ?></td>
                                     <td>
@@ -167,28 +190,9 @@ author : promod
 
             </div>
         </div>
-</div>
-
-        <div class="row">
-            <div class="col-md-12">
-                
-
-            </div>
-        </div>
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
