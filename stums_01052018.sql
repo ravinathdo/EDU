@@ -107,11 +107,11 @@ CREATE TABLE `course_subject` (
   `course_subject_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`course_id`,`year_semester`,`subject_id`),
   UNIQUE KEY `autoid` (`course_subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_subject` */
 
-insert  into `course_subject`(`course_id`,`year_semester`,`subject_id`,`lecture_id`,`course_subject_id`) values (1,'Year1-semester1',4,1,1),(1,'Year3-semester1',4,2,2),(5,'Year1-semester1',1,1,3);
+insert  into `course_subject`(`course_id`,`year_semester`,`subject_id`,`lecture_id`,`course_subject_id`) values (1,'Year1-semester1',4,1,1),(1,'Year3-semester1',4,2,2),(5,'Year1-semester1',1,1,3),(5,'Year1-semester2',8,7,5);
 
 /*Table structure for table `lecture` */
 
@@ -124,13 +124,31 @@ CREATE TABLE `lecture` (
   `lecture_name` varchar(100) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `profile_info` varchar(200) DEFAULT NULL,
+  `photo` varchar(250) DEFAULT 'default.jpg',
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`nic`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecture` */
 
-insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL),(2,'LEC2','22','Ravinath','HID','Degress UK '),(3,'LEC3','33','Gyana','Perea','Msc in IT '),(4,'LEC4','555','','',' '),(5,'LEC5','5556','Kumara','Seb',' sad'),(6,'LEC6','88','Kumara G','Seb',' sad'),(7,'LEC7','853352144','Kumara','SF',' '),(8,'LEC8','2222111','Kumara X','SF',' ');
+insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`,`photo`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL,'default.jpg'),(2,'LEC2','22','Ravinath','HID','Degress UK ','default.jpg'),(3,'LEC3','33','Gyana','Perea','Msc in IT ','default.jpg'),(4,'LEC4','555','','',' ','default.jpg'),(5,'LEC5','5556','Kumara','Seb',' sad','default.jpg'),(6,'LEC6','88','Kumara G','Seb',' sad','default.jpg'),(7,'LEC7','853352144','Kumara','SF',' ','default.jpg'),(8,'LEC8','2222111','Kumara X','SF',' ','default.jpg');
+
+/*Table structure for table `lecture_slides` */
+
+DROP TABLE IF EXISTS `lecture_slides`;
+
+CREATE TABLE `lecture_slides` (
+  `course_id` int(5) DEFAULT NULL,
+  `year_semester` varchar(20) DEFAULT NULL,
+  `subject_id` int(5) DEFAULT NULL,
+  `slide_title` varchar(50) DEFAULT NULL,
+  `slide_doc` varchar(100) DEFAULT NULL,
+  `created_datetime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `lecture_slides` */
+
+insert  into `lecture_slides`(`course_id`,`year_semester`,`subject_id`,`slide_title`,`slide_doc`,`created_datetime`) values (1,'Year1-semester1',4,'sadsadsad','Vision (2).jpg','2018-04-18 11:31:21'),(5,'Year1-semester1',1,'The Business','WhatsApp Image 2017-12-20 at 9.45.57 AM.jpeg','2018-04-18 12:08:49');
 
 /*Table structure for table `ozekimessagein` */
 
@@ -248,11 +266,11 @@ CREATE TABLE `student_event` (
   `marked_lecture` int(5) DEFAULT NULL,
   `submitdate_time` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `student_event` */
 
-insert  into `student_event`(`id`,`event_id`,`student_id`,`doc_path`,`marks`,`marked_lecture`,`submitdate_time`) values (2,1,1,'2.doc',25,12,'2017-11-17 20:49:09');
+insert  into `student_event`(`id`,`event_id`,`student_id`,`doc_path`,`marks`,`marked_lecture`,`submitdate_time`) values (2,1,1,'2.doc',25,12,'2017-11-17 20:49:09'),(3,3,10,'Vision (2)1dd.jpg',50,2,'2018-04-18 15:32:50');
 
 /*Table structure for table `student_marks` */
 
@@ -295,11 +313,28 @@ CREATE TABLE `subject` (
   `subject_name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`subject_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `subject` */
 
-insert  into `subject`(`id`,`subject_name`) values (1,'Java'),(4,'PHP EE'),(3,'Phy'),(2,'XML');
+insert  into `subject`(`id`,`subject_name`) values (8,'Final Project'),(1,'Java'),(4,'PHP EE'),(3,'Phy'),(2,'XML');
+
+/*Table structure for table `subject_passpaper` */
+
+DROP TABLE IF EXISTS `subject_passpaper`;
+
+CREATE TABLE `subject_passpaper` (
+  `course_id` int(5) DEFAULT NULL,
+  `year_semester` varchar(20) DEFAULT NULL,
+  `subject_id` int(5) DEFAULT NULL,
+  `description` varchar(50) DEFAULT NULL,
+  `passpaper_doc` varchar(100) DEFAULT NULL,
+  `created_datetime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `subject_passpaper` */
+
+insert  into `subject_passpaper`(`course_id`,`year_semester`,`subject_id`,`description`,`passpaper_doc`,`created_datetime`) values (5,'Year1-semester1',1,'sample paper','Vision (2)1.jpg','2018-04-18 15:16:06');
 
 /*Table structure for table `type` */
 

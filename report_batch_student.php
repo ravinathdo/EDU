@@ -88,16 +88,11 @@ include './model/CourseModel.php';
                 </div>
                 <div class="col-md-8">
 
-
-                    
-                    
-                    
-                    
                     
                         <div class="panel panel-primary">
                         <div class="panel-heading">Message to Batch Student</div>
                         <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="admin_batch_message.php">
+                            <form class="form-horizontal" method="post" action="report_batch_student.php">
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Course</label>
                                     <div class="col-sm-9">
@@ -136,7 +131,9 @@ include './model/CourseModel.php';
                     </div>
                     
                     
+                    <div id="printDiv">
 
+                        
                     <?php
                     if(isset($_POST['btnMSG'])){
                         $sql = "SELECT student.* FROM student
@@ -144,12 +141,17 @@ INNER JOIN student_batch ON student_batch.student_id = student.id
 INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
 WHERE batch_course.course_id = '".$_POST['course_id']."'";
                         
+                        echo $sql;
+                        
                        $result = getData($sql);
                         if ($result != FALSE) {
                                     if (mysqli_num_rows($result) > 0) {
                                         // output data of each row
                         while ($row = mysqli_fetch_assoc($result)) {
                        ?> 
+                    
+                    
+                    
                         
                        <?php     
                         }
@@ -158,6 +160,11 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
                     }
                     
                     ?>
+                        
+                        
+                        <a href="#" onclick="PrintElem('printDiv')">print</a>
+                    </div>
+                    
                     
                    
                 </div>

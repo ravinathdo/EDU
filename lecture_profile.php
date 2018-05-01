@@ -1,7 +1,11 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php
+session_start();
+
+include './model/DB.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -37,7 +41,7 @@ author : promod
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>	
+<?php include './_top.php'; ?>	
 
                 </div>
 
@@ -57,12 +61,12 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">E</span>DU <span></span></a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <?php include './_menu.php'; ?>
+<?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -76,73 +80,154 @@ author : promod
         <!--/banner-section-->
 
 
+        <div class="m">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
 
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <br>
-                <br>
-                <br>
-                <?php
-                include './model/DB.php';
-                if (isset($_POST['btnPass'])) {
-                    if ($_POST['npassword'] == $_POST['rpassword']) {
-                        $sql = " UPDATE users SET PASSWORD = PASSWORD('".$_POST['npassword']."') WHERE id = '".$_SESSION['ssn_user']['id']."' AND PASSWORD = PASSWORD('".$_POST['cpassword']."')";
-                        if(setUpdate($sql, FALSE)){
-                            echo '<p class="bg-success msg-success">Password Updated</p>';
-                        }else{
-                            echo '<p class="bg-warning msg-error">Invalid Password</p>';
-                            
+
+
+
+
+
+
+
+
+
+
+
+                    <?php
+                    echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
+                    
+                    if (isset($_POST['submit'])) {
+                        
+                        $target_dir = "uploads/";
+                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                        $uploadOk = 1;
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+                        if (isset($_POST["submit"])) {
+                            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                            if ($check !== false) {
+                                echo "File is an image - " . $check["mime"] . ".";
+                                $uploadOk = 1;
+                            } else {
+                                echo "File is not an image.";
+                                $uploadOk = 0;
+                            }
                         }
-                    }else{
-                        echo '<p class="bg-warning msg-error">Invalid Password</p>';
-                    }
-                }
-                ?>
-                
-                <div class="panel panel-primary">
-        <div class="panel-heading">Change Password</div>
-        <div class="panel-body">
-        
-            <form action="change_password.php" method="post">
+// Check if file already exists
+                        if (file_exists($target_file)) {
+                            echo "Sorry, file already exists.";
+                            $uploadOk = 0;
+                        }
+// Check file size
+                        if ($_FILES["fileToUpload"]["size"] > 500000) {
+                            echo "Sorry, your file is too large.";
+                            $uploadOk = 0;
+                        }
+// Allow certain file formats
+                        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                            $uploadOk = 0;
+                        }
+// Check if $uploadOk is set to 0 by an error
+                        if ($uploadOk == 0) {
+                            echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+                        } else {
+                            
+                            echo $target_file;
+                            echo '<br>'.$imageFileType;
+                            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                                echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Current Password</label>
-                        <input type="password" name="cpassword" class="form-control" id="exampleInputEmail1" placeholder="Current Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">New Password</label>
-                        <input type="password" name="npassword"  class="form-control" id="exampleInputPassword1" placeholder="New Password">
-                    </div> 
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">New Password</label>
-                        <input type="password" name="rpassword"  class="form-control" id="exampleInputPassword1" placeholder="Retype Password">
-                    </div> 
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnPass" class="btn btn-primary">Change Password</button>
-                    </div> 
+                                
+                                
+                                
+                                
+                                echo 'File uploaded';
+                                /*
+                                //insert into table
+                                $slide_title = $_POST['slide_title'];
+                                $course_id = $_POST['course_id'];
+                                $year_semester = $_POST['year_semester'];
+                                $subject_id = $_POST['subject_id'];
+                                $slide_doc = basename($_FILES["fileToUpload"]["name"]);
 
-                </form>
-            
-        </div>
-        <div class="panel-footer"></div>
-      </div>
-                
-                
-                
-                
-                
-                
+                                $queryInsert = "INSERT INTO lecture_slides
+            (`course_id`,
+             `year_semester`,
+             `subject_id`,
+             `slide_title`,
+             `slide_doc`)
+VALUES ('$course_id',
+        '$year_semester',
+        '$subject_id',
+        '$slide_title',
+        '$slide_doc')";
+
+                                setData($queryInsert, TRUE);
+        */
+                                
+                            } else {
+                                echo "Sorry, there was an error uploading your file.";
+                            }
+                        }
+                    }//btnProfile
+                    ?>
+
+
+
+
+
+
+                    <form action="lecture_profile.php"  method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <img src="uploads/default.jpg" />
+                            <input type="file" name="fileToUpload"  id="fileToUpload"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">NIC</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="nic" >
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Lecture Name</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">description</label>
+                            <textarea name="description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">profile_info</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="profile_info" >
+                        </div>
+                        
+                        <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                    </form>
+
+
+
+
+
+
+
+
+                </div>
+                <div class="col-md-4">
+
+
+                </div>
 
             </div>
-            <div class="col-md-4"></div>
         </div>
 
 
 
         <!-- subscribe -->
-     
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
