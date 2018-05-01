@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -60,7 +57,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,7 +78,8 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-5">
+             <div class="col-md-4"></div>
+            <div class="col-md-4">
                 <?php
                 include './model/DB.php';
                 $target_dir = "uploads/";
@@ -128,7 +126,7 @@ author : promod
                         echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
                    
                         //insert into 
-                        $sql = " INSERT INTO `stumsdb`.`student_event`
+                        $sql = " INSERT INTO student_event
             (`event_id`,
              `student_id`,
              `doc_path`)
@@ -136,7 +134,8 @@ VALUES ('".$_POST['event_id']."',
         '".$_SESSION['ssn_student']['id']."',
         '".$baseName."'); ";
                      
-                        setData($sql);
+                        echo $sql;
+                        setData($sql,TRUE);
                         
                     } else {
                         echo "Sorry, there was an error uploading your file.";
@@ -145,24 +144,13 @@ VALUES ('".$_POST['event_id']."',
                 ?>
 
             </div>
-            <div class="col-md-7">vvvvvv</div>
+            <div class="col-md-4"></div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

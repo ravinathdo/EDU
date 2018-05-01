@@ -24,7 +24,7 @@ function getDBConnection() {
     }
 }
 
-function setData($sql) {
+function setData($sql,$flag) {
     $conn = getDBConnection();
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -32,9 +32,10 @@ function setData($sql) {
     if (mysqli_query($conn, $sql)) {
         $last_id = mysqli_insert_id($conn);
         $username = 'LEC' . $last_id;
-        echo '<p class="bg-success">New record created successfully<p>';
+        if($flag)
+        echo '<p class="bg-success msg-success">New record created successfully<p>';
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo " Invalid Input ";
     }
 
     mysqli_close($conn);
@@ -68,7 +69,7 @@ function setUpdate($sql, $MSG) {
     }
     if (mysqli_query($conn, $sql)) {
         if ($MSG)
-            echo '<p class="bg-success">Record updated successfully<p>';
+            echo '<p class="bg-success msg-success">Record updated successfully<p>';
     } else {
         if ($MSG)
             echo "Invalid Input";
@@ -79,6 +80,21 @@ function setUpdate($sql, $MSG) {
     return $flag;
 }
 
+function setDelete($sql){
+ $flag = TRUE;
+    $conn = getDBConnection();
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    
+if (mysqli_query($conn, $sql)) {
+    //echo "Record deleted successfully";
+} else {
+   // echo "Error deleting record: " . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+}
 
 function sendSMS($toMobile, $msg) {
 

@@ -3,10 +3,8 @@ author : promod
 -->
 <?php
 session_start();
+
 include './model/DB.php';
-include './model/BatchModel.php';
-include './model/StudentModel.php';
-include './model/CourseModel.php';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -43,7 +41,8 @@ include './model/CourseModel.php';
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>
+                    <?php include './_top.php'; ?>	
+
                 </div>
 
             </div>
@@ -83,181 +82,182 @@ include './model/CourseModel.php';
 
         <div class="m">
             <div class="row">
-
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
+
+
+
+
+
+
+
+
+
+
+
+
                     <?php
-                    if (isset($_POST['btnAss'])) {
-                        setAssignStudentOnCourse();
+                    echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
+
+                    if (isset($_POST['submit'])) {
+
+                        $target_dir = "uploads/";
+                        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+
+                        $uploadOk = 1;
+                        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+
+                        $fileName = $_SESSION['ssn_user']['username'] . '.' . $imageFileType;
+                        $target_file = $target_dir . $fileName;
+
+
+
+// Check if image file is a actual image or fake image
+                        if (isset($_POST["submit"])) {
+                            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                            if ($check !== false) {
+                                echo "File is an image - " . $check["mime"] . ".";
+                                $uploadOk = 1;
+                            } else {
+                                echo "File is not an image.";
+                                $uploadOk = 0;
+                            }
+                        }
+// Check if file already exists
+                        if (file_exists($target_file)) {
+                            echo "Sorry, file already exists.";
+                            $uploadOk = 0;
+                        }
+// Check file size
+                        if ($_FILES["fileToUpload"]["size"] > 500000) {
+                            echo "Sorry, your file is too large.";
+                            $uploadOk = 0;
+                        }
+// Allow certain file formats
+                        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+                            $uploadOk = 0;
+                        }
+// Check if $uploadOk is set to 0 by an error
+                        if ($uploadOk == 0) {
+                            echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+                        } else {
+
+
+                            echo $target_file;
+                            echo '<br>' . $imageFileType;
+
+
+
+                            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                                echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+
+
+
+                                $sql = "UPDATE lecture SET lecture_name='" . $_POST['lecture_name'] . "',"
+                                        . "description='" . $_POST['description'] . "',"
+                                        . "profile_info='" . $_POST['profile_info'] . "',photo = '$fileName' WHERE username = '" . $_SESSION['ssn_user']['username'] . "'";
+                                setUpdate($sql, TRUE);
+                                /*
+                                  //insert into table
+                                  $slide_title = $_POST['slide_title'];
+                                  $course_id = $_POST['course_id'];
+                                  $year_semester = $_POST['year_semester'];
+                                  $subject_id = $_POST['subject_id'];
+                                  $slide_doc = basename($_FILES["fileToUpload"]["name"]);
+
+                                  $queryInsert = "INSERT INTO lecture_slides
+                                  (`course_id`,
+                                  `year_semester`,
+                                  `subject_id`,
+                                  `slide_title`,
+                                  `slide_doc`)
+                                  VALUES ('$course_id',
+                                  '$year_semester',
+                                  '$subject_id',
+                                  '$slide_title',
+                                  '$slide_doc')";
+
+                                  setData($queryInsert, TRUE);
+                                 */
+                            } else {
+                                echo "Sorry, there was an error uploading your file.";
+                            }
+                        }
+                    }//btnProfile
+                    ?>
+
+
+
+
+
+
+
+
+                    <?php
+                    //get profile data
+                    $sql = "SELECT * FROM lecture WHERE username = '" . $_SESSION['ssn_user']['username'] . "'";
+                    $result = getData($sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <form action="lecture_profile.php"  method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <img src="uploads/<?= $row["photo"]?>" />
+                                    <input type="file" name="fileToUpload"  id="fileToUpload"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">NIC</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="nic" value="<?= $row["nic"]?>" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Lecture Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" <?= $row["lecture_name"]?> >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">description</label>
+                                    <textarea name="description" class="form-control"><?= $row["description"]?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">profile_info</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="profile_info"  value="<?= $row["profile_info"]?>">
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                            <?php
+                        }
                     }
                     ?>
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Student Course Assign</div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" action="admin_student_course_assign.php" method="post">
-                                <span class="mando-msg">* fields are mandatory</span>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Batch<span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="batch_id" required="" >
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_3 = getAllBatchList();
-                                            if ($result_3 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_3)) {
-                                                    ?>
-                                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Student  <span class="mando-msg">*</span></label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control" name="student_id" required="">
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_4 = getStudentList();
-                                            if ($result_4 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_4)) {
-                                                    ?>
-                                            <option value="<?php echo $row['id'] ?>"> [ <?php echo $row['nic'] ?> ] <?php echo $row['fname'] ?> <?php echo $row['lname'] ?> </option>
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label"></label>
-                                    <div class="col-sm-7">
-                                        <button type="submit" name="btnAss" class="btn btn-primary">Assign</button>
-                                    </div>
-                                </div>
-                            </form>
 
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
+
+
+
 
 
 
 
                 </div>
-                <div class="col-md-8">
-
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">View Course Student</div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" method="post" action="admin_student_course_assign.php">
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label">Course</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="batch_id" re >
-                                            <option value="">--select--</option>
-                                            <?php
-                                            $result_5 = getAllBatchList();
-                                            // echo '<tt><pre>'.var_export($result_5, TRUE).'</pre></tt>';
-                                            if ($result_5 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_5)) {
-                                                    ?>
-                                                    <option  <?php
-                                            if (isset($_POST['batch_id'])) {
-                                                if ($_POST['batch_id'] == $row['id']) {
-                                                    echo 'selected=""';
-                                                }
-                                            }
-                                                    ?>    value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label"></label>
-                                    <div class="col-sm-9">
-                                        <button type="submit" name="btnViewAss" class="btn btn-primary">View Student</button>
-
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
-
-
-
-
-
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">Student Details</div>
-                        <div class="panel-body">
-
-                            <table id="example2" class="display" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Stu NO</th>
-                                        <th>Student Name</th>
-                                        <th>NIC</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-
-                                <tbody>
-
-                                    <?php
-                                    if (isset($_POST['btnAss']) || isset($_POST['btnViewAss'])) {
-                                        $bid = $_POST['batch_id'];
-                                        $resultx = getCourseStudentList($bid);
-                                        if ($resultx != FALSE) {
-                                            while ($row = mysqli_fetch_assoc($resultx)) {
-                                                ?>
-                                                <tr>
-                                                    <td><?php echo $row['id'] ?></td>
-                                                    <td><?php echo $row['fname'] ?> <?= $row['lname'] ?></td>
-                                                    <td><?php echo $row['nic'] ?></td>
-                                                    <td><a href="admin_student_payment.php?course_id=<?= $row['course_id'] ?>&student_id=<?= $row['id'] ?>" class="btn btn-primary btn-xs">View Payment</a></td>
-                                                </tr>
-                                                <?php
-                                            }
-                                        }
-                                    }
-                                    ?>
-
-
-
-
-
-                                </tbody></table>
-
-                        </div>
-                        <div class="panel-footer"></div>
-                    </div>
+                <div class="col-md-4">
 
 
                 </div>
+
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
@@ -395,8 +395,7 @@ include './model/CourseModel.php';
 
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
-                $('#example2').DataTable();
+//                $('#example').DataTable();
             });
         </script>
     </body>

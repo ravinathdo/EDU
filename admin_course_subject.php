@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -79,113 +76,125 @@ author : promod
         <!--/banner-section-->
 
 
-<div class="m">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="m">
+            <div class="row">
+                <div class="col-md-5">
 
-                 <?php
-                include './model/DB.php';
-                include './model/CourseModel.php';
-                ?>
+                    <?php
+                    include './model/DB.php';
+                    include './model/CourseModel.php';
+                    ?>
 
 
-                <form method="post" action="admin_course_subject.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course Name</label>
-                        <select  class="form-control" name="course_id">
-                            <option>--select course--</option>
-                            <?php
-                            $result_course = getCourseList();
-                            if ($result_course != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result_course)) {
-                                    ?>
-                                    <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
-                                    <?php
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Course Details Explorer</div>
+                        <div class="panel-body">
+
+                            <form method="post" action="admin_course_subject.php">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Course Name</label>
+                                    <select  class="form-control" name="course_id" required="">
+                                        <option value="">--select course--</option>
+                                        <?php
+                                        $result_course = getCourseList();
+                                        if ($result_course != FALSE) {
+                                            while ($row = mysqli_fetch_assoc($result_course)) {
+                                                ?>
+                                                <option value="<?php echo $row['id']; ?>:<?php echo $row['course_name']; ?>"> <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>) </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"></label>
+                                    <input name="btnCS" type="submit" class="form-control btn-primary" value="View Subject" />
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="panel-footer"></div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+                <div class="col-md-7">
+
+<div class="panel panel-success">
+        <div class="panel-heading">Detailed View</div>
+        <div class="panel-body">
+        
+                    <?php
+                    if (isset($_POST['btnCS'])) {
+
+                        $cdetails = $_POST['course_id'];
+                        $arry = explode(":", $cdetails);
+                        echo '<h2>' . $arry[1] . '</h2>';
+                        // echo '<tt><pre>' . var_export($arry, TRUE) . '</pre></tt>';
+                        ?>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Year Semester</th>
+                                    <th>Subject</th>
+                                    <th>Lecturer</th>
+                                    <th>Slides</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $result = getCourseSubjectDetails($arry[0]);
+                                if ($result != FALSE) {
+                                    if (mysqli_num_rows($result) > 0) {
+                                        // output data of each row
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row['year_semester']; ?></td>
+                                                <td><?php echo $row['subject_name']; ?></td>
+                                                <td><?php echo $row['lecture_name']; ?></td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-xs" href="admin_lecture_slides.php?course_id=<?= $row['course_id'];?>&year_semester=<?= $row['year_semester'];?>&subject_id=<?= $row['subject_id'];?>">slides</a>
+                                                    <a class="btn btn-warning btn-xs" href="admin_passpapers.php?course_id=<?= $row['course_id'];?>&year_semester=<?= $row['year_semester'];?>&subject_id=<?= $row['subject_id'];?>">pass papers</a>
+                                                </td>
+                                            </tr>
+
+                                            <?php
+                                            //echo "id: " . $row["id"] . " - Name: " . $row["firstname"] . " " . $row["lastname"] . "<br>";
+                                        }
+                                    } else {
+                                        echo "0 results";
+                                    }
                                 }
                             }
                             ?>
+                        </tbody>
 
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <input name="btnCS" type="submit" class="form-control btn-primary" value="View Subject" />
-                    </div>
-                </form>
 
+                    </table>
+        </div>
+        <div class="panel-footer"></div>
+      </div>
 
 
 
-            </div>
-            <div class="col-md-7">
-
-
-
-               <?php
-                if (isset($_POST['btnCS'])) {
-
-                    $cdetails = $_POST['course_id'];
-                    $arry = explode(":", $cdetails);
-                    echo '<h2>' . $arry[1] . '</h2>';
-                   // echo '<tt><pre>' . var_export($arry, TRUE) . '</pre></tt>';
-                    ?>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th>Lecturer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $result = getCourseSubjectDetails($arry[0]);
-                            if ($result != FALSE) {
-                                if (mysqli_num_rows($result) > 0) {
-                                    // output data of each row
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $row['year_semester']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['lecture_name']; ?></td>
-                                        </tr>
-
-                                        <?php
-                                        //echo "id: " . $row["id"] . " - Name: " . $row["firstname"] . " " . $row["lastname"] . "<br>";
-                                    }
-                                } else {
-                                    echo "0 results";
-                                }
-                            }
-                        }
-                        ?>
-                    </tbody>
-
-
-                </table>
-
-
-            </div>
+                </div>
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

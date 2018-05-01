@@ -12,9 +12,10 @@ else{
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT student.* FROM student_batch
-INNER JOIN student 
-ON student_batch.student_id = student.id
+ 
+    
+    $sql = "SELECT student.*,batch_course.course_id FROM student_batch INNER JOIN student ON student_batch.student_id = student.id 
+INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
 WHERE student_batch.batch_id = ".$bid;
     
     //echo $sql;
@@ -47,12 +48,12 @@ values ('" . $_POST['student_id'] . "',
         '" . $_POST['batch_id'] . "',
         '" . $_POST['student_id'] . $_POST['batch_id'] . "');";
 
-//    echo $sql;
+    //echo $sql;
 
     if (mysqli_query($conn, $sql)) {
-        echo '<p class="bg-success">New record created successfully</p>';
+        echo '<p class="bg-success msg-success">New record created successfully</p>';
     } else {
-        echo '<p class="bg-danger">Error in record creation</p>';
+        echo '<p class="bg-danger msg-error">Error in record creation</p>';
     }
 }
 
@@ -107,9 +108,9 @@ values ('" . $_POST['course_name'] . "',
 //    echo $sql;
 
     if (mysqli_query($conn, $sql)) {
-        echo '<p class="bg-success">New record created successfully</p>';
+        echo '<p class="bg-success msg-success">New record created successfully</p>';
     } else {
-        echo '<p class="bg-danger">Error in record creation</p>';
+        echo '<p class="bg-danger msg-error">Error in record creation</p>';
     }
 
     mysqli_close($conn);
@@ -144,19 +145,19 @@ function setCourseSubject() {
 
 if($_POST['course_id']=="--select course--")
 {
-	    echo '<p class="bg-danger">Select Course</p>';
+	    echo '<p class="bg-danger  msg-error">Select Course</p>';
 }
 else if($_POST['year_semester']=="Select Course")
 {
-	 echo '<p class="bg-danger">Select Year Semester</p>';
+	 echo '<p class="bg-danger  msg-error">Select Year Semester</p>';
 }
 else if($_POST['subject_id']=="--select subject--")
 {
-	 echo '<p class="bg-danger">Select Subject</p>';
+	 echo '<p class="bg-danger  msg-error">Select Subject</p>';
 }
 else if($_POST['subject_id']=="--select lecture--")
 {
-	 echo '<p class="bg-danger">Select Lecture</p>';
+	 echo '<p class="bg-danger  msg-error">Select Lecture</p>';
 }
 else{
     $sql = "INSERT INTO `course_subject`
@@ -171,9 +172,9 @@ VALUES ('" . $_POST['course_id'] . "',
 
     //echo $sql;
     if (mysqli_query($conn, $sql)) {
-        echo '<p class="bg-success">New record created successfully</p>';
+        echo '<p class="bg-success msg-success">New record created successfully</p>';
     } else {
-        echo '<p class="bg-danger">Subject already added</p>';
+        echo '<p class="bg-danger msg-error">Subject already added</p>';
     }
 }
     mysqli_close($conn);

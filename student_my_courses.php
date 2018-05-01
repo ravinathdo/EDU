@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -41,9 +38,7 @@ author : promod
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
                     <?php include './_top.php'; ?>	
-
                 </div>
-
             </div>
         </div>
         <!--//banner-bottom-->
@@ -60,7 +55,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -86,8 +81,11 @@ author : promod
                 include './model/DB.php';
                 //echo '<tt><pre>' . var_export($_SESSION['ssn_student'], TRUE) . '</pre></tt>';
                 ?>
-
-                <table class="table table-bordered">
+<br>
+                <div class="panel panel-primary">
+        <div class="panel-heading">My Course Details</div>
+        <div class="panel-body">
+ <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Course Name</th>
@@ -119,13 +117,22 @@ WHERE student_batch.student_id = '" . $_SESSION['ssn_student']['id'] . "' ";
                         ?>
                     </tbody>
                 </table>
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+                
+               
 
 
             </div>
             <div class="col-md-7">
 
 
-                <table class="table table-bordered">
+                <br>
+                <div class="panel panel-success">
+        <div class="panel-heading">Semester Details</div>
+        <div class="panel-body">
+               <table class="table table-bordered">
                     <thead>
                          <tr>
                             <th>Year Semester</th>
@@ -144,6 +151,7 @@ ON SUBJECT.id = course_subject.subject_id
 INNER JOIN lecture
 ON lecture.id = course_subject.lecture_id
 WHERE course_id = " . $_GET['course_id'] . " ORDER BY year_semester ";
+                           // echo $sql;
                             $result = getData($sql);
 
                             if ($result != FALSE) {
@@ -153,7 +161,10 @@ WHERE course_id = " . $_GET['course_id'] . " ORDER BY year_semester ";
                                         <td><?= $row['year_semester']?></td>
                                         <td><?= $row['subject_name']?></td>
                                         <td><?= $row['lecture_name']?></td>
-                                        <td></th>
+                                        <td>
+                                            <a href="student_lecture_slides.php?course_id=<?= $row['course_id'] ?>&year_semester=<?= $row['year_semester'] ?>&subject_id=<?= $row['subject_id'] ?>" ><i class="fa fa-download"></i> Slides</a>
+                                             <a class="btn btn-success btn-xs" href="student_passpapers.php?course_id=<?= $row['course_id'] ?>&year_semester=<?= $row['year_semester'] ?>&subject_id=<?= $row['subject_id'] ?>" ><i class="fa fa-download"></i> Passpapers</a>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -162,6 +173,12 @@ WHERE course_id = " . $_GET['course_id'] . " ORDER BY year_semester ";
                         ?>
                     </tbody>
                 </table>
+        </div>
+        <div class="panel-footer">
+            
+        </div>
+      </div>
+             
 
 
 
@@ -170,20 +187,7 @@ WHERE course_id = " . $_GET['course_id'] . " ORDER BY year_semester ";
 
 
 
-        <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- //subscribe -->
+
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">

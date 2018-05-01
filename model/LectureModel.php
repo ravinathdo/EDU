@@ -21,6 +21,8 @@ ON course_subject.subject_id = subject.id
 WHERE lecture_id = " . $_SESSION['ssn_user']['id'] . " AND course_subject.course_id = ".$cid .
             " ORDER BY course_subject.year_semester ";
 
+    
+    echo $sql;
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -33,6 +35,38 @@ WHERE lecture_id = " . $_SESSION['ssn_user']['id'] . " AND course_subject.course
     mysqli_close($conn);
 }
 
+function getLectureSubjectList($cid) {
+
+    // Create connection
+    $conn = getDBConnection();
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = " SELECT course_subject.*,SUBJECT.subject_name FROM course_subject
+INNER JOIN SUBJECT 
+ON course_subject.subject_id = subject.id
+WHERE lecture_id = " . $_SESSION['ssn_lecturer']['id'] . " AND course_subject.course_id = ".$cid .
+            " ORDER BY course_subject.year_semester ";
+
+    
+    //echo $sql;
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // output data of each row
+        return $result;
+    } else {
+        return FALSE;
+    }
+
+    mysqli_close($conn);
+}
+
+
+
+
 function lectureCreation() {
     $conn = getDBConnection();
     if (!$conn) {
@@ -41,16 +75,18 @@ function lectureCreation() {
 
     $sql = "INSERT INTO lecture
             (`lecture_name`,
+             `nic`,
              `description`,
              `profile_info`)
 VALUES ('" . $_POST['lecture_name'] . "',
+        '" . $_POST['nic'] . "',
         '" . $_POST['description'] . "',
         '" . $_POST['profile_info'] . "');";
 
     if (mysqli_query($conn, $sql)) {
         $last_id = mysqli_insert_id($conn);
         $username = 'LEC' . $last_id;
-        echo '<p class="bg-success">New record created successfully<p>';
+        echo '<p class="bg-success msg-success">New record created successfully<p>';
 
         //update 
         $sql_2 = "UPDATE lecture SET username = '$username' WHERE id = " . $last_id;

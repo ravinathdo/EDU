@@ -60,7 +60,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,7 +81,13 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
+                <br>
+                 <div class="panel panel-primary">
+        <div class="panel-heading">Course Event</div>
+        <div class="panel-body">
+            
+            
                 <?php
                 include './model/DB.php';
                 $sql = " SELECT batch_course_event.*,SUBJECT.subject_name FROM batch_course_event
@@ -130,11 +136,24 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
                         ?>
                     </tbody>
                 </table>
+            
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+                
+                
 
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
 
-                <?php
+                
+               <br> 
+                 <div class="panel panel-success">
+        <div class="panel-heading">Course Event</div>
+        <div class="panel-body">
+            
+            
+              <?php
                 if (isset($_GET['event_id'])) {
                     $eventDetail;
                     //get event details 
@@ -145,10 +164,11 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
                     }
 
 
+                    //echo '<tt><pre>'.var_export($eventDetail, TRUE).'</pre></tt>';
                     //create the form 
                     ?>
                     <form action="student_event_submit.php" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="event_id" value="<?= $eventDetail['event_id']; ?>" /> 
+                        <input type="hidden" name="event_id" value="<?= $eventDetail['id']; ?>" /> 
                         <div class="form-group">
                             <label for="exampleInputEmail1">event</label>
                             <?= $eventDetail['event_title']; ?> [Marks: <?= $eventDetail['marks']; ?>]
@@ -223,6 +243,12 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
     <?php
 }
 ?>
+            
+            
+        </div>
+            
+                 </div>
+              
 
             </div>
         </div>
@@ -230,18 +256,7 @@ WHERE student_batch.student_id = " . $_SESSION['ssn_student']['id'];
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required="">
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

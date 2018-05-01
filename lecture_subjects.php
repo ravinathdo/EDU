@@ -1,10 +1,9 @@
 <!--
- 
 author : promod
- 
- 
 -->
-<?php session_start(); ?>
+<?php session_start();
+// echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -81,10 +80,13 @@ author : promod
 <div class="m">
 
         <div class="row">
-            <div class="col-md-5"></div>
-            <div class="col-md-7">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
 
-                <form action="lecture_subjects.php" method="post">
+                <div class="panel panel-primary">
+        <div class="panel-heading">Lecture Course Details</div>
+        <div class="panel-body">
+            <form action="lecture_subjects.php" method="post">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Course</label>
                         <select class="form-control" name="course_id" required="" >
@@ -114,13 +116,17 @@ author : promod
 
                     </div>
                 </form>
+        </div>
+        <div class="panel-footer"></div>
+      </div>
+                
 
                 <?php
                 include './model/LectureModel.php';
 
                 if (isset($_POST['btnSub'])) {
                     $cid = $_POST['course_id'];
-                    $resultx = getMySubjectList($cid);
+                    $resultx = getLectureSubjectList($cid);
                     //echo '<tt><pre>'.var_export($resultx, TRUE).'</pre></tt>';
                     ?>
                 <table class="table table-bordered">
@@ -158,24 +164,14 @@ author : promod
                 }
                 ?>
 </div>
+                <div class="col-md-4"></div>
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

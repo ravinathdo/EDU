@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -60,7 +57,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.html"><span class="letter">E</span>DU<span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -81,63 +78,77 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-1"></div>
+            <div class="col-md-2"></div>
             <div class="col-md-4">
 
-                <form method="post" action="student_payments.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course</label>
-                        <select class="form-control" name="course_id" required="" >
-                            <option> --select-- </option>
-                            <?php
-                            include './model/DB.php';
-                            $sql = " SELECT student_batch.*,course.* FROM student_batch
+                <br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Payment</div>
+                    <div class="panel-body">
+                        <form method="post" action="student_payments.php">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Course</label>
+                                <select class="form-control" name="course_id" required="" >
+                                    <option value=""> --select-- </option>
+                                    <?php
+                                    include './model/DB.php';
+                                    $sql = " SELECT student_batch.*,course.* FROM student_batch
 INNER JOIN batch_course
 ON student_batch.batch_id = batch_course.id
 INNER JOIN course
 ON course.id = batch_course.course_id
 WHERE student_batch.student_id = " . $_SESSION['ssn_user']['id'];
 
-                            $resultx = getData($sql);
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
+                                    $resultx = getData($sql);
+                                    if ($resultx != FALSE) {
+                                        while ($row = mysqli_fetch_assoc($resultx)) {
+                                            ?>
+                                            <option value="<?= $row['id']; ?>"><?= $row['course_sig']; ?> [ <?= $row['fee']; ?> ] </option>
+                                            <?php
+                                        }
+                                    }
                                     ?>
-                                    <option value="<?= $row['id']; ?>"><?= $row['course_sig']; ?> [ <?= $row['fee']; ?> ] </option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Name On The Card</label>
+                                <input type="text" required="" class="form-control" id="exampleInputPassword1" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Card Number</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">CCV</label>
+                                <input type="number" class="form-control" id="exampleInputPassword1" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Amount</label>
+                                <input type="number" required="" name="payment_amount" class="form-control" id="exampleInputPassword1" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1"></label>
+                                <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="btnView" class="btn btn-primary">View</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Name On The Card</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Card Number</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">CCV</label>
-                        <input type="number" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Amount</label>
-                        <input type="number" name="payment_amount" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
-                        <button type="submit" name="btnView" class="btn btn-primary">View</button>
-                    </div>
-                </form>
+                    <div class="panel-footer"></div>
+                </div>
+
+
 
 
 
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
+<br>
 
-                <?php
+                <div class="panel panel-warning">
+                    <div class="panel-heading">Payment History</div>
+                    <div class="panel-body">
+
+                         <?php
                 if (isset($_POST['btnSub'])) {
                     $sqlx = " INSERT INTO `student_payment`
             (`course_id`,
@@ -148,7 +159,7 @@ VALUES ('" . $_POST['course_id'] . "',
         '" . $_SESSION['ssn_user']['id'] . "',
         '" . $_POST['payment_amount'] . "'); ";
 
-                    setData($sqlx);
+                    setData($sqlx, TRUE);
                     ?>
 
                     <table class="table table-bordered">
@@ -216,6 +227,15 @@ VALUES ('" . $_POST['course_id'] . "',
                     <?php
                 }
                 ?>
+
+
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+
+
+
+               
 
 
             </div>

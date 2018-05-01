@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -78,119 +75,123 @@ author : promod
         </div> 
         <!--/banner-section-->
 
-<div class="m">
+        <div class="m">
 
-        <div class="row">
-            <div class="col-md-5">
-                <h3>Student Registration</h3>
-                <form method="post" action="admin_student_registration.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">First Name</label>
-                        <input type="text" name="fname" required class="form-control" id="exampleInputEmail1">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Last Name</label>
-                        <input type="text" name="lname" required class="form-control" id="exampleInputEmail1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">email</label>
-                        <input type="email" name="email" required class="form-control" id="exampleInputEmail1">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Gender</label>
-                        <select class="form-control" name="gender" required="">
-                            <option>--select--</option>
-                            <option value="MALE">Male</option>
-                            <option value="FEMALE">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Address</label>
-                        <input type="text" name="address" required class="form-control" id="exampleInputEmail1">
-                    </div>
-                    <div class="form-group">
-                        NIC    <input type="text" name="nic" required class="form-control" id="exampleInputEmail1">
-                        Mobile<input type="number"  name="mobile" required class="form-control" id="exampleInputEmail1" >
-                        Parent Mobile<input type="number" name="parent_mobile" required class="form-control" id="exampleInputEmail1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"></label>
-                        <input type="submit" name="btnStu" class="form-control btn-primary"  value="Register">
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-4">
 
-
-                <?php
-                include './model/DB.php';
-                include './model/StudentModel.php';
-                if (isset($_POST['btnStu'])) {
-                    setStudentRegister();
-                }
-                ?>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Student Registration</div>
+                        <div class="panel-body">
+                            <form method="post" action="admin_student_registration.php">
+                                <span class="mando-msg">* fields are mandatory</span>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><span class="mando-msg">*</span> First Name </label>
+                                    <input type="text" name="fname" required class="form-control" id="exampleInputEmail1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><span class="mando-msg">*</span> Last Name </label>
+                                    <input type="text" name="lname" required class="form-control" id="exampleInputEmail1" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><span class="mando-msg">*</span> Email </label>
+                                    <input type="email" name="email" required class="form-control" id="exampleInputEmail1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><span class="mando-msg">*</span> Gender </label>
+                                    <select class="form-control" name="gender" required="">
+                                        <option value="">--select--</option>
+                                        <option value="MALE">Male</option>
+                                        <option value="FEMALE">Female</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Address</label>
+                                    <input type="text" name="address"  class="form-control" id="exampleInputEmail1">
+                                </div>
+                                <div class="form-group">
+                                    <span class="mando-msg">*</span> NIC     <input type="text" name="nic" required class="form-control" id="exampleInputEmail1">
+                                    <span class="mando-msg">*</span> Mobile <input type="number"  name="mobile" required class="form-control" id="exampleInputEmail1" >
+                                    Parent Mobile<input type="number" name="parent_mobile"  class="form-control" id="exampleInputEmail1" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"></label>
+                                    <input type="submit" name="btnStu" class="form-control btn-primary"  value="Register">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer"></div>
+                    </div>
 
 
 
-                <table id="example" class="display" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>RegNo</th>
-                            <th>Student Name</th>
-                            <th>Username</th>
-                            <th>NIC</th>
-                            <th>Email</th>
-                            <th>Registered Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $result = getStudentList();
-                        if ($result != FALSE) {
-                            if (mysqli_num_rows($result) > 0) {
-                                // output data of each row
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $row['id']; ?></td>
-                                        <td><?php echo $row['fname']; ?> <?= $row['lname']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['nic']; ?></td>
-                                        <td><?php echo $row['email']; ?></td>
-                                        <td style="font-size: x-small"><?php echo $row['created_date']; ?></td>
-                                    </tr>
-                                    <?php
-                                    //echo "id: " . $row["id"] . " - Name: " . $row["firstname"] . " " . $row["lastname"] . "<br>";
+
+
+
+                </div>
+                <div class="col-md-8">
+
+
+                    <?php
+                    include './model/DB.php';
+                    include './model/StudentModel.php';
+                    if (isset($_POST['btnStu'])) {
+                        setStudentRegister();
+                    }
+                    ?>
+
+
+
+                    <table id="example" class="display" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>RegNo</th>
+                                <th>Student Name</th>
+                                <th>Username</th>
+                                <th>NIC</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Registered Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $result = getStudentList();
+                            if ($result != FALSE) {
+                                if (mysqli_num_rows($result) > 0) {
+                                    // output data of each row
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['fname']; ?> <?= $row['lname']; ?></td>
+                                            <td><?php echo $row['username']; ?></td>
+                                            <td><?php echo $row['nic']; ?></td>
+                                            <td><?php echo $row['email']; ?></td>
+                                            <td><?php echo $row['mobile']; ?></td>
+                                            <td style="font-size: x-small"><?php echo $row['created_date']; ?></td>
+                                        </tr>
+                                        <?php
+                                        //echo "id: " . $row["id"] . " - Name: " . $row["firstname"] . " " . $row["lastname"] . "<br>";
+                                    }
+                                } else {
+                                    echo "0 results";
                                 }
-                            } else {
-                                echo "0 results";
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
 
 
 
-</div>
+                </div>
             </div>
         </div>
 
 
 
         <!-- subscribe -->
-        <div class="w3ls-section subscribe text-center">
-            <div class="container">
-                <h3 class="w3ls-title">subscribe now!</h3>
-                <p>Enter your email address to get the latest news, special events and student activities delivered right to your inbox.</p>
-                <div class="subscribe-grid">
-                    <form action="#" method="post">
-                        <input type="email" placeholder="Enter your email.." name="Subscribe" required>
-                        <button class="btn1">subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <!-- //subscribe -->
         <!-- footer -->
         <div class="agileits_w3layouts-footer">

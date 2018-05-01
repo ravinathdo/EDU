@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -60,7 +57,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
+                            <h1><a  href="index.html"><span class="letter">E</span>DU<span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -74,16 +71,47 @@ author : promod
 
             </div>
             <!--//header-w3l-->
-
         </div> 
+        
+        
         <!--/banner-section-->
-
-
-
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <?php include './model/DB.php'; ?>
+                <br>
+                <br>
+                
+                
+                <?php
+                if(isset($_POST['btnSubmit'])){
+                    
+                    //delete from course_aditional and re enter
+                    $sql_delete = "DELETE FROM course_aditional WHERE course_id=".$_POST['course_id']."";
+                    //echo $sql_delete;
+                    setDelete($sql_delete);
+                    
+                    
+        $sql = " INSERT INTO course_aditional
+            (`fee_details`,
+             `assignments`,
+             `marking_schemes`,
+             `projects`,
+             `examination`,
+             `course_id`)
+VALUES ('".$_POST['fee_details']."',
+        '".$_POST['assignments']."',
+        '".$_POST['marking_schemes']."',
+        '".$_POST['projects']."',
+        '".$_POST['examination']."',
+        '".$_POST['course_id']."'); ";
+
+                    setData($sql,TRUE);
+                     
+                }
+                ?>
+                
+                
                 <div class="panel panel-primary">
                     <div class="panel-heading ">
                         Course Additional: <?php echo $_GET['course_name'] ?>
@@ -97,9 +125,10 @@ author : promod
                             die("Connection failed: " . mysqli_connect_error());
                         }
                         $sql = "SELECT * FROM course_aditional WHERE course_id = " . $course_id;
+                        echo $sql;
                         $result = mysqli_query($conn, $sql);
 
-                        $fee_details = "";
+                        $fee_details = $assignments = $marking_schemes = $projects = $examination = '';
 
                         if (mysqli_num_rows($result) > 0) {
                             // output data of each row
@@ -108,6 +137,10 @@ author : promod
                             if ($result != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                  $fee_details = $row['fee_details'];
+                                 $assignments = $row['assignments'];
+                                 $marking_schemes = $row['marking_schemes'];
+                                 $projects = $row['projects'];
+                                 $examination = $row['examination'];
                                 }
                             }
                         } else {
@@ -128,31 +161,30 @@ author : promod
                     <div class="panel-body">
 
                         
-                         <form>
+                        <form action="admin_load_course_aditionals.php?course_id=<?= $course_id?>&course_name=<?php echo $_GET['course_name'] ?>" method="post">
+                            <input type="hidden" name="course_id" value="<?= $course_id?>" />
+                            <input type="hidden" name="course_name" value="<?php echo $_GET['course_name'] ?>" />
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Fee details</label>
                                 <textarea  name="fee_details" class="form-control" id="exampleInputEmail1" ><?php echo $fee_details;?></textarea>
                             </div>
                              <div class="form-group">
                                 <label for="exampleInputEmail1">Assignments details</label>
-                                <textarea  name="assignments" class="form-control" id="exampleInputEmail1" ></textarea>
+                                <textarea  name="assignments" class="form-control" id="exampleInputEmail1" ><?php echo $assignments;?></textarea>
                             </div>
                              <div class="form-group">
                                 <label for="exampleInputEmail1">Marking schemes</label>
-                                <textarea  name="marking_schemes" class="form-control" id="exampleInputEmail1" ></textarea>
+                                <textarea  name="marking_schemes" class="form-control" id="exampleInputEmail1" ><?php echo $marking_schemes;?></textarea>
                             </div>
                              <div class="form-group">
                                 <label for="exampleInputEmail1">Projects Details</label>
-                                <textarea  name="projects" class="form-control" id="exampleInputEmail1" ></textarea>
+                                <textarea  name="projects" class="form-control" id="exampleInputEmail1" ><?php echo $projects;?></textarea>
                             </div>
                              <div class="form-group">
                                 <label for="exampleInputEmail1">Examination Details</label>
-                                <textarea  name="examination" class="form-control" id="exampleInputEmail1" ></textarea>
+                                <textarea  name="examination" class="form-control" id="exampleInputEmail1" ><?php echo $examination;?></textarea>
                             </div>
-                            
-                            
-                         
-                            <button type="submit" class="btn btn-primary">Add Additionals</button>
+                            <button type="submit" name="btnSubmit" class="btn btn-primary">Add Additionals</button>
                         </form>
                     </div>
                 </div>

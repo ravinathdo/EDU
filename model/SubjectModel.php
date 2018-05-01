@@ -19,9 +19,9 @@ VALUES ('" . $_POST['subject_name'] . "');";
 //    echo $sql;
 
     if (mysqli_query($conn, $sql)) {
-        echo '<p class="bg-success">New record created successfully</p>';
+        echo '<p class="bg-success msg-success">New record created successfully</p>';
     } else {
-        echo '<p class="bg-danger">Error in record creation</p>';
+        echo '<p class="bg-danger msg-error">Error in record creation</p>';
     }
 
     mysqli_close($conn);

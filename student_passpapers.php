@@ -1,7 +1,11 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php
+session_start();
+include './model/LectureModel.php';
+include './model/DB.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -27,21 +31,18 @@ author : promod
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-<!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-
     </head>
     <body>
         <!--/banner-bottom-->
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>	
-
+<?php include './_top.php'; ?>	
                 </div>
-
             </div>
         </div>
         <!--//banner-bottom-->
@@ -58,12 +59,12 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU <span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <?php include './_menu.php'; ?>
+<?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -76,124 +77,49 @@ author : promod
         </div> 
         <!--/banner-section-->
 
-<div class="m">
+
 
         <div class="row">
-            <div class="col-md-4" ></div>
-            <div class="col-md-4" >
-                
-                <br>
-                <br>
-                <?php
-                include './model/DB.php';
-                include './model/LectureModel.php';
-                if (isset($_POST['btnLec'])) {
-                    lectureCreation();
-                }
-                ?>
-                
-                
-                   <div class="panel panel-primary">
-      <div class="panel-heading">Lecture Creation</div>
-      <div class="panel-body">
-                <form action="admin_lecture_creation.php" method="post">
-                    <span class="mando-msg">* fields are mandatory</span>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Lecture Name <span class="mando-msg">*</span></label>
-                        <input type="text" required name="lecture_name" class="form-control" id="exampleInputEmail1"  >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">NIC <span class="mando-msg">*</span></label>
-                        <input type="text"  required  name="nic" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Description </label>
-                        <input type="text"   name="description" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Profile Info (Degree)</label>
-                        <textarea  name="profile_info" class="form-control" placeholder="degree"> </textarea>
-                    </div>
-                    <button type="submit" name="btnLec" class="btn btn-primary">Create Lecture</button>
-                </form>
-      </div></div>
-                <br>
+            <div class="col-md-4">
+
             </div>
             <div class="col-md-4">
 
-                
-
                 <br>
-           
+                <br>
 
-            </div>
-        </div>
-</div>
+                <table class="table table-bordered">
 
-        <div class="row">
-            <div class="col-md-12">
-                     <table id="example" class="display" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Lecture Name</th>
-                            <th>Username</th>
-                            <th>NIC</th>
-                            <th>Description</th>
-                            <th>Profile Info</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>Lecture Name</th>
-                            <th>Username</th>
-                            <th>NIC</th>
-                            <th>Description</th>
-                            <th>Profile Info</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <?php
-                         $result = getLectureList();
-						
-                        if ($result != FALSE) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
+                    <?php
+                    //course_id=1&year_semester=Year1-semester1&subject_id=4
+                    $sqlGET = "SELECT * FROM subject_passpaper WHERE course_id = '" . $_GET['course_id'] . "'"
+                            . " AND year_semester = '" . $_GET['year_semester'] . "' AND subject_id = '" . $_GET['subject_id'] . "'";
 
-                                <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['lecture_name']; ?></td>
-                                    <td><?php echo $row['username']; ?></td>
-                                    <td><?php echo $row['nic']; ?></td>
-                                    <td><?php echo $row['description']; ?></td>
-                                    <td><?php echo $row['profile_info']; ?></td>
-                                    <td>
-<!--                                        <a href="lecture_subject_info">View Subjects</a>-->
-                                    </td>
-                                </tr>
-                            <?php }
-                        } ?>
+                    $result = getData($sqlGET);
+                    if ($result != FALSE) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <tr>
+                                <td><?= $row['description'] ?></td>
+                                <td><a download="" href="uploads/<?= $row['passpaper_doc'] ?>"><i class="fa fa-download"></i> download</a></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
 
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
+
                 </table>
 
             </div>
+            <div class="col-md-4">
+
+            </div>
         </div>
 
-        <!-- subscribe -->
 
-        <!-- //subscribe -->
+
+
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
@@ -330,7 +256,7 @@ author : promod
 
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
+//                $('#example').DataTable();
             });
         </script>
     </body>

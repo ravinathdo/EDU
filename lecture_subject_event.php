@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -82,18 +79,25 @@ author : promod
 
         <div class="row">
             <div class="col-md-5">
-                <form method="get" action="lecture_subject_event.php">
+
+<br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Event Setup</div>
+                    <div class="panel-body">
+<form method="get" action="lecture_subject_event.php">
+    <span class="mando-msg">* fields are mandatory</span>
                     <input type="hidden" name="course_id" value="<?= $_GET['course_id']; ?>" />
                     <input type="hidden" name="course_subject_id" value="<?= $_GET['course_subject_id']; ?>" />
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Batch </label>
-                        <select class="form-control" name="batch_id" required=""   >
-                            <option>--select--</option>
-                            <?php
+                        <label for="exampleInputEmail1"><span class="mando-msg">*</span> Batch </label>
+                       <?php
                             include './model/DB.php';
                             include './model/BatchModel.php';
                             include './model/MESSAGE_LIST.php';
-                            $result_3 = getBatchList();
+                            $result_3 = getAllBatchList();?>
+                        <select class="form-control" name="batch_id" required=""   >
+                            <option value="">--select--</option>
+                            <?php
                             if ($result_3 != FALSE) {
                                 while ($row = mysqli_fetch_assoc($result_3)) {
                                     ?>
@@ -132,9 +136,18 @@ author : promod
                         <button type="submit" name="btnAdd" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
+
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+
+                
             </div>
             <div class="col-md-7">
 
+                
+                
+                
                 <?php
                 if (isset($_GET['btnAdd'])) {
 
@@ -160,69 +173,72 @@ VALUES ('" . $_GET['batch_id'] . "',
 
 
                     //
-                    setData($sql);
-                    
+                    setData($sql,TRUE);
+
                     // sms to all 
                     $msg = $_EVENT_CREATION_SMS;
                     sendSMStoAll($msg);
                 }
                 ?>
 
-                
-                
-                <h2>List available events</h2>
+<br>
+                <div class="panel panel-warning">
+        <div class="panel-heading">List Available Events</div>
+        <div class="panel-body">
+            
                 <p>All events related to the lecturer</p>
-                <?php 
+                <?php
                 $sql = " SELECT batch_course_event.*,course_subject.year_semester,SUBJECT.subject_name FROM batch_course_event
 INNER JOIN course_subject
 ON batch_course_event.course_subject_id = course_subject.course_subject_id 
 INNER JOIN SUBJECT
 ON SUBJECT.id = course_subject.subject_id
-WHERE batch_course_event.lecture_created = ".$_SESSION['ssn_lecturer']['id'];
-                
-               $resultx =  getData($sql);
+WHERE batch_course_event.lecture_created = " . $_SESSION['ssn_lecturer']['id'];
+
+                $resultx = getData($sql);
                 ?>
-                
+
                 <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Year Semester</th>
-                                <th>Subject</th>
-                                <th>Closing Date</th>
-                                <th>Marks</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                            
-                            <tr>
-                                <td><?= $row['event_title'];?></td>
-                                <td><?= $row['year_semester'];?></td>
-                                <td><?= $row['subject_name'];?></td>
-                                <td><?= $row['event_date'];?></td>
-                                <td><?= $row['marks'];?></td>
-                                <td></td>
-                            </tr>
-                            <?php 
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Year Semester</th>
+                            <th>Subject</th>
+                            <th>Closing Date</th>
+                            <th>Marks</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($resultx != FALSE) {
+                            while ($row = mysqli_fetch_assoc($resultx)) {
+                                ?>
+
+                                <tr>
+                                    <td><?= $row['event_title']; ?></td>
+                                    <td><?= $row['year_semester']; ?></td>
+                                    <td><?= $row['subject_name']; ?></td>
+                                    <td><?= $row['event_date']; ?></td>
+                                    <td><?= $row['marks']; ?></td>
+                                    <td></td>
+                                </tr>
+                                <?php
                             }
-                            
-                                }
-                            ?>
-                        </tbody>
-                    </table>
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+            
+            
+        </div>
+        <div class="panel-footer"></div>
+      </div>
                 
-                
-                
-                
-                
-                
-                
-                
+
+
+
             </div>
         </div>
 

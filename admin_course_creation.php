@@ -1,8 +1,5 @@
 <!--
- 
 author : promod
- 
- 
 -->
 <?php session_start(); ?>
 <!DOCTYPE html>
@@ -98,21 +95,22 @@ author : promod
                             Course Creation
                         </div>
                         <div class="panel-body">
+                            <span class="mando-msg">* fields are mandatory</span>
                             <form class="form-horizontal" action="admin_course_creation.php" method="post">
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Name</label>
+                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Name <span class="mando-msg">*</span></label>
                                     <div class="col-sm-7">
                                         <input name="course_name" required=""  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-5 control-label">Fee</label>
+                                    <label for="inputPassword3" class="col-sm-5 control-label">Fee <span class="mando-msg">*</span></label>
                                     <div class="col-sm-7">
                                         <input type="number"  required=""  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-5 control-label">Type</label>
+                                    <label for="inputPassword3" class="col-sm-5 control-label">Type <span class="mando-msg">*</span></label>
                                     <div class="col-sm-7">
                                         <select class="form-control"name="duration" required=""  >
                                             <option>--select--</option>
