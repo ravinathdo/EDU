@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v8.55 
-MySQL - 5.5.5-10.2.7-MariaDB : Database - stumsdb
+MySQL - 5.5.54 : Database - stumsdb
 *********************************************************************
 */
 
@@ -45,10 +45,10 @@ CREATE TABLE `batch_course_event` (
   `type_code` varchar(5) DEFAULT NULL,
   `event_date` varchar(50) DEFAULT NULL,
   `marks` int(5) DEFAULT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lecture_created` int(5) DEFAULT NULL,
   `course_subject_id` int(5) DEFAULT NULL,
-  `question` text DEFAULT NULL,
+  `question` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
@@ -131,7 +131,7 @@ CREATE TABLE `lecture` (
 
 /*Data for the table `lecture` */
 
-insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`,`photo`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL,'default.jpg'),(2,'LEC2','22','Ravinath','HID','Degress UK ','default.jpg'),(3,'LEC3','33','Gyana','Perea','Msc in IT ','default.jpg'),(4,'LEC4','555','','',' ','default.jpg'),(5,'LEC5','5556','Kumara','Seb',' sad','default.jpg'),(6,'LEC6','88','Kumara G','Seb',' sad','default.jpg'),(7,'LEC7','853352144','Kumara','SF',' ','default.jpg'),(8,'LEC8','2222111','Kumara X','SF',' ','default.jpg');
+insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`,`photo`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL,'default.jpg'),(2,'LEC2','22','Ravinath','HID','Degress UK ','default.jpg'),(3,'LEC3','33','Gyana','Perea','Msc in IT ','default.jpg'),(4,'LEC4','555','','',' ','default.jpg'),(5,'LEC5','5556','Kumara','Seb',' sad','default.jpg'),(6,'LEC6','88','Kumara G','Seb',' sad','default.jpg'),(7,'LEC7','853352144','Kumara','SF',' ','default.jpg'),(8,'LEC8','2222111','Chandika','SF','Software Professinal','LEC8.png');
 
 /*Table structure for table `lecture_slides` */
 
@@ -143,7 +143,7 @@ CREATE TABLE `lecture_slides` (
   `subject_id` int(5) DEFAULT NULL,
   `slide_title` varchar(50) DEFAULT NULL,
   `slide_doc` varchar(100) DEFAULT NULL,
-  `created_datetime` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecture_slides` */
@@ -158,7 +158,7 @@ CREATE TABLE `ozekimessagein` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sender` varchar(30) DEFAULT NULL,
   `receiver` varchar(30) DEFAULT NULL,
-  `msg` text DEFAULT NULL,
+  `msg` text,
   `senttime` varchar(100) DEFAULT NULL,
   `receivedtime` varchar(100) DEFAULT NULL,
   `operator` varchar(100) DEFAULT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE `ozekimessageout` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sender` varchar(30) DEFAULT NULL,
   `receiver` varchar(30) DEFAULT NULL,
-  `msg` text DEFAULT NULL,
+  `msg` text,
   `senttime` varchar(100) DEFAULT NULL,
   `receivedtime` varchar(100) DEFAULT NULL,
   `reference` varchar(100) DEFAULT NULL,
@@ -208,7 +208,7 @@ CREATE TABLE `student` (
   `address` varchar(100) DEFAULT NULL,
   `nic` varchar(20) DEFAULT NULL,
   `mobile` varchar(20) DEFAULT NULL,
-  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_user` int(5) DEFAULT NULL,
   `parent_mobile` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -226,7 +226,7 @@ CREATE TABLE `student_attendance` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `student_id` int(5) DEFAULT NULL,
   `attend_date` varchar(20) DEFAULT NULL,
-  `usercreated` timestamp NOT NULL DEFAULT current_timestamp(),
+  `usercreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`student_id`,`attend_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
@@ -244,7 +244,7 @@ CREATE TABLE `student_batch` (
   `student_id` int(5) DEFAULT NULL,
   `batch_id` int(5) DEFAULT NULL,
   `student_batch` int(5) DEFAULT NULL,
-  `datecreated` timestamp NULL DEFAULT current_timestamp(),
+  `datecreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`student_id`,`batch_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
@@ -264,7 +264,7 @@ CREATE TABLE `student_event` (
   `doc_path` varchar(50) DEFAULT NULL,
   `marks` int(5) DEFAULT NULL,
   `marked_lecture` int(5) DEFAULT NULL,
-  `submitdate_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `submitdate_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -295,7 +295,7 @@ CREATE TABLE `student_payment` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `course_id` int(5) DEFAULT NULL,
   `payment_amount` decimal(10,5) DEFAULT NULL,
-  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `student_id` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -329,7 +329,7 @@ CREATE TABLE `subject_passpaper` (
   `subject_id` int(5) DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
   `passpaper_doc` varchar(100) DEFAULT NULL,
-  `created_datetime` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `subject_passpaper` */
@@ -357,11 +357,11 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT NULL,
-  `password` text DEFAULT NULL,
+  `password` text,
   `status` varchar(10) DEFAULT 'ACT',
-  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role_code` varchar(10) DEFAULT NULL,
-  `firstlog` int(2) DEFAULT 0,
+  `firstlog` int(2) DEFAULT '0',
   `created_by` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;

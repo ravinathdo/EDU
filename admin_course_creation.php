@@ -1,7 +1,11 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php session_start(); 
+
+$_SESSION['menu'] = 'course';
+
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>

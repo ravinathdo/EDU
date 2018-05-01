@@ -1,7 +1,9 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php session_start();
+$_SESSION['menu'] = 'home';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>

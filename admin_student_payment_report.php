@@ -3,6 +3,8 @@ author : promod
 -->
 <?php
 session_start();
+$_SESSION['menu'] = 'payment';
+
 include './model/DB.php';
 include './model/BatchModel.php';
 include './model/StudentModel.php';

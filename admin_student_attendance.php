@@ -3,6 +3,7 @@ author : promod
 -->
 <?php
 session_start();
+$_SESSION['menu'] = 'attendance';
 
 include './model/DB.php';
 include './model/StudentModel.php';

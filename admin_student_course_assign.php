@@ -3,6 +3,9 @@ author : promod
 -->
 <?php
 session_start();
+
+$_SESSION['menu'] = 'register_on_course';
+
 include './model/DB.php';
 include './model/BatchModel.php';
 include './model/StudentModel.php';

@@ -3,6 +3,8 @@ author : promod
 -->
 <?php
 session_start();
+$_SESSION['menu'] = 'batch_sms';
+
 include './model/DB.php';
 include './model/BatchModel.php';
 include './model/StudentModel.php';

@@ -97,7 +97,7 @@ include './model/DB.php';
 
 
                     <?php
-                    echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
+                   // echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
 
                     if (isset($_POST['submit'])) {
 
@@ -112,6 +112,8 @@ include './model/DB.php';
                         $fileName = $_SESSION['ssn_user']['username'] . '.' . $imageFileType;
                         $target_file = $target_dir . $fileName;
 
+
+                        if(file_exists($target_file)) unlink($target_file);
 
 
 // Check if image file is a actual image or fake image
@@ -151,7 +153,9 @@ include './model/DB.php';
                             echo '<br>' . $imageFileType;
 
 
-
+//checking if file exsists
+     
+  
                             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                                 echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
 
@@ -213,11 +217,11 @@ include './model/DB.php';
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">NIC</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" name="nic" value="<?= $row["nic"]?>" >
+                                    <input type="text" readonly="" class="form-control" id="exampleInputEmail1" name="nic" value="<?= $row["nic"]?>" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Lecture Name</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" <?= $row["lecture_name"]?> >
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" value="<?= $row["lecture_name"]?>" >
                                 </div>
 
                                 <div class="form-group">
