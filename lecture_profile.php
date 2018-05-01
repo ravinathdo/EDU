@@ -41,7 +41,7 @@ include './model/DB.php';
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-<?php include './_top.php'; ?>	
+                    <?php include './_top.php'; ?>	
 
                 </div>
 
@@ -66,7 +66,7 @@ include './model/DB.php';
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-<?php include './_menu.php'; ?>
+                                <?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -97,14 +97,23 @@ include './model/DB.php';
 
 
                     <?php
-                    echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
-                    
+                    echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
+
                     if (isset($_POST['submit'])) {
-                        
+
                         $target_dir = "uploads/";
                         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+
                         $uploadOk = 1;
                         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+
+                        $fileName = $_SESSION['ssn_user']['username'] . '.' . $imageFileType;
+                        $target_file = $target_dir . $fileName;
+
+
+
 // Check if image file is a actual image or fake image
                         if (isset($_POST["submit"])) {
                             $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -136,40 +145,44 @@ include './model/DB.php';
                             echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
                         } else {
-                            
+
+
                             echo $target_file;
-                            echo '<br>'.$imageFileType;
+                            echo '<br>' . $imageFileType;
+
+
+
                             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                                 echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
 
-                                
-                                
-                                
-                                
-                                echo 'File uploaded';
+
+
+                                $sql = "UPDATE lecture SET lecture_name='" . $_POST['lecture_name'] . "',"
+                                        . "description='" . $_POST['description'] . "',"
+                                        . "profile_info='" . $_POST['profile_info'] . "',photo = '$fileName' WHERE username = '" . $_SESSION['ssn_user']['username'] . "'";
+                                setUpdate($sql, TRUE);
                                 /*
-                                //insert into table
-                                $slide_title = $_POST['slide_title'];
-                                $course_id = $_POST['course_id'];
-                                $year_semester = $_POST['year_semester'];
-                                $subject_id = $_POST['subject_id'];
-                                $slide_doc = basename($_FILES["fileToUpload"]["name"]);
+                                  //insert into table
+                                  $slide_title = $_POST['slide_title'];
+                                  $course_id = $_POST['course_id'];
+                                  $year_semester = $_POST['year_semester'];
+                                  $subject_id = $_POST['subject_id'];
+                                  $slide_doc = basename($_FILES["fileToUpload"]["name"]);
 
-                                $queryInsert = "INSERT INTO lecture_slides
-            (`course_id`,
-             `year_semester`,
-             `subject_id`,
-             `slide_title`,
-             `slide_doc`)
-VALUES ('$course_id',
-        '$year_semester',
-        '$subject_id',
-        '$slide_title',
-        '$slide_doc')";
+                                  $queryInsert = "INSERT INTO lecture_slides
+                                  (`course_id`,
+                                  `year_semester`,
+                                  `subject_id`,
+                                  `slide_title`,
+                                  `slide_doc`)
+                                  VALUES ('$course_id',
+                                  '$year_semester',
+                                  '$subject_id',
+                                  '$slide_title',
+                                  '$slide_doc')";
 
-                                setData($queryInsert, TRUE);
-        */
-                                
+                                  setData($queryInsert, TRUE);
+                                 */
                             } else {
                                 echo "Sorry, there was an error uploading your file.";
                             }
@@ -182,31 +195,48 @@ VALUES ('$course_id',
 
 
 
-                    <form action="lecture_profile.php"  method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <img src="uploads/default.jpg" />
-                            <input type="file" name="fileToUpload"  id="fileToUpload"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">NIC</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="nic" >
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Lecture Name</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" >
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">description</label>
-                            <textarea name="description" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">profile_info</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="profile_info" >
-                        </div>
-                        
-                        <button type="submit" name="submit" class="btn btn-primary">Update</button>
-                    </form>
+
+
+                    <?php
+                    //get profile data
+                    $sql = "SELECT * FROM lecture WHERE username = '" . $_SESSION['ssn_user']['username'] . "'";
+                    $result = getData($sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        // output data of each row
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <form action="lecture_profile.php"  method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <img src="uploads/<?= $row["photo"]?>" />
+                                    <input type="file" name="fileToUpload"  id="fileToUpload"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">NIC</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="nic" value="<?= $row["nic"]?>" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Lecture Name</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="lecture_name" <?= $row["lecture_name"]?> >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">description</label>
+                                    <textarea name="description" class="form-control"><?= $row["description"]?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">profile_info</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" name="profile_info"  value="<?= $row["profile_info"]?>">
+                                </div>
+
+                                <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                            <?php
+                        }
+                    }
+                    ?>
+
 
 
 
