@@ -105,7 +105,6 @@ recipient=06203105366&messagetype=SMS:TEXT&messagedata=Hello+World
     $curl = curl_init();
 //    $url = "http://127.0.0.1:9501/api?action=sendmessage&username=admin&password=admin&recipient=" . $toMobile . "&messagetype = SMS:TEXT&messagedata = " . $msg;
     $url = "http://127.0.0.1:9501/api?action=sendmessage&username=admin&password=admin&recipient=$toMobile&messagetype=SMS:TEXT&messagedata=$msgx";
-    //http://127.0.0.1:9501/api?action=sendmessage&username=admin&password=admin&recipient=+94715833470&messagetype=SMS:TEXT&messagedata=Hello+World
     echo $url;
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
