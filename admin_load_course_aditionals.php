@@ -30,11 +30,10 @@ author : promod
         <script src="js/jquery-2.2.3.min.js"></script>
         <script src="js/bootstrap.js"></script>
         <!--/web-fonts-->
-<!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
+        <!--        <link href="//fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+                <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">-->
         <!--//web-fonts-->
         <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-
     </head>
     <body>
         <!--/banner-bottom-->
@@ -61,7 +60,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="home.php"><span class="letter">E</span>du</a></h1>
+                            <h1><a  href="index.html"><span class="letter">T</span>ech <span>E</span>du</a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -79,110 +78,92 @@ author : promod
         </div> 
         <!--/banner-section-->
 
-<div class="m">
+
 
         <div class="row">
-            <div class="col-md-4" ></div>
-            <div class="col-md-4" >
-                   <div class="panel panel-primary">
-      <div class="panel-heading">Lecture Creation</div>
-      <div class="panel-body">
-                <form action="admin_lecture_creation.php" method="post">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Lecture Name</label>
-                        <input type="text" required name="lecture_name" class="form-control" id="exampleInputEmail1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Description</label>
-                        <input type="text"   name="description" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Profile Info (Degree)</label>
-                        <textarea  name="profile_info" class="form-control" placeholder="degree"> </textarea>
-                    </div>
-                    <button type="submit" name="btnLec" class="btn btn-primary">Create Lecture</button>
-                </form>
-      </div></div>
-                <br>
-            </div>
-            <div class="col-md-4">
-
-                <?php
-                include './model/DB.php';
-                include './model/LectureModel.php';
-                if (isset($_POST['btnLec'])) {
-                    lectureCreation();
-                }
-                ?>
-
-                <br>
-           
-
-            </div>
-        </div>
-</div>
-
-        <div class="row">
-            <div class="col-md-12">
-                     <table id="example" class="display" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Lecture Name</th>
-                            <th>Username</th>
-                            <th>Description</th>
-                            <th>Profile Info</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th>Lecture Name</th>
-                            <th>Username</th>
-                            <th>Description</th>
-                            <th>Profile Info</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <?php include './model/DB.php'; ?>
+                <div class="panel panel-primary">
+                    <div class="panel-heading ">
+                        Course Additional: <?php echo $_GET['course_name'] ?>
                         <?php
-                         $result = getLectureList();
-						
-                        if ($result != FALSE) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
+                        $course_id = $_GET['course_id'];
 
-                                <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['lecture_name']; ?></td>
-                                    <td><?php echo $row['username']; ?></td>
-                                    <td><?php echo $row['description']; ?></td>
-                                    <td><?php echo $row['profile_info']; ?></td>
-                                    <td>
-<!--                                        <a href="lecture_subject_info">View Subjects</a>-->
-                                    </td>
-                                </tr>
-                            <?php }
-                        } ?>
+                        //select query 
+                        $conn = getDBConnection();
 
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        }
+                        $sql = "SELECT * FROM course_aditional WHERE course_id = " . $course_id;
+                        $result = mysqli_query($conn, $sql);
+
+                        $fee_details = "";
+
+                        if (mysqli_num_rows($result) > 0) {
+                            // output data of each row
+
+
+                            if ($result != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                 $fee_details = $row['fee_details'];
+                                }
+                            }
+                        } else {
+                            
+                        }
+
+
+
+                        mysqli_close($conn);
+                        ?>
+
+
+                       
+
+
+
+                    </div>
+                    <div class="panel-body">
+
+                        
+                         <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fee details</label>
+                                <textarea  name="fee_details" class="form-control" id="exampleInputEmail1" ><?php echo $fee_details;?></textarea>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Assignments details</label>
+                                <textarea  name="assignments" class="form-control" id="exampleInputEmail1" ></textarea>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Marking schemes</label>
+                                <textarea  name="marking_schemes" class="form-control" id="exampleInputEmail1" ></textarea>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Projects Details</label>
+                                <textarea  name="projects" class="form-control" id="exampleInputEmail1" ></textarea>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Examination Details</label>
+                                <textarea  name="examination" class="form-control" id="exampleInputEmail1" ></textarea>
+                            </div>
+                            
+                            
+                         
+                            <button type="submit" class="btn btn-primary">Add Additionals</button>
+                        </form>
+                    </div>
+                </div>
 
             </div>
+            <div class="col-md-3"></div>
         </div>
 
-        <!-- subscribe -->
 
-        <!-- //subscribe -->
+
+
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
@@ -319,7 +300,7 @@ author : promod
 
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
+//                $('#example').DataTable();
             });
         </script>
     </body>

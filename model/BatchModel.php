@@ -33,7 +33,7 @@ VALUES ('".$_POST['course_id']."',
 }
 
 
-function getBatchList() {
+function getBatchList($course_id) {
     // Create connection
     $conn = getDBConnection();
 
@@ -43,7 +43,7 @@ function getBatchList() {
 
     $sql = "select batch_course.*,course.course_name,course.duration from batch_course
 inner join course
-on batch_course.course_id = course.id";
+on batch_course.course_id = course.id WHERE batch_course.course_id = ".$course_id;
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {

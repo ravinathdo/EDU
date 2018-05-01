@@ -83,120 +83,125 @@ author : promod
 
         <div class="m">
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
+
+                <div class="col-md-4">
                     <?php
                     include './model/DB.php';
                     include './model/CourseModel.php';
-                    if (isset($_POST['btnCourse'])) {
-                        setCourse();
-                    }
+                  
                     ?>
                     <!--course creation-->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading ">
-                            Course Creation
-                        </div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" action="admin_course_creation.php" method="post">
-                                <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-5 control-label">Course Name</label>
-                                    <div class="col-sm-7">
-                                        <input name="course_name" required=""  type="text" class="form-control" id="inputEmail3" placeholder="Name of the course">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-5 control-label">Fee</label>
-                                    <div class="col-sm-7">
-                                        <input type="number"  required=""  name="fee" class="form-control" id="inputPassword3" placeholder="Course Fee">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-5 control-label">Type</label>
-                                    <div class="col-sm-7">
-                                        <select class="form-control"name="duration" required=""  >
-                                            <option>--select--</option>
-                                            <option value="FULL TIME">FULL TIME</option>
-                                            <option value="PART TIME">PART TIME</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-5 control-label">Description</label>
-                                    <div class="col-sm-7">
-                                        <input type="text"  name="description" class="form-control" id="inputPassword3" >
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-5 col-sm-7">
-                                        <button type="submit" name="btnCourse" class="btn btn-primary">Create Course</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-
 
                     <!--/.course creation-->
                 </div>
-                <div class="col-md-2"></div>
-
-            </div> 
 
 
 
-            <div class="row">
+                <div class="col-md-4">
+                    <?php
+                    $course_id;
+                    include './model/BatchModel.php';
+                    if (isset($_POST['btnBatch'])) {
+                        courseBatchCreation();
+                        $course_id = $_POST['course_id'];
+                    }else if(isset($_POST['btnViewBatch'])){
+                        $course_id = $_POST['course_id'];
+                    }else{
+                        $course_id = $_GET['course_id'];
+                    }
+                    ?>
+                    <h2></h2>
+
+                    
+                    <div class="panel panel-primary">
+      <div class="panel-heading">Manage Batch</div>
+      <div class="panel-body">   <form action="admin_manage_batch.php" method="post">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" >Course</label>
+                            <select class="form-control" name="course_id" required="">
+                                <option value="">--select--</option>
+                                <?php
+                                $result_2 = getCourseList();
+                                if ($result_2 != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($result_2)) {
+                                        ?>
+                                <option value="<?php echo $row['id']; ?>"  <?php if($course_id== $row['id']){ ?> selected=""  <?php }?>  > <?php echo $row['course_name']; ?> (<?php echo $row['duration']; ?>)</option>
+                                        <?php
+                                    }
+                                }
+                                ?>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Batch Year</label>
+                            <input value="0" type="number" required="" name="year" class="form-control" id="exampleInputPassword1" placeholder="YEAR">
+                        </div>
+
+                        <button type="submit" name="btnBatch" class="btn btn-primary">Add Batch</button>
+                        <button type="submit" name="btnViewBatch" class="btn btn-warning">View Batch</button>
+                    </form></div>
+    </div>
+                 
+                   
+
+
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                </div>
+
+            </div>
+
+
+ <div class="row">
+
+
                 <div class="col-md-12">
 
-                    <table id="example" class="display" class="cell-border" cellspacing="0" width="100%">
+                    <table id="example2" class="display" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>Course Name</th>
-                                <th>Duration</th>
-                                <th>Fee</th>
-                                <th></th>
+                                <th>YEAR</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tfoot>
-                        <th></th>
-                        <th>Course Name</th>
-                        <th>Duration</th>
-                        <th>Fee</th>
-                        <th></th>
-                        <th></th>
+                            <tr>
+                                <th></th>
+                                <th>Course Name</th>
+                                <th>YEAR</th>
+                                <th></th>
+                            </tr>
                         </tfoot>
                         <tbody>
                             <?php
-                            $result = getCourseList();
-                            if ($result != FALSE) {
-                                while ($row = mysqli_fetch_assoc($result)) {
+                            $result_3 = getBatchList($course_id);
+                            if ($result_3 != FALSE) {
+                                while ($row = mysqli_fetch_assoc($result_3)) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $row["id"]; ?></td>
-                                        <td><?php echo $row["course_name"]; ?></td>
-                                        <td><?php echo $row["duration"] ?></td>
-                                        <td><?php echo $row["fee"] ?></td>
-                                        <td><a href="admin_manage_batch.php?course_id=<?php echo $row["id"]; ?>&course_name=<?php echo $row["course_name"]; ?> [<?php echo $row["duration"] ?>]" class="btn-xs btn-warning">Manage Batch</a></td>
-                                        <td><a href="admin_load_course_aditionals.php?course_id=<?php echo $row["id"]; ?>&course_name=<?php echo $row["course_name"]; ?> [<?php echo $row["duration"] ?>]">Aditionals</a></td>
+                                        <td><?php echo $row['id']; ?></td>
+                                        <td><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> )</td>
+                                        <td><?php echo $row['year']; ?></td>
+                                        <td></td>
                                     </tr>
                                     <?php
                                 }
                             }
                             ?>
+                        </tbody></table>
 
-
-                        </tbody>
-                    </table>
                 </div>
-            </div>
 
 
 
-
+            </div>                
 
         </div>
     </div>
