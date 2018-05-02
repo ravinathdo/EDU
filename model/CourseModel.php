@@ -68,7 +68,7 @@ function getCourseSubjectDetails($cid) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT course_subject.*,SUBJECT.subject_name,lecture.lecture_name FROM course_subject
+    $sql = "SELECT course_subject.*,SUBJECT.subject_name,lecture.lecture_name,lecture.photo FROM course_subject
 INNER JOIN SUBJECT
 ON course_subject.subject_id = SUBJECT.id
 INNER JOIN lecture

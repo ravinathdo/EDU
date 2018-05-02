@@ -86,13 +86,13 @@ include './model/CourseModel.php';
             <div class="row">
 
                 <div class="col-md-2">
-                    
+
                 </div>
                 <div class="col-md-8">
 
 
-                    
-                        <div class="panel panel-primary">
+
+                    <div class="panel panel-primary">
                         <div class="panel-heading">View Course Student</div>
                         <div class="panel-body">
                             <form class="form-horizontal" method="post" action="admin_student_payment_report.php">
@@ -108,11 +108,11 @@ include './model/CourseModel.php';
                                                 while ($row = mysqli_fetch_assoc($result_5)) {
                                                     ?>
                                                     <option  <?php
-                                            if (isset($_POST['batch_id'])) {
-                                                if ($_POST['batch_id'] == $row['id']) {
-                                                    echo 'selected=""';
-                                                }
-                                            }
+                                                    if (isset($_POST['batch_id'])) {
+                                                        if ($_POST['batch_id'] == $row['id']) {
+                                                            echo 'selected=""';
+                                                        }
+                                                    }
                                                     ?>    value="<?php echo $row['course_id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
                                                         <?php
                                                     }
@@ -122,112 +122,116 @@ include './model/CourseModel.php';
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label"></label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-3">
                                         <button type="submit" name="btnViewAss" class="btn btn-primary">View Student</button>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        Dead Line <input type="date" name="deadline" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" name="btnSMS" class="btn btn-warning">Dead Line Reminder</button>
 
                                     </div>
+
                                 </div>
                             </form>
                         </div>
                         <div class="panel-footer"></div>
                     </div>
-                    
-                    
 
-                    
-                    
-                    
+
+
+
+
+
                     <?php
-                    
-                    
-                    if(isset($_POST['btnViewAss'])){
-                        
-                        
-                        
-                    
-                    
-                    
-                    $sqlcourse = "SELECT * FROM course WHERE id = '" . $_POST['course_id'] . "'";
-                    
-                    //echo $sqlcourse;
-                    $result = getData($sqlcourse);
-                    if ($result != FALSE) {
-                        if (mysqli_num_rows($result) > 0) {
-                            // output data of each row
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $amount = $row['fee'];
+                    if (isset($_POST['btnViewAss'])) {
+
+
+                        $sqlcourse = "SELECT * FROM course WHERE id = '" . $_POST['course_id'] . "'";
+
+                        //echo $sqlcourse;
+                        $result = getData($sqlcourse);
+                        if ($result != FALSE) {
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $amount = $row['fee'];
+                                }
                             }
                         }
-                    }
-                    ?>
+                        ?>
 
-                    
-                    <div id="printMe">
-                        <center>
-                        <h2>Student Course Payment Report</h2>
-                        </center>
-                        
-                        
-                  
-                    
-                    
-                    
-                    <table class="table table-striped">
-                        <tr>
-                            <td>First Name</td>
-                            <td>Last Name</td>
-                            <td>NIC</td>
-                            <td>Username</td>
-                            <td>Email</td>
-                            <td>Paied Amount</td>
-                            <td>Due Ammount</td>
-                        </tr>
-                        
-                        
-                        <?php
-                       
-                        
-                        $sql = "SELECT SUM(student_payment.payment_amount) AS stu_payment,student.fname,student.lname,student.nic,student.username,student.email 
+
+                        <div id="printMe">
+                            <center>
+                                <h2>Student Course Payment Report</h2>
+                            </center>
+
+
+
+
+
+
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>First Name</td>
+                                    <td>Last Name</td>
+                                    <td>NIC</td>
+                                    <td>Username</td>
+                                    <td>Email</td>
+                                    <td>Paied Amount</td>
+                                    <td>Due Ammount</td>
+                                </tr>
+
+
+    <?php
+    $sql = "SELECT SUM(student_payment.payment_amount) AS stu_payment,student.fname,student.lname,student.nic,student.username,student.email 
 FROM student_payment 
 INNER JOIN student_batch ON student_payment.student_id = student_batch.student_id
 INNER JOIN student ON student.id = student_payment.student_id 
 WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
+
+    //echo $sql;
+    $resultx = getData($sql);
+    if ($resultx != FALSE) {
+        if (mysqli_num_rows($resultx) > 0) {
+            // output data of each row
+            $payment_amount = 0;
+            while ($rowx = mysqli_fetch_assoc($resultx)) {
+                $payment_amount = $rowx['stu_payment'];
+                ?>
+                                            <tr>
+                                                <td><?= $rowx['fname'] ?></td>
+                                                <td><?= $rowx['lname'] ?></td>
+                                                <td><?= $rowx['nic'] ?></td>
+                                                <td><?= $rowx['username'] ?></td>
+                                                <td><?= $rowx['email'] ?></td>
+                                                <td><?= $rowx['stu_payment'] ?></td>
+                                                <td><?= $amount - $rowx['stu_payment'] ?></td>
+                                            </tr>
+                <?php
+            }
+        }
+    }
+    ?>
+
+                            </table>
+
+
+                        </div>
+
+                        <a href="#" onclick="PrintElem('printMe')">Print</a>
+    <?php
+}
+?>
                         
-                        //echo $sql;
-                        $resultx = getData($sql);
-                        if ($resultx != FALSE) {
-                            if (mysqli_num_rows($resultx) > 0) {
-                                // output data of each row
-                                $payment_amount = 0;
-                                while ($rowx = mysqli_fetch_assoc($resultx)) {
-                                    $payment_amount = $rowx['stu_payment'];
-                                    ?>
-                                    <tr>
-                                        <td><?= $rowx['fname'] ?></td>
-                                        <td><?= $rowx['lname'] ?></td>
-                                        <td><?= $rowx['nic'] ?></td>
-                                        <td><?= $rowx['username'] ?></td>
-                                        <td><?= $rowx['email'] ?></td>
-                                        <td><?= $rowx['stu_payment'] ?></td>
-                                        <td><?= $amount - $rowx['stu_payment'] ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                        }
                         
-                        ?>
-
-                    </table>
-
-
-                      </div>
-                    
-                    <a href="#" onclick="PrintElem('printMe')">Print</a>
-                    <?php
-                    }
-                    ?>
+                        
+                        
+                        
+                        
+                        
 
 
                 </div>
@@ -285,43 +289,43 @@ WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#horizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion           
-                    width: 'auto', //auto or any width like 600px
-                    fit: true   // 100% fit in a container
-                });
-            });
+                        $(document).ready(function () {
+                            $('#horizontalTab').easyResponsiveTabs({
+                                type: 'default', //Types: default, vertical, accordion           
+                                width: 'auto', //auto or any width like 600px
+                                fit: true   // 100% fit in a container
+                            });
+                        });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-            $(document).ready(function () {
-                $("#owl-demo").owlCarousel({
-                    autoPlay: true, //Set AutoPlay to 3 seconds
-                    items: 3,
-                    itemsDesktop: [640, 2],
-                    itemsDesktopSmall: [414, 1],
-                    navigation: true,
-                    // THIS IS THE NEW PART
-                    afterAction: function (el) {
-                        //remove class active
-                        this
-                                .$owlItems
-                                .removeClass('active')
-                        //add class active
-                        this
-                                .$owlItems //owl internal $ object containing items
-                                .eq(this.currentItem + 1)
-                                .addClass('active')
-                    }
-                    // END NEW PART
+                        $(document).ready(function () {
+                            $("#owl-demo").owlCarousel({
+                                autoPlay: true, //Set AutoPlay to 3 seconds
+                                items: 3,
+                                itemsDesktop: [640, 2],
+                                itemsDesktopSmall: [414, 1],
+                                navigation: true,
+                                // THIS IS THE NEW PART
+                                afterAction: function (el) {
+                                    //remove class active
+                                    this
+                                            .$owlItems
+                                            .removeClass('active')
+                                    //add class active
+                                    this
+                                            .$owlItems //owl internal $ object containing items
+                                            .eq(this.currentItem + 1)
+                                            .addClass('active')
+                                }
+                                // END NEW PART
 
-                });
+                            });
 
-            });
+                        });
         </script>
 
         <!-- here starts scrolling icon -->
@@ -381,30 +385,30 @@ WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
                 $('#example2').DataTable();
             });
         </script>
-        
-        
+
+
         <script>
 
-    function PrintElem(elem)
-    {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+            function PrintElem(elem)
+            {
+                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write('<h1>' + document.title  + '</h1>');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
-        mywindow.document.write('</body></html>');
+                mywindow.document.write('<html><head><title>' + document.title + '</title>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write('<h1>' + document.title + '</h1>');
+                mywindow.document.write(document.getElementById(elem).innerHTML);
+                mywindow.document.write('</body></html>');
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+                mywindow.document.close(); // necessary for IE >= 10
+                mywindow.focus(); // necessary for IE >= 10*/
 
-        mywindow.print();
-        mywindow.close();
+                mywindow.print();
+                mywindow.close();
 
-        return true;
-    }
+                return true;
+            }
 
-</script>
+        </script>
 
     </body>
 </html> 

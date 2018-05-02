@@ -167,7 +167,7 @@ $_SESSION['menu'] = 'lecture';
                                 ?>
 
                                 <tr>
-                                    <td><?php echo $row['id']; ?></td>
+                                    <td><img src="uploads/<?php echo $row['photo']; ?>" style="width: 50px" /></td>
                                     <td><?php echo $row['lecture_name']; ?></td>
                                     <td><?php echo $row['username']; ?></td>
                                     <td><?php echo $row['nic']; ?></td>

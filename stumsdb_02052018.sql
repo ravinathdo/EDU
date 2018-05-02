@@ -103,11 +103,11 @@ CREATE TABLE `course_subject` (
   `course_id` int(5) NOT NULL,
   `year_semester` varchar(50) NOT NULL,
   `subject_id` int(5) NOT NULL,
-  `lecture_id` int(5) DEFAULT NULL,
+  `lecture_id` int(5) NOT NULL,
   `course_subject_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`course_id`,`year_semester`,`subject_id`),
   UNIQUE KEY `autoid` (`course_subject_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `course_subject` */
 
@@ -124,13 +124,14 @@ CREATE TABLE `lecture` (
   `lecture_name` varchar(100) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `profile_info` varchar(200) DEFAULT NULL,
+  `photo` varchar(250) DEFAULT 'default.jpg',
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`nic`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `lecture` */
 
-insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL),(2,'LEC2','22','Ravinath','HID','Degress UK '),(3,'LEC3','33','Gyana','Perea','Msc in IT '),(4,'LEC4','555','','',' '),(5,'LEC5','5556','Kumara','Seb',' sad'),(6,'LEC6','88','Kumara G','Seb',' sad'),(7,'LEC7','853352144','Kumara','SF',' '),(8,'LEC8','2222111','Kumara X','SF',' ');
+insert  into `lecture`(`id`,`username`,`nic`,`lecture_name`,`description`,`profile_info`,`photo`) values (1,'LEC1','1','Mr. Chandika','HOD',NULL,'default.jpg'),(2,'LEC2','22','Ravinath','HID','Degress UK ','default.jpg'),(3,'LEC3','33','Gyana','Perea','Msc in IT ','default.jpg'),(4,'LEC4','555','','',' ','default.jpg'),(5,'LEC5','5556','Kumara','Seb',' sad','default.jpg'),(6,'LEC6','88','Kumara G','Seb',' sad','default.jpg'),(7,'LEC7','853352144','Kumara','SF',' ','default.jpg'),(8,'LEC8','2222111','Chandika','SF','Software Professinal','LEC8.png');
 
 /*Table structure for table `lecture_slides` */
 
@@ -228,11 +229,11 @@ CREATE TABLE `student_attendance` (
   `usercreated` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `NewIndex1` (`student_id`,`attend_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `student_attendance` */
 
-insert  into `student_attendance`(`id`,`student_id`,`attend_date`,`usercreated`) values (1,1,'2018-04-10','2018-04-17 10:28:33'),(6,10,'2018-04-10','2018-04-17 11:45:34');
+insert  into `student_attendance`(`id`,`student_id`,`attend_date`,`usercreated`) values (1,1,'2018-04-10','2018-04-17 10:28:33'),(6,10,'2018-04-10','2018-04-17 11:45:34'),(7,1,'2018-05-16','2018-05-02 16:21:39');
 
 /*Table structure for table `student_batch` */
 

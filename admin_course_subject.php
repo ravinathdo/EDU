@@ -161,7 +161,7 @@ author : promod
                                             <tr>
                                                 <td><?php echo $row['year_semester']; ?></td>
                                                 <td><?php echo $row['subject_name']; ?></td>
-                                                <td><?php echo $row['lecture_name']; ?></td>
+                                                <td><img style="width: 150px" src="uploads/<?php echo $row['photo']; ?>"/> <?php echo $row['lecture_name']; ?></td>
                                                 <td>
                                                     <a class="btn btn-primary btn-xs" href="admin_lecture_slides.php?course_id=<?= $row['course_id'];?>&year_semester=<?= $row['year_semester'];?>&subject_id=<?= $row['subject_id'];?>">slides</a>
                                                     <a class="btn btn-warning btn-xs" href="admin_passpapers.php?course_id=<?= $row['course_id'];?>&year_semester=<?= $row['year_semester'];?>&subject_id=<?= $row['subject_id'];?>">pass papers</a>

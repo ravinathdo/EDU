@@ -215,7 +215,7 @@ $_SESSION['menu'] = 'subject';
                                         if ($result_lec != FALSE) {
                                             while ($row = mysqli_fetch_assoc($result_lec)) {
                                                 ?>
-                                                <option value="<?php echo $row['id']; ?>"> <?php echo $row['lecture_name']; ?> </option>
+                                                <option value="<?php echo $row['id']; ?>"> [<?php echo $row['username']; ?>] <?php echo $row['lecture_name']; ?> </option>
                                                 <?php
                                             }
                                         }

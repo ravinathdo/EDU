@@ -89,12 +89,24 @@ include './model/StudentModel.php';
 
                     <?php
                     if (isset($_POST['btnAtt'])) {
+                        
+                        $str = $_POST['student_id'];
+                        $arr = explode("|",$str);
+                        $student_id = $arr[0];
+                        $mobile = $arr[1];
+                        
+                        
                         $sql = "INSERT INTO student_attendance
             (`student_id`,
              `attend_date`)
-VALUES ('" . $_POST['student_id'] . "',
+VALUES ('" . $student_id . "',
         '" . $_POST['attend_date'] . "');";
                         setData($sql,TRUE);
+                        
+                        //SMS
+                        $msg = "your attendance has been marked ".$_POST['attend_date'];
+                        sendSMS($mobile, $msg);
+                        
                     }
                     ?>
 
@@ -107,18 +119,21 @@ VALUES ('" . $_POST['student_id'] . "',
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Student ID</label>
                                     <select class="form-control" name="student_id" required="">
-                                        <option>--select--</option>
+                                        <option value="">--select--</option>
                                         <?php
                                         $result_4 = getStudentList();
+                                       
                                         if ($result_4 != FALSE) {
                                             while ($row = mysqli_fetch_assoc($result_4)) {
                                                 ?>
-                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['fname'] ?><?php echo $row['lname'] ?> </option>
+                                        <option value="<?php echo $row['id'] ?>|<?php echo $row['mobile'] ?>">[<?php echo $row['username'] ?>] <?php echo $row['fname'] ?> <?php echo $row['lname'] ?> </option>
                                                 <?php
                                             }
                                         }
                                         ?>
                                     </select>
+                                    <?php
+                                    ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Date</label>

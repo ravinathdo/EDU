@@ -86,30 +86,40 @@ include './model/CourseModel.php';
             <div class="row">
 
                 <div class="col-md-2">
-                    
+
                 </div>
                 <div class="col-md-8">
 
 
-                    
+
                     <?php
-                    
-                    if(isset($_POST['btnMSG'])){
+                    if (isset($_POST['btnMSG'])) {
+
+                        $message = $_POST['msg'];
+
                         $sql = "SELECT student.* FROM student
 INNER JOIN student_batch ON student_batch.student_id = student.id
 INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
-WHERE batch_course.course_id = '".$_POST['course_id']."'";
-                        
-                        getData($sql);
-                        
+WHERE batch_course.course_id = '" . $_POST['course_id'] . "'";
+
+                       // echo $sql;
+
+                        $result = getData($sql);
+                        //iterate on mobile number
+                        if (mysqli_num_rows($result) > 0) {
+                            // output data of each row
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $toMobile = $row["mobile"];
+                                sendSMS($toMobile, $message);
+                            }
+                        }
                         echo '<p class="bg-success msg-success">Messages have been sent successfully<p>';
                     }
-                    
                     ?>
-                    
-                    
-                    
-                        <div class="panel panel-primary">
+
+
+
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Message to Batch Student</div>
                         <div class="panel-body">
                             <form class="form-horizontal" method="post" action="admin_batch_message.php">
@@ -118,20 +128,20 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
                                     <div class="col-sm-9">
                                         <select class="form-control" name="course_id" required="" >
                                             <option value="">--select--</option>
-                                            <?php
-                                            $result_5 = getAllBatchList();
-                                            // echo '<tt><pre>'.var_export($result_5, TRUE).'</pre></tt>';
-                                            if ($result_5 != FALSE) {
-                                                while ($row = mysqli_fetch_assoc($result_5)) {
-                                                    ?>
+<?php
+$result_5 = getAllBatchList();
+// echo '<tt><pre>'.var_export($result_5, TRUE).'</pre></tt>';
+if ($result_5 != FALSE) {
+    while ($row = mysqli_fetch_assoc($result_5)) {
+        ?>
                                                     <option  <?php
-                                            if (isset($_POST['batch_id'])) {
-                                                if ($_POST['batch_id'] == $row['id']) {
-                                                    echo 'selected=""';
-                                                }
-                                            }
+                                                    if (isset($_POST['batch_id'])) {
+                                                        if ($_POST['batch_id'] == $row['id']) {
+                                                            echo 'selected=""';
+                                                        }
+                                                    }
                                                     ?>    value="<?php echo $row['course_id']; ?>"><?php echo $row['course_name']; ?> ( <?php echo $row['duration']; ?> ) <?php echo $row['year']; ?></option>
-                                                        <?php
+                                                    <?php
                                                     }
                                                 }
                                                 ?>
@@ -154,14 +164,14 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
                         </div>
                         <div class="panel-footer"></div>
                     </div>
-                    
-                    
 
-                    
-                    
-                    
-                    
-                   
+
+
+
+
+
+
+
                 </div>
                 <div class="col-md-2"></div>
 
@@ -313,30 +323,30 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
                 $('#example2').DataTable();
             });
         </script>
-        
-        
+
+
         <script>
 
-    function PrintElem(elem)
-    {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+            function PrintElem(elem)
+            {
+                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write('<h1>' + document.title  + '</h1>');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
-        mywindow.document.write('</body></html>');
+                mywindow.document.write('<html><head><title>' + document.title + '</title>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write('<h1>' + document.title + '</h1>');
+                mywindow.document.write(document.getElementById(elem).innerHTML);
+                mywindow.document.write('</body></html>');
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+                mywindow.document.close(); // necessary for IE >= 10
+                mywindow.focus(); // necessary for IE >= 10*/
 
-        mywindow.print();
-        mywindow.close();
+                mywindow.print();
+                mywindow.close();
 
-        return true;
-    }
+                return true;
+            }
 
-</script>
+        </script>
 
     </body>
 </html> 

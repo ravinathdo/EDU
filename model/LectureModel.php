@@ -51,7 +51,7 @@ WHERE lecture_id = " . $_SESSION['ssn_lecturer']['id'] . " AND course_subject.co
             " ORDER BY course_subject.year_semester ";
 
     
-    //echo $sql;
+    echo $sql;
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
