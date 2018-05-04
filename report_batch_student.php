@@ -9,7 +9,6 @@ include './model/DB.php';
 include './model/BatchModel.php';
 include './model/StudentModel.php';
 include './model/CourseModel.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -87,13 +86,13 @@ include './model/CourseModel.php';
             <div class="row">
 
                 <div class="col-md-2">
-                    
+
                 </div>
                 <div class="col-md-8">
 
-                    
-                        <div class="panel panel-primary">
-                        <div class="panel-heading">Message to Batch Student</div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"> Batch Student</div>
                         <div class="panel-body">
                             <form class="form-horizontal" method="post" action="report_batch_student.php">
                                 <div class="form-group">
@@ -121,7 +120,7 @@ include './model/CourseModel.php';
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label"></label>
                                     <div class="col-sm-9">
@@ -132,44 +131,56 @@ include './model/CourseModel.php';
                         </div>
                         <div class="panel-footer"></div>
                     </div>
-                    
-                    
-                    <div id="printDiv">
 
-                        
-                    <?php
-                    if(isset($_POST['btnMSG'])){
-                        $sql = "SELECT student.* FROM student
+
+                    <div id="printDiv">
+                        <table class="table-bordered" width="100%">
+                            <tr style="font-weight: bold">
+                                <td>Username</td>
+                                <td>First Name</td>
+                                <td>Last Name</td>
+                                <td>Email</td>
+                                <td>NIC</td>
+                                <td>Mobile</td>
+                            </tr>                        
+                            <?php
+                            if (isset($_POST['btnMSG'])) {
+                                $sql = "SELECT student.* FROM student
 INNER JOIN student_batch ON student_batch.student_id = student.id
 INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
-WHERE batch_course.course_id = '".$_POST['course_id']."'";
-                        
-                        echo $sql;
-                        
-                       $result = getData($sql);
-                        if ($result != FALSE) {
+WHERE batch_course.course_id = '" . $_POST['course_id'] . "'";
+
+                                //echo $sql;
+
+                                $result = getData($sql);
+                                if ($result != FALSE) {
                                     if (mysqli_num_rows($result) > 0) {
                                         // output data of each row
-                        while ($row = mysqli_fetch_assoc($result)) {
-                       ?> 
-                    
-                    
-                    
-                        
-                       <?php     
-                        }
-                        }
-                        }
-                    }
-                    
-                    ?>
-                        
-                        
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            ?> 
+
+                                            <tr>
+                                                <td><?= $row['username']?></td>
+                                                <td><?= $row['fname']?></td>
+                                                <td><?= $row['lname']?></td>
+                                                <td><?= $row['email']?></td>
+                                                <td><?= $row['nic']?></td>
+                                                <td><?= $row['mobile']?></td>
+                                            </tr>
+
+                                            <?php
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
+                        </table>
+
                         <a href="#" onclick="PrintElem('printDiv')">print</a>
                     </div>
-                    
-                    
-                   
+
+
+
                 </div>
                 <div class="col-md-2"></div>
 
@@ -225,43 +236,43 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('#horizontalTab').easyResponsiveTabs({
-                    type: 'default', //Types: default, vertical, accordion           
-                    width: 'auto', //auto or any width like 600px
-                    fit: true   // 100% fit in a container
-                });
-            });
+                            $(document).ready(function () {
+                                $('#horizontalTab').easyResponsiveTabs({
+                                    type: 'default', //Types: default, vertical, accordion           
+                                    width: 'auto', //auto or any width like 600px
+                                    fit: true   // 100% fit in a container
+                                });
+                            });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-            $(document).ready(function () {
-                $("#owl-demo").owlCarousel({
-                    autoPlay: true, //Set AutoPlay to 3 seconds
-                    items: 3,
-                    itemsDesktop: [640, 2],
-                    itemsDesktopSmall: [414, 1],
-                    navigation: true,
-                    // THIS IS THE NEW PART
-                    afterAction: function (el) {
-                        //remove class active
-                        this
-                                .$owlItems
-                                .removeClass('active')
-                        //add class active
-                        this
-                                .$owlItems //owl internal $ object containing items
-                                .eq(this.currentItem + 1)
-                                .addClass('active')
-                    }
-                    // END NEW PART
+                            $(document).ready(function () {
+                                $("#owl-demo").owlCarousel({
+                                    autoPlay: true, //Set AutoPlay to 3 seconds
+                                    items: 3,
+                                    itemsDesktop: [640, 2],
+                                    itemsDesktopSmall: [414, 1],
+                                    navigation: true,
+                                    // THIS IS THE NEW PART
+                                    afterAction: function (el) {
+                                        //remove class active
+                                        this
+                                                .$owlItems
+                                                .removeClass('active')
+                                        //add class active
+                                        this
+                                                .$owlItems //owl internal $ object containing items
+                                                .eq(this.currentItem + 1)
+                                                .addClass('active')
+                                    }
+                                    // END NEW PART
 
-                });
+                                });
 
-            });
+                            });
         </script>
 
         <!-- here starts scrolling icon -->
@@ -321,30 +332,30 @@ WHERE batch_course.course_id = '".$_POST['course_id']."'";
                 $('#example2').DataTable();
             });
         </script>
-        
-        
+
+
         <script>
 
-    function PrintElem(elem)
-    {
-        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+            function PrintElem(elem)
+            {
+                var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write('<h1>' + document.title  + '</h1>');
-        mywindow.document.write(document.getElementById(elem).innerHTML);
-        mywindow.document.write('</body></html>');
+                mywindow.document.write('<html><head><title>' + document.title + '</title>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write('<h1>' + document.title + '</h1>');
+                mywindow.document.write(document.getElementById(elem).innerHTML);
+                mywindow.document.write('</body></html>');
 
-        mywindow.document.close(); // necessary for IE >= 10
-        mywindow.focus(); // necessary for IE >= 10*/
+                mywindow.document.close(); // necessary for IE >= 10
+                mywindow.focus(); // necessary for IE >= 10*/
 
-        mywindow.print();
-        mywindow.close();
+                mywindow.print();
+                mywindow.close();
 
-        return true;
-    }
+                return true;
+            }
 
-</script>
+        </script>
 
     </body>
 </html> 

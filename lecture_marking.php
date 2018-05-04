@@ -4,7 +4,9 @@ author : promod
  
  
 -->
-<?php session_start(); ?>
+<?php session_start(); 
+$_SESSION['menu'] = 'assignment_exam';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>

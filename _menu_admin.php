@@ -1,6 +1,7 @@
 <li class="<?php if($_SESSION['menu']=='home') echo 'active';?>"><a href="home.php">Home</a></li>
 <!--<li><a href="admin_post.php" >post</a></li>-->
-<li class="<?php if($_SESSION['menu']=='course') echo 'active';?>"><a href="admin_course_creation.php"  >Course</a></li>
+<li class="<?php if($_SESSION['menu']=='course') echo 'active';?>">
+    <a href="admin_course_creation.php"  >Course</a></li>
 <li class="<?php if($_SESSION['menu']=='lecture') echo 'active';?>">
     <a href="admin_lecture_creation.php" >Lecture</a></li>
 <li class="<?php if($_SESSION['menu']=='subject') echo 'active';?>">

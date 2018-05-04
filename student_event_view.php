@@ -4,7 +4,10 @@ author : promod
  
  
 -->
-<?php session_start(); ?>
+<?php session_start();
+$_SESSION['menu'] = 'my_event_view';
+
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>

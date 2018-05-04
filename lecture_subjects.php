@@ -3,6 +3,8 @@ author : promod
 -->
 <?php session_start();
 // echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
+$_SESSION['menu'] = 'my_subject';
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -135,6 +137,7 @@ author : promod
                                 <th>Year Semester</th>
                                 <th>Subject</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,6 +150,7 @@ author : promod
                                 <td><?php echo $row['year_semester'];?></td>
                                 <td><?php echo $row['subject_name'];?></td>
                                 <td><a href="lecture_subject_event.php?course_id=<?php echo $cid;?>&course_subject_id=<?php echo $row['course_subject_id'];?>">Set Event</a></td>
+                                <td><a href="lecture_subject_schedule.php?course_id=<?php echo $cid;?>&course_subject_id=<?php echo $row['course_subject_id'];?>">Set Lecture Schedule</a></td>
                             </tr>
                             <?php 
                             }

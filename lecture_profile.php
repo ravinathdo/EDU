@@ -3,6 +3,7 @@ author : promod
 -->
 <?php
 session_start();
+$_SESSION['menu'] = 'profile';
 
 include './model/DB.php';
 ?>

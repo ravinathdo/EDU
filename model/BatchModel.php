@@ -69,7 +69,7 @@ function getAllBatchList() {
     $sql = "select batch_course.*,course.course_name,course.duration from batch_course
 inner join course
 on batch_course.course_id = course.id WHERE batch_course.course_id";
-    echo $sql;
+    //echo $sql;
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {

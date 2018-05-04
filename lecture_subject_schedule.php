@@ -1,13 +1,9 @@
 <!--
- 
 author : promod
- 
- 
 -->
-<?php session_start(); 
- //echo '<tt><pre>'.var_export($_SESSION['ssn_lecturer'], TRUE).'</pre></tt>';
- //echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
-
+<?php
+session_start();
+//echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -85,110 +81,152 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-4" >
+            <div class="col-md-5">
+
+                <br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Schedule Setup</div>
+                    <div class="panel-body">
+                        <form method="get" action="lecture_subject_schedule.php">
+                            <span class="mando-msg">* fields are mandatory</span>
+                            <input type="hidden" name="course_id" value="<?= $_GET['course_id']; ?>" />
+                            <input type="hidden" name="course_subject_id" value="<?= $_GET['course_subject_id']; ?>" />
+                            <?php include './model/DB.php'; ?>
 
 
-                <?php
-                include './model/DB.php';
-                include './model/Util.php';
-                $sql = " SELECT DISTINCT course.* FROM batch_course_event 
-INNER JOIN course 
-ON  batch_course_event.course_id = course.id
- WHERE lecture_created =  " . $_SESSION['ssn_lecturer']['id'];
-                //echo $sql;
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Schedule Title <span class="mando-msg">* </span></label>
+                                <input type="text" name="schedule_title" class="form-control" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Schedule Date <span class="mando-msg">* </span></label>
+                                <input type="date" name="schedule_date" class="form-control" required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">From Time <span class="mando-msg">* </span></label>
+                                <input type="time" name="from_time"  required="">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">To Time</label>
+                                <input type="time" name="to_time" required="" >
+                            </div>
 
-                $resultx = getData($sql);
-                ?>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1"></label>
+                                <button type="submit" name="btnAdd" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
 
-                <form method="post" action="lecture_report_student_marks.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course Name</label>
-                        <select  class="form-control" name="course_id"> 
-                            <option>--select--</option>
-                            <?php
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                                    <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-
-
-
+                    <div class="panel-footer"></div>
+                </div>
 
 
             </div>
-            <div class="col-md-8" id="RPT">
+            <div class="col-md-7">
 
- <button onclick="printDiv('RPT')"> Print </button>
 
-                <center>
-                    <h3>Lecture Assignment - List</h3>
-                    <h4>Lecture : <?= $_SESSION['ssn_user']['username'] ?> </h4>
-                    <h5><?php
-                        getTimeNow();
-                        ?> </h5>
-                </center>
+
 
                 <?php
-                if (isset($_POST['btnSub'])) {
+                if (isset($_GET['btnAdd'])) {
 
 
-                    $sqlx = " SELECT * FROM batch_course_event WHERE course_id = '" . $_POST['course_id'] . "' AND lecture_created =  " . $_SESSION['ssn_user']['id'];
+                    $sql = "INSERT INTO lecture_schedule
+            (`course_subject_id`,
+             `schedule_title`,
+             `course_id`,
+             `schedule_date`,
+             `from_time`,
+             `to_time`,
+             `lacture_id`)
+VALUES ( '" . $_GET['course_subject_id'] . "',
+        '" . $_GET['schedule_title'] . "',
+        '" . $_GET['course_id'] . "',
+        '" . $_GET['schedule_date'] . "',
+        '" . $_GET['from_time'] . "',
+        '" . $_GET['to_time'] . "',
+        '" . $_SESSION['ssn_user']['id'] . "')";
+
+                    //echo $sql;
+                    setData($sql, TRUE);
+
+
+
+                    $sms_query = "SELECT student.* FROM student 
+INNER JOIN student_batch ON student_batch.student_id = student.id
+INNER JOIN batch_course ON batch_course.id = student_batch.batch_id
+WHERE batch_course.course_id = '" . $_GET['course_id'] . "'";
                     
-                    //echo $sqlx;
-                    $resultxx = getData($sqlx);
-                    if ($resultxx != FALSE) {
-                        while ($row = mysqli_fetch_assoc($resultxx)) {
-                            ?>
+                    //echo $sms_query;
+                    $resultSMS = getData($sms_query);
 
-                            <h3> <span  class="btn btn-primary btn-xs"><?= $row['event_date']; ?> </span> <?= $row['event_title']; ?> [ <?= $row['marks']; ?> ]  </h3>
-
-
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <?php
-                                    $sqlx = " SELECT student_event.marks,student.fname,student.lname,student.nic,student.username  FROM student_event
-INNER JOIN student
-ON student_event.student_id = student.id
-WHERE student_event.event_id = " . $row['id'] . "
-ORDER BY student_event.marks  DESC  ";
-                                    $resultxxx = getData($sqlx);
-                                    if ($resultxxx != FALSE) {
-                                        while ($rowx = mysqli_fetch_assoc($resultxxx)) {
-                                            ?>
-
-                                            <tr>
-                                                <td><?= $rowx['username']; ?></td>
-                                                <td><?= $rowx['fname']; ?></td>
-                                                <td><?= $rowx['lname']; ?></td>
-                                                <td><?= $rowx['marks']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-
-
-                            <?php
+                    
+                    // sms to all 
+                    $msg_sms = "new lecture schedule created " . $_GET['schedule_title'];
+                    //sendSMStoAll($msg);
+                    if (mysqli_num_rows($resultSMS) > 0) {
+                        // output data of each row
+                        while ($row = mysqli_fetch_assoc($resultSMS)) {
+                            sendSMS($row['mobile'], $msg_sms);
                         }
                     }
                 }
                 ?>
 
+                <br>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">Listing Available Schedule</div>
+                    <div class="panel-body">
+
+                        <p>All events related to the lecturer</p>
+                        <?php
+                        $sql = "SELECT lecture_schedule.*,course.course_name,subject.subject_name FROM lecture_schedule INNER JOIN 
+course ON lecture_schedule.course_id = course.id
+INNER JOIN course_subject ON lecture_schedule.course_subject_id = course_subject.course_subject_id
+INNER JOIN SUBJECT ON subject.id = course_subject.subject_id
+WHERE lecture_schedule.lacture_id = '" . $_SESSION['ssn_user']['id'] . "' AND lecture_schedule.course_id= '" . $_GET['course_id'] . "' ORDER BY lecture_schedule.createdtime DESC ";
+
+                        $resultx = getData($sql);
+                        ?>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>course_name</th>
+                                    <th>subject_name</th>
+                                    <th>schedule_title</th>
+                                    <th>schedule_date</th>
+                                    <th>from_time</th>
+                                    <th>to_tile</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($resultx != FALSE) {
+                                    while ($row = mysqli_fetch_assoc($resultx)) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $row['course_name']; ?></td>
+                                            <td><?= $row['subject_name']; ?></td>
+                                            <td><?= $row['schedule_title']; ?></td>
+                                            <td><?= $row['schedule_date']; ?></td>
+                                            <td><?= $row['from_time']; ?></td>
+                                            <td><?= $row['to_time']; ?></td>
+                                            <td><a href="lecture_remove_lecture_schedule.php?id=<?= $row['id']; ?>">Remove</a></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
 
 
+
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
 
 
 
@@ -337,16 +375,6 @@ ORDER BY student_event.marks  DESC  ";
             $(document).ready(function () {
 //                $('#example').DataTable();
             });
-        </script>
-        
-         <script type="text/javascript">
-            function printDiv(divId) {
-                var printContents = document.getElementById(divId).innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
-                window.print();
-                document.body.innerHTML = originalContents;
-            }
         </script>
     </body>
 </html> 

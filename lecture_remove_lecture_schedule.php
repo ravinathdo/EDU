@@ -1,13 +1,10 @@
 <!--
- 
 author : promod
- 
- 
 -->
-<?php session_start(); 
- //echo '<tt><pre>'.var_export($_SESSION['ssn_lecturer'], TRUE).'</pre></tt>';
- //echo '<tt><pre>'.var_export($_SESSION['ssn_user'], TRUE).'</pre></tt>';
-
+<?php
+session_start();
+//echo '<tt><pre>' . var_export($_SESSION['ssn_user'], TRUE) . '</pre></tt>';
+include './model/DB.php';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -44,7 +41,7 @@ author : promod
         <div class="w3_agilits_banner_bootm">
             <div class="w3_agilits_inner_bottom">
                 <div class="wthree_agile_login">
-                    <?php include './_top.php'; ?>	
+<?php include './_top.php'; ?>	
 
                 </div>
 
@@ -69,7 +66,7 @@ author : promod
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <?php include './_menu.php'; ?>
+<?php include './_menu.php'; ?>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>	
@@ -85,120 +82,23 @@ author : promod
 
 
         <div class="row">
-            <div class="col-md-4" >
-
-
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
                 <?php
-                include './model/DB.php';
-                include './model/Util.php';
-                $sql = " SELECT DISTINCT course.* FROM batch_course_event 
-INNER JOIN course 
-ON  batch_course_event.course_id = course.id
- WHERE lecture_created =  " . $_SESSION['ssn_lecturer']['id'];
-                //echo $sql;
-
-                $resultx = getData($sql);
-                ?>
-
-                <form method="post" action="lecture_report_student_marks.php">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Course Name</label>
-                        <select  class="form-control" name="course_id"> 
-                            <option>--select--</option>
-                            <?php
-                            if ($resultx != FALSE) {
-                                while ($row = mysqli_fetch_assoc($resultx)) {
-                                    ?>
-                                    <option value="<?= $row['id']; ?>"><?= $row['course_name']; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1"></label>
-                        <button type="submit" name="btnSub" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-
-
-
-
-
-            </div>
-            <div class="col-md-8" id="RPT">
-
- <button onclick="printDiv('RPT')"> Print </button>
-
-                <center>
-                    <h3>Lecture Assignment - List</h3>
-                    <h4>Lecture : <?= $_SESSION['ssn_user']['username'] ?> </h4>
-                    <h5><?php
-                        getTimeNow();
-                        ?> </h5>
-                </center>
-
-                <?php
-                if (isset($_POST['btnSub'])) {
-
-
-                    $sqlx = " SELECT * FROM batch_course_event WHERE course_id = '" . $_POST['course_id'] . "' AND lecture_created =  " . $_SESSION['ssn_user']['id'];
-                    
-                    //echo $sqlx;
-                    $resultxx = getData($sqlx);
-                    if ($resultxx != FALSE) {
-                        while ($row = mysqli_fetch_assoc($resultxx)) {
-                            ?>
-
-                            <h3> <span  class="btn btn-primary btn-xs"><?= $row['event_date']; ?> </span> <?= $row['event_title']; ?> [ <?= $row['marks']; ?> ]  </h3>
-
-
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <?php
-                                    $sqlx = " SELECT student_event.marks,student.fname,student.lname,student.nic,student.username  FROM student_event
-INNER JOIN student
-ON student_event.student_id = student.id
-WHERE student_event.event_id = " . $row['id'] . "
-ORDER BY student_event.marks  DESC  ";
-                                    $resultxxx = getData($sqlx);
-                                    if ($resultxxx != FALSE) {
-                                        while ($rowx = mysqli_fetch_assoc($resultxxx)) {
-                                            ?>
-
-                                            <tr>
-                                                <td><?= $rowx['username']; ?></td>
-                                                <td><?= $rowx['fname']; ?></td>
-                                                <td><?= $rowx['lname']; ?></td>
-                                                <td><?= $rowx['marks']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-
-
-                            <?php
-                        }
-                    }
+                if(isset($_GET['id'])){
+                    $sql = "DELETE FROM lecture_schedule WHERE id = '".$_GET['id']."'";
+                    setDelete($sql);
                 }
                 ?>
-
-
-
-
-
-
-
+                <p class="bg-success msg-success">Record removed successfully<p>
             </div>
+            <div class="col-md-4"></div>
+           
         </div>
 
 
 
-       
+        
         <!-- footer -->
         <div class="agileits_w3layouts-footer">
             <div class="col-md-6 col-sm-8 agileinfo-copyright">
@@ -337,16 +237,6 @@ ORDER BY student_event.marks  DESC  ";
             $(document).ready(function () {
 //                $('#example').DataTable();
             });
-        </script>
-        
-         <script type="text/javascript">
-            function printDiv(divId) {
-                var printContents = document.getElementById(divId).innerHTML;
-                var originalContents = document.body.innerHTML;
-                document.body.innerHTML = "<html><head><title></title></head><body>" + printContents + "</body>";
-                window.print();
-                document.body.innerHTML = originalContents;
-            }
         </script>
     </body>
 </html> 

@@ -1,7 +1,9 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php session_start(); 
+$_SESSION['menu'] = 'attendance';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>

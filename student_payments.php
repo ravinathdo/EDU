@@ -1,7 +1,10 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php session_start(); 
+$_SESSION['menu'] = 'payments';
+
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -57,7 +60,7 @@ author : promod
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h1><a  href="index.html"><span class="letter">E</span>DU<span></span></a></h1>
+                            <h1><a  href="home.php"><span class="letter">E</span>DU<span></span></a></h1>
                         </div>
                         <!-- navbar-header -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
