@@ -125,7 +125,7 @@ VALUES ('".$_POST['fee_details']."',
                             die("Connection failed: " . mysqli_connect_error());
                         }
                         $sql = "SELECT * FROM course_aditional WHERE course_id = " . $course_id;
-                        echo $sql;
+                        //echo $sql;
                         $result = mysqli_query($conn, $sql);
 
                         $fee_details = $assignments = $marking_schemes = $projects = $examination = '';

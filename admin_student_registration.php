@@ -114,8 +114,8 @@ $_SESSION['menu'] = 'student';
                                 </div>
                                 <div class="form-group">
                                     <span class="mando-msg">*</span> NIC     <input type="text" name="nic" required class="form-control" id="exampleInputEmail1">
-                                    <span class="mando-msg">*</span> Mobile <input type="number"  name="mobile" required class="form-control" id="exampleInputEmail1" >
-                                    Parent Mobile<input type="number" name="parent_mobile"  class="form-control" id="exampleInputEmail1" >
+                                    <span class="mando-msg">*</span> Mobile <input type="text"  name="mobile" required class="form-control" id="exampleInputEmail1" >
+                                    Parent Mobile<input type="text" name="parent_mobile"  class="form-control" id="exampleInputEmail1" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1"></label>

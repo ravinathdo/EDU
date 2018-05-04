@@ -123,7 +123,7 @@ author : promod
 // if everything is ok, try to upload file
                 } else {
                     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                        echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                       // echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
                    
                         //insert into 
                         $sql = " INSERT INTO student_event
@@ -134,7 +134,7 @@ VALUES ('".$_POST['event_id']."',
         '".$_SESSION['ssn_student']['id']."',
         '".$baseName."'); ";
                      
-                        echo $sql;
+                       // echo $sql;
                         setData($sql,TRUE);
                         
                     } else {

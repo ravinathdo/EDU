@@ -158,7 +158,7 @@ include './model/DB.php';
      
   
                             if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                                echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+                                //echo "<br>The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
 
 
 

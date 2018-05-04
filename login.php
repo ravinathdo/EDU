@@ -1,7 +1,9 @@
 <!--
 author : promod
 -->
-<?php session_start(); ?>
+<?php session_start();
+include './model/DB.php';
+?>
 <!DOCTYPE html>
 <html lang="zxx">
     <head>
@@ -105,7 +107,7 @@ author : promod
         <div class="panel-heading">Sign In</div>
         <div class="panel-body">
             
-            <form class="form-horizontal"method="post" action="login.php">
+            <form class="form-horizontal" method="post" action="login.php">
                     <div class="form-group">
 
                         <div class="col-sm-10">
