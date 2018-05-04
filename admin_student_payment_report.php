@@ -185,22 +185,22 @@ include './model/CourseModel.php';
                                 </tr>
 
 
-    <?php
-    $sql = "SELECT SUM(student_payment.payment_amount) AS stu_payment,student.fname,student.lname,student.nic,student.username,student.email 
+                                <?php
+                                $sql = "SELECT SUM(student_payment.payment_amount) AS stu_payment,student.fname,student.lname,student.nic,student.username,student.email 
 FROM student_payment 
 INNER JOIN student_batch ON student_payment.student_id = student_batch.student_id
 INNER JOIN student ON student.id = student_payment.student_id 
 WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
 
-    //echo $sql;
-    $resultx = getData($sql);
-    if ($resultx != FALSE) {
-        if (mysqli_num_rows($resultx) > 0) {
-            // output data of each row
-            $payment_amount = 0;
-            while ($rowx = mysqli_fetch_assoc($resultx)) {
-                $payment_amount = $rowx['stu_payment'];
-                ?>
+                                //echo $sql;
+                                $resultx = getData($sql);
+                                if ($resultx != FALSE) {
+                                    if (mysqli_num_rows($resultx) > 0) {
+                                        // output data of each row
+                                        $payment_amount = 0;
+                                        while ($rowx = mysqli_fetch_assoc($resultx)) {
+                                            $payment_amount = $rowx['stu_payment'];
+                                            ?>
                                             <tr>
                                                 <td><?= $rowx['fname'] ?></td>
                                                 <td><?= $rowx['lname'] ?></td>
@@ -210,28 +210,84 @@ WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
                                                 <td><?= $rowx['stu_payment'] ?></td>
                                                 <td><?= $amount - $rowx['stu_payment'] ?></td>
                                             </tr>
-                <?php
-            }
-        }
-    }
-    ?>
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
 
                             </table>
+
+
+
+
+
+
+
+
+
 
 
                         </div>
 
                         <a href="#" onclick="PrintElem('printMe')">Print</a>
-    <?php
-}
-?>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                        <?php
+                    }
+                    ?>
+
+
+
+
+                    <!--sms reminder-->
+
+                    <?php
+                    if (isset($_POST['btnSMS'])) {
+
+$deadline = $_POST['deadline'];
+                        $sqlcourse = "SELECT * FROM course WHERE id = '" . $_POST['course_id'] . "'";
+
+                        //echo $sqlcourse;
+                        $result = getData($sqlcourse);
+                        if ($result != FALSE) {
+                            if (mysqli_num_rows($result) > 0) {
+                                // output data of each row
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    $amount = $row['fee'];
+                                }
+                            }
+                        }
+
+
+
+
+
+
+                        $sql = "SELECT SUM(student_payment.payment_amount) AS stu_payment,student.fname,student.lname,student.nic,student.username,student.email,student.mobile 
+FROM student_payment 
+INNER JOIN student_batch ON student_payment.student_id = student_batch.student_id
+INNER JOIN student ON student.id = student_payment.student_id 
+WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
+
+                        //echo $sql;
+                        $resultx = getData($sql);
+                        if ($resultx != FALSE) {
+                            if (mysqli_num_rows($resultx) > 0) {
+                                // output data of each row
+                                $payment_amount = 0;
+                                while ($rowx = mysqli_fetch_assoc($resultx)) {
+                                    $payment_amount = $rowx['stu_payment'];
+                                    $dueamount = $amount - $rowx['stu_payment'];
+                                    $toMobile = $rowx['mobile'];
+                                    //echo '<br>'.$toMobile;
+                                    if($dueamount>0){
+                                    $messageSMS = "your due amount is ".$dueamount." proceed to pay before ".$deadline;
+                                    sendSMS($toMobile, $messageSMS);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ?>
 
 
                 </div>
@@ -289,43 +345,43 @@ WHERE student_payment.course_id = '" . $_POST['course_id'] . "' ";
         <script src="js/lightbox-plus-jquery.min.js"></script>
         <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
         <script type="text/javascript">
-                        $(document).ready(function () {
-                            $('#horizontalTab').easyResponsiveTabs({
-                                type: 'default', //Types: default, vertical, accordion           
-                                width: 'auto', //auto or any width like 600px
-                                fit: true   // 100% fit in a container
+                            $(document).ready(function () {
+                                $('#horizontalTab').easyResponsiveTabs({
+                                    type: 'default', //Types: default, vertical, accordion           
+                                    width: 'auto', //auto or any width like 600px
+                                    fit: true   // 100% fit in a container
+                                });
                             });
-                        });
         </script>
         <!--//script for portfolio-->
 
 
         <script src="js/owl.carousel.js"></script>  
         <script>
-                        $(document).ready(function () {
-                            $("#owl-demo").owlCarousel({
-                                autoPlay: true, //Set AutoPlay to 3 seconds
-                                items: 3,
-                                itemsDesktop: [640, 2],
-                                itemsDesktopSmall: [414, 1],
-                                navigation: true,
-                                // THIS IS THE NEW PART
-                                afterAction: function (el) {
-                                    //remove class active
-                                    this
-                                            .$owlItems
-                                            .removeClass('active')
-                                    //add class active
-                                    this
-                                            .$owlItems //owl internal $ object containing items
-                                            .eq(this.currentItem + 1)
-                                            .addClass('active')
-                                }
-                                // END NEW PART
+                            $(document).ready(function () {
+                                $("#owl-demo").owlCarousel({
+                                    autoPlay: true, //Set AutoPlay to 3 seconds
+                                    items: 3,
+                                    itemsDesktop: [640, 2],
+                                    itemsDesktopSmall: [414, 1],
+                                    navigation: true,
+                                    // THIS IS THE NEW PART
+                                    afterAction: function (el) {
+                                        //remove class active
+                                        this
+                                                .$owlItems
+                                                .removeClass('active')
+                                        //add class active
+                                        this
+                                                .$owlItems //owl internal $ object containing items
+                                                .eq(this.currentItem + 1)
+                                                .addClass('active')
+                                    }
+                                    // END NEW PART
+
+                                });
 
                             });
-
-                        });
         </script>
 
         <!-- here starts scrolling icon -->
